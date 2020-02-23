@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:lineSpacingMultiplier="1.1"
+        android:lineSpacingExtra="1dp"
+        android:textSize="25sp"
+        android:textColor="#525252"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/circle"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:lineSpacingMultiplier="1.1"
+        android:lineSpacingExtra="1dp"
+        android:textSize="18sp"
+        android:textColor="#525252"
+        android:textStyle="normal"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/as_modal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:visibility="gone"
+        android:text="Open modal" />
+
+</LinearLayout>
