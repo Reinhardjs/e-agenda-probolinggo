@@ -1,15 +1,16 @@
-package com.example.e_agendaprobolinggo;
+package com.example.e_agendaprobolinggo.starter;
 
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.stepper.MyStepperAdapter;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
-public class MainActivity extends AppCompatActivity implements StepperLayout.StepperListener {
+public class  MainActivity extends AppCompatActivity implements StepperLayout.StepperListener {
 
     private StepperLayout mStepperLayout;
 
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements StepperLayout.Ste
 //        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
 //
         mStepperLayout = findViewById(R.id.stepperLayout);
+        mStepperLayout.setBackButtonColor(getResources().getColor(R.color.ms_black));
+        mStepperLayout.setCompleteButtonColor(getResources().getColor(R.color.ms_black));
         mStepperLayout.setAdapter(new MyStepperAdapter(getSupportFragmentManager(), this));
         mStepperLayout.setListener(this);
     }

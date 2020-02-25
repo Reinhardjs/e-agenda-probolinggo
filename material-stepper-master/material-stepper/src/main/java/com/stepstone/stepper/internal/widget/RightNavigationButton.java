@@ -18,10 +18,12 @@ package com.stepstone.stepper.internal.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Button;
 
 import androidx.annotation.RestrictTo;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.google.android.material.button.MaterialButton;
 import com.stepstone.stepper.R;
 
 import static androidx.annotation.RestrictTo.Scope.LIBRARY;
@@ -36,7 +38,7 @@ import static androidx.annotation.RestrictTo.Scope.LIBRARY;
  * {@link com.stepstone.stepper.StepperLayout#setCompleteButtonVerificationFailed(boolean)}.
  */
 @RestrictTo(LIBRARY)
-public class RightNavigationButton extends AppCompatButton {
+public class RightNavigationButton extends MaterialButton {
 
     private static final int[] STATE_VERIFICATION_FAILED = {R.attr.state_verification_failed};
 

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -30,4 +32,5 @@ dependencies {
     implementation "com.google.android.material:material:${designSupportVersion}"
     implementation project(':material-stepper-master:material-stepper')
 //    implementation 'com.stepstone.stepper:material-stepper:4.3.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

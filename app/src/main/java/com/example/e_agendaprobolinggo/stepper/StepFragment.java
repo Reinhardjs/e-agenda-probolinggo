@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo;
+package com.example.e_agendaprobolinggo.stepper;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.e_agendaprobolinggo.R;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 

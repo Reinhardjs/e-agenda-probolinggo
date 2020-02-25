@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo;
+package com.example.e_agendaprobolinggo.customs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.example.e_agendaprobolinggo.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 

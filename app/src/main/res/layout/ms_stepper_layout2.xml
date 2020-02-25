@@ -64,12 +64,23 @@
             android:id="@+id/ms_bottomNavigation"
             style="?attr/ms_bottomNavigationStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:style="@style/MSBottomNavigation">
+
+            <Button
+                android:id="@+id/ms_stepPrevButton"
+                style="?attr/ms_backNavigationButtonStyle"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:drawableStart="@drawable/ms_ic_chevron_start"
+                android:drawableLeft="@drawable/ms_ic_chevron_start"
+                tools:drawableTint="@color/ms_material_grey_400"
+                tools:style="@style/MSNavBarButton.Back"
+                tools:text="@string/ms_back"
+                tools:textColor="@color/ms_bottomNavigationButtonTextColor" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -88,54 +99,32 @@
             </FrameLayout>
 
             <com.stepstone.stepper.internal.widget.RightNavigationButton
-                android:id="@+id/ms_stepCompleteButton"
+                android:id="@+id/ms_stepNextButton"
+                style="?attr/ms_nextNavigationButtonStyle"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_margin="20dp"
-                android:alpha="0"
-                app:backgroundTint="#F1F4F3"
+                android:layout_centerVertical="true"
+                tools:drawableEnd="@drawable/ms_ic_chevron_end"
+                tools:drawableRight="@drawable/ms_ic_chevron_end"
+                tools:drawableTint="@color/ms_material_grey_400"
+                tools:style="@style/MSNavBarButton.Next"
+                tools:text="@string/ms_next"
+                tools:textColor="@color/ms_bottomNavigationButtonTextColor"
+                tools:visibility="visible" />
+
+            <com.stepstone.stepper.internal.widget.RightNavigationButton
+                android:id="@+id/ms_stepCompleteButton"
                 style="?attr/ms_completeNavigationButtonStyle"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:alpha="0"
+                android:visibility="gone"
                 tools:style="@style/MSNavBarButton.Complete"
                 tools:text="@string/ms_complete"
                 tools:textColor="@color/ms_bottomNavigationButtonTextColor" />
 
         </RelativeLayout>
-
-        <com.stepstone.stepper.internal.widget.RightNavigationButton
-            android:id="@+id/ms_stepNextButton"
-            style="?attr/ms_nextNavigationButtonStyle"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="30dp"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:drawableTint="@color/ms_black"
-            app:backgroundTint="#F1F4F3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:drawableEnd="@drawable/ms_ic_chevron_end"
-            tools:drawableRight="@drawable/ms_ic_chevron_end"
-            tools:style="@style/MSNavBarButton.Next"
-            tools:text="@string/ms_next"
-            tools:textColor="@color/ms_bottomNavigationButtonTextColor"
-            tools:visibility="visible" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/ms_stepPrevButton"
-            style="?attr/ms_backNavigationButtonStyle"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:drawableStart="@drawable/ms_ic_chevron_start"
-            android:drawableLeft="@drawable/ms_ic_chevron_start"
-            app:backgroundTint="@android:color/transparent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:style="@style/MSNavBarButton.Back"
-            tools:text="@string/ms_back"
-            tools:textColor="@color/ms_bottomNavigationButtonTextColor" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -615,9 +615,9 @@ public class StepperLayout extends LinearLayout implements TabsContainer.TabItem
             mStepNavigation.setBackgroundResource(mBottomNavigationBackground);
         }
 
-        mBackNavigationButton.setText(mBackButtonText);
-        mNextNavigationButton.setText(mNextButtonText);
-        mCompleteNavigationButton.setText(mCompleteButtonText);
+//        mBackNavigationButton.setText(mBackButtonText);
+//        mNextNavigationButton.setText(mNextButtonText);
+//        mCompleteNavigationButton.setText(mCompleteButtonText);
 
         setBackgroundIfPresent(mBackButtonBackground, mBackNavigationButton);
         setBackgroundIfPresent(mNextButtonBackground, mNextNavigationButton);
@@ -851,7 +851,7 @@ public class StepperLayout extends LinearLayout implements TabsContainer.TabItem
 
         int backButtonTargetVisibility = (isFirst && !mShowBackButtonOnFirstStep) || !viewModel.isBackButtonVisible() ? View.GONE : View.VISIBLE;
         int nextButtonVisibility = isLast || !viewModel.isEndButtonVisible() ? View.GONE : View.VISIBLE;
-        int completeButtonVisibility = !isLast || !viewModel.isEndButtonVisible() ? View.GONE : View.VISIBLE;
+        int completeButtonVisibility = !isLast || !viewModel.isEndButtonVisible() ? View.INVISIBLE : View.VISIBLE;
 
         AnimationUtil.fadeViewVisibility(mNextNavigationButton, nextButtonVisibility, userTriggeredChange);
         AnimationUtil.fadeViewVisibility(mCompleteNavigationButton, completeButtonVisibility, userTriggeredChange);

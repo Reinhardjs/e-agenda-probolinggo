@@ -7,7 +7,7 @@ import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.e_agendaprobolinggo.StepFragment;
+import com.example.e_agendaprobolinggo.R;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter;
 import com.stepstone.stepper.viewmodel.StepViewModel;
@@ -59,8 +59,21 @@ public class MyStepperAdapter extends AbstractFragmentStepAdapter {
     @Override
     public StepViewModel getViewModel(@IntRange(from = 0) int position) {
         //Override this method to set Step title for the Tabs, not necessary for other stepper types
-        return new StepViewModel.Builder(context)
-                .setTitle("Title") //can be a CharSequence instead
-                .create();
+        if (titles.size()-1 == position) {
+            return new StepViewModel.Builder(context)
+                    // .setBackButtonStartDrawableResId(R.drawable.ic_navigate_back_black_24dp)
+                    .setBackButtonLabel("KEMBALI")
+                    .setEndButtonLabel("MULAI")
+                    // .setTitle("Title") //can be a CharSequence instead
+                    .create();
+        } else {
+            return new StepViewModel.Builder(context)
+                    .setEndButtonLabel("")
+                    .setBackButtonLabel("KEMBALI")
+                    // .setBackButtonStartDrawableResId(R.drawable.ic_navigate_back_black_24dp)
+                    .setNextButtonEndDrawableResId(R.drawable.ic_navigate_next_black_24dp)
+                    // .setTitle("Title") //can be a CharSequence instead
+                    .create();
+        }
     }
 }
