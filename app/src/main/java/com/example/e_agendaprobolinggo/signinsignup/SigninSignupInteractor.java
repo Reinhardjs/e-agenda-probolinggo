@@ -8,15 +8,10 @@ import com.example.e_agendaprobolinggo.model.body.Login;
 import com.example.e_agendaprobolinggo.model.body.User;
 import com.example.e_agendaprobolinggo.model.response.UserResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
-import com.example.e_agendaprobolinggo.network.NetworkClient;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
 
 import java.io.IOException;
 
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
