@@ -3,27 +3,26 @@ package com.example.e_agendaprobolinggo.network;
 import com.example.e_agendaprobolinggo.model.body.Login;
 import com.example.e_agendaprobolinggo.model.body.User;
 import com.example.e_agendaprobolinggo.model.response.Agenda;
-import com.example.e_agendaprobolinggo.model.response.DataItem;
-import com.example.e_agendaprobolinggo.model.response.UserResponse;
+import com.example.e_agendaprobolinggo.model.response.LoginResponse;
+import com.example.e_agendaprobolinggo.model.response.RegisterResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
-//import rx.Observable;
 
 public interface NetworkApi {
 
+    @Headers("x-sm-key: 35d3d08c3d7b7f445ceb8e726a87b26c")
     @POST("daftar")
-    Call<UserResponse> registerUser(
+    Observable<RegisterResponse> registerUser(
             @Body User user
             );
 
+    @Headers("x-sm-key: 35d3d08c3d7b7f445ceb8e726a87b26c")
     @POST("masuk")
-    Call<UserResponse> loginUser(
+    Observable<LoginResponse> loginUser(
             @Body Login login
             );
 
