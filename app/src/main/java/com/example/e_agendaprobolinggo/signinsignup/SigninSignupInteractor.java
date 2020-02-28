@@ -16,6 +16,9 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
+                signinCallback.onSigninSuccess("Berhasil login");
+
 //                networkApi.loginUser(email, password).subscribeOn(Schedulers.io()).subscribe(new Observer<UserResponse>() {
 //                    @Override
 //                    public void onSubscribe(@NonNull Disposable d) {
