@@ -22,7 +22,7 @@ public class SigninSignupPresenter implements SigninSignupContract.Presenter {
             }
 
             @Override
-            public void onSignupFailure(String message) {
+            public void onSigninFailure(String message) {
                 mView.notifySigninFailure(message);
             }
         });

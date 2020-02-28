@@ -9,7 +9,7 @@ public interface SigninSignupContract {
 
         void onSigninSuccess(String message);
 
-        void onSignupFailure(String message);
+        void onSigninFailure(String message);
 
     }
 

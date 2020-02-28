@@ -31,32 +31,32 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Call<UserResponse> loginCall = networkApi.loginUser(login);
-                loginCall.enqueue(new Callback<UserResponse>() {
-                    @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body().isStatus()) {
-                                signinCallback.onSigninSuccess(response.body().getMessage());
-                            } else {
-                                signinCallback.onSignupFailure(response.body().getMessage());
-                            }
-                        }
-                        else {
-//                            Toast.makeText(, "", Toast.LENGTH_SHORT).show();
-                            try {
-                                Log.d("tes login: ", response.errorBody().string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.d("coba2: ", t.getMessage());
-                    }
-                });
+//                Call<UserResponse> loginCall = networkApi.loginUser(login);
+//                loginCall.enqueue(new Callback<UserResponse>() {
+//                    @Override
+//                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+//                        if (response.isSuccessful()) {
+//                            if (response.body().isStatus()) {
+//                                signinCallback.onSigninSuccess(response.body().getMessage());
+//                            } else {
+//                                signinCallback.onSigninFailure(response.body().getMessage());
+//                            }
+//                        }
+//                        else {
+////                            Toast.makeText(, "", Toast.LENGTH_SHORT).show();
+//                            try {
+//                                Log.d("tes login: ", response.errorBody().string());
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<UserResponse> call, Throwable t) {
+//                        Log.d("coba2: ", t.getMessage());
+//                    }
+//                });
 //                networkApi.loginUser(login).subscribeOn(Schedulers.io()).subscribe(new Observer<UserResponse>() {
 //                    @Override
 //                    public void onSubscribe(@NonNull Disposable d) {
@@ -83,11 +83,11 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
 //
 //                    }
 //                });
-//                if (false){
-//                    signinCallback.onSigninSuccess("Berhasil masuk");
-//                } else {
-//                    signinCallback.onSignupFailure("Gagal masuk");
-//                }
+                if (true){
+                    signinCallback.onSigninSuccess("Berhasil masuk");
+                } else {
+                    signinCallback.onSigninFailure("Gagal masuk");
+                }
             }
         }, 2000);
     }
