@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.signinsignup;
+package com.example.e_agendaprobolinggo.ui.signinsignup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.home.HomeActivity;
+import com.example.e_agendaprobolinggo.ui.home.HomeActivity;
 import com.example.e_agendaprobolinggo.model.body.Login;
 import com.example.e_agendaprobolinggo.model.body.User;
-import com.example.e_agendaprobolinggo.signinsignup.customdialogs.SigninDialogFragment;
-import com.example.e_agendaprobolinggo.signinsignup.customdialogs.SignupDialogFragment;
+import com.example.e_agendaprobolinggo.ui.signinsignup.customdialogs.SigninDialogFragment;
+import com.example.e_agendaprobolinggo.ui.signinsignup.customdialogs.SignupDialogFragment;
 
 public class SigninSignupActivity extends AppCompatActivity
         implements SigninSignupContract.View, SignupDialogFragment.SignupCallback, SigninDialogFragment.SigninCallback {
@@ -74,57 +74,43 @@ public class SigninSignupActivity extends AppCompatActivity
 
     @Override
     public void notifySigninSuccess(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressbar.setVisibility(View.GONE);
-            }
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            progressbar.setVisibility(View.GONE);
         }, 100);
 
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SigninSignupActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Intent intent = new Intent(SigninSignupActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
         }, 1500);
     }
 
     @Override
     public void notifySigninFailure(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressbar.setVisibility(View.GONE);
-            }
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            progressbar.setVisibility(View.GONE);
         }, 100);
     }
 
     @Override
     public void notifySignupSuccess(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressbar.setVisibility(View.GONE);
-            }
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            progressbar.setVisibility(View.GONE);
         }, 100);
     }
 
     @Override
     public void notifySignupFailure(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressbar.setVisibility(View.GONE);
-            }
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            progressbar.setVisibility(View.GONE);
         }, 100);
     }
 }

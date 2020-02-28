@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.home;
+package com.example.e_agendaprobolinggo.ui.home;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.model.response.Agenda;
-import com.example.e_agendaprobolinggo.model.response.DataItem;
+import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 
 import java.util.ArrayList;
 
@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @Override
     public void populateAgenda(Agenda agenda) {
-        ArrayList<DataItem> agendas = new ArrayList<>();
+        ArrayList<DataAgenda> agendas = new ArrayList<>();
         agendas.addAll(agenda.getData());
 
         AgendaAdapter adapter = new AgendaAdapter(agendas);

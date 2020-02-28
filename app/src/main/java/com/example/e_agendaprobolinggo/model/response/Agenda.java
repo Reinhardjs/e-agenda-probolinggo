@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class Agenda{
 
 	@SerializedName("data")
-	private List<DataItem> data;
+	private List<DataAgenda> data;
 
 	@SerializedName("message")
 	private String message;
@@ -16,11 +16,11 @@ public class Agenda{
 	@SerializedName("status")
 	private boolean status;
 
-	public void setData(List<DataItem> data){
+	public void setData(List<DataAgenda> data){
 		this.data = data;
 	}
 
-	public List<DataItem> getData(){
+	public List<DataAgenda> getData(){
 		return data;
 	}
 
