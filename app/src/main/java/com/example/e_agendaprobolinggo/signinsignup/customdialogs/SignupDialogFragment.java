@@ -16,13 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.model.body.User;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class SignupDialogFragment extends BottomSheetDialogFragment {
 
     Button btnSignup;
-    EditText etEmail, etPassword;
+    EditText etNama, etEmail, etPassword, etJabatan, etOpd;
     CheckBox passwordSeek;
     SignupCallback mSignupCallback;
     Dialog mDialog;
@@ -80,8 +81,11 @@ public class SignupDialogFragment extends BottomSheetDialogFragment {
 
     private void initView(View parent){
         btnSignup = parent.findViewById(R.id.btnSignup);
+        etNama = parent.findViewById(R.id.etNama);
         etEmail = parent.findViewById(R.id.etEmail);
         etPassword = parent.findViewById(R.id.etPassword);
+        etJabatan = parent.findViewById(R.id.etJabatan);
+        etOpd = parent.findViewById(R.id.etOpd);
         passwordSeek = parent.findViewById(R.id.passwordSeek);
     }
 
@@ -99,14 +103,21 @@ public class SignupDialogFragment extends BottomSheetDialogFragment {
             }
         });
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = etEmail.getText().toString();
-                String password = etPassword.getText().toString();
+        btnSignup.setOnClickListener(v -> {
+            String nama = etNama.getText().toString();
+            String email = etEmail.getText().toString();
+            String password = etPassword.getText().toString();
+            String jabatan = etJabatan.getText().toString();
+            String opd = etOpd.getText().toString();
 
-                mSignupCallback.onSignupSubmitted(email, password);
-            }
+            User user = new User();
+            user.setNama(nama);
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setJabatan(jabatan);
+            user.setOpd(opd);
+
+            mSignupCallback.onSignupSubmitted(user);
         });
     }
 
@@ -116,7 +127,7 @@ public class SignupDialogFragment extends BottomSheetDialogFragment {
 
     public interface SignupCallback {
 
-        void onSignupSubmitted(String email, String password);
+        void onSignupSubmitted(User user);
 
     }
 
