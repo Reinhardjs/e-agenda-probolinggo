@@ -22,6 +22,10 @@ public class User {
     @SerializedName("created_by")
     private int created_by;
 
+    public User(){
+
+    }
+
     public User(String nama, String email, String password, String jabatan, String opd, int created_by) {
         this.nama = nama;
         this.email = email;

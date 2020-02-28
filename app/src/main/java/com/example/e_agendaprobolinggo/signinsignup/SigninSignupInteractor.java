@@ -2,21 +2,17 @@ package com.example.e_agendaprobolinggo.signinsignup;
 
 import android.os.Handler;
 
-import com.example.e_agendaprobolinggo.model.response.UserResponse;
+import com.example.e_agendaprobolinggo.model.body.Login;
+import com.example.e_agendaprobolinggo.model.body.User;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
-
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SigninSignupInteractor implements SigninSignupContract.Interactor {
 
     private NetworkApi networkApi = UtilsApi.getApiService();
 
     @Override
-    public void doSignin(final SigninSignupContract.SigninCallback signinCallback) {
+    public void doSignin(Login login, final SigninSignupContract.SigninCallback signinCallback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -55,7 +51,7 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
     }
 
     @Override
-    public void doSignup(final SigninSignupContract.SignupCallback signupCallback) {
+    public void doSignup(User user, final SigninSignupContract.SignupCallback signupCallback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

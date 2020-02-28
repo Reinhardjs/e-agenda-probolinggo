@@ -1,5 +1,8 @@
 package com.example.e_agendaprobolinggo.signinsignup;
 
+import com.example.e_agendaprobolinggo.model.body.Login;
+import com.example.e_agendaprobolinggo.model.body.User;
+
 public interface SigninSignupContract {
 
     interface SigninCallback {
@@ -32,17 +35,17 @@ public interface SigninSignupContract {
 
     interface Interactor {
 
-        void doSignin(SigninCallback signinCallback);
+        void doSignin(Login login, SigninCallback signinCallback);
 
-        void doSignup(SignupCallback signupCallback);
+        void doSignup(User user, SignupCallback signupCallback);
 
     }
 
     interface Presenter {
 
-        void doSignin(String email, String password);
+        void doSignin(Login login);
 
-        void doSignup(String email, String password);
+        void doSignup(User user);
 
     }
 

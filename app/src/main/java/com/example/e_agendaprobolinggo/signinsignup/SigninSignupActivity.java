@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.home.HomeActivity;
+import com.example.e_agendaprobolinggo.model.body.Login;
+import com.example.e_agendaprobolinggo.model.body.User;
 import com.example.e_agendaprobolinggo.signinsignup.customdialogs.SigninDialogFragment;
 import com.example.e_agendaprobolinggo.signinsignup.customdialogs.SignupDialogFragment;
 
@@ -64,14 +66,18 @@ public class SigninSignupActivity extends AppCompatActivity
 
     @Override
     public void onSigninSubmitted(String email, String password) {
-        mPresenter.doSignin(email, password);
+        mPresenter.doSignin(new Login(email, password));
         signinDialogFragment.dismiss();
         progressbar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSignupSubmitted(String email, String password) {
-        mPresenter.doSignup(email, password);
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+
+        mPresenter.doSignup(user);
         signupDialogFragment.dismiss();
         progressbar.setVisibility(View.VISIBLE);
     }
