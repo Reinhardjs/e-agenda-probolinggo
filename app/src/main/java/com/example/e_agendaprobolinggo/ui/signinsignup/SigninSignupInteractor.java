@@ -1,9 +1,12 @@
-package com.example.e_agendaprobolinggo.signinsignup;
+package com.example.e_agendaprobolinggo.ui.signinsignup;
 
 import android.os.Handler;
 
+import com.example.e_agendaprobolinggo.App;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.body.Login;
 import com.example.e_agendaprobolinggo.model.body.User;
+import com.example.e_agendaprobolinggo.model.response.DataLogin;
 import com.example.e_agendaprobolinggo.model.response.LoginResponse;
 import com.example.e_agendaprobolinggo.model.response.RegisterResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
@@ -65,6 +68,10 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
                     public void onComplete() {
                         if (loginRes != null) {
                             if (loginRes.isStatus()) {
+                                DataLogin dataLogin = loginRes.getDataLogin();
+                                User user = new User(dataLogin.getNama(), dataLogin.getEmail(), "", dataLogin.getJabatan(), dataLogin.getOpd(), Integer.valueOf(dataLogin.getCreatedBy()));
+                                SharedPreferenceUtils.saveUser(App.getAppContext(), user);
+
                                 signinCallback.onSigninSuccess(loginRes.getMessage());
                             } else {
                                 signinCallback.onSigninFailure(loginRes.getMessage());

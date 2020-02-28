@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.signinsignup.customdialogs;
+package com.example.e_agendaprobolinggo.ui.signinsignup.customdialogs;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -16,18 +16,21 @@ import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.model.body.User;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class SignupDialogFragment extends BottomSheetDialogFragment {
+// http://www.devexchanges.info/2016/03/modal-bottom-sheet-with-material-design.html
+// http://vsjttyk.blogspot.com/2019/01/bottomsheetdialogfragment-view-becomes.html
+// https://medium.com/@droidbyme/show-hide-password-in-edittext-in-android-c4c3db44f734
 
-    Button btnSignup;
-    EditText etNama, etEmail, etPassword, etJabatan, etOpd;
+public class SigninDialogFragment extends BottomSheetDialogFragment {
+
+    Button btnSignin;
+    EditText etEmail, etPassword;
     CheckBox passwordSeek;
-    SignupCallback mSignupCallback;
     Dialog mDialog;
 
+    SigninDialogFragment.SigninCallback mSigninCallback;
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
 
         @Override
@@ -58,7 +61,7 @@ public class SignupDialogFragment extends BottomSheetDialogFragment {
 
         mDialog = dialog;
 
-        View contentView = View.inflate(getContext(), R.layout.fragment_signup_dialog, null);
+        View contentView = View.inflate(getContext(), R.layout.fragment_signin_dialog, null);
         dialog.setContentView(contentView);
 
         ((View) contentView.getParent()).setBackgroundColor(Color.TRANSPARENT);
@@ -80,12 +83,9 @@ public class SignupDialogFragment extends BottomSheetDialogFragment {
     }
 
     private void initView(View parent){
-        btnSignup = parent.findViewById(R.id.btnSignup);
-        etNama = parent.findViewById(R.id.etNama);
+        btnSignin = parent.findViewById(R.id.btnSignin);
         etEmail = parent.findViewById(R.id.etEmail);
         etPassword = parent.findViewById(R.id.etPassword);
-        etJabatan = parent.findViewById(R.id.etJabatan);
-        etOpd = parent.findViewById(R.id.etOpd);
         passwordSeek = parent.findViewById(R.id.passwordSeek);
     }
 
@@ -103,32 +103,24 @@ public class SignupDialogFragment extends BottomSheetDialogFragment {
             }
         });
 
-        btnSignup.setOnClickListener(v -> {
-            String nama = etNama.getText().toString();
-            String email = etEmail.getText().toString();
-            String password = etPassword.getText().toString();
-            String jabatan = etJabatan.getText().toString();
-            String opd = etOpd.getText().toString();
+        btnSignin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
 
-            User user = new User();
-            user.setNama(nama);
-            user.setEmail(email);
-            user.setPassword(password);
-            user.setJabatan(jabatan);
-            user.setOpd(opd);
-
-            mSignupCallback.onSignupSubmitted(user);
+                mSigninCallback.onSigninSubmitted(email, password);
+            }
         });
     }
 
-    public void setSignupCallback(SignupCallback callback){
-        mSignupCallback = callback;
+    public void setSigninCallback(SigninDialogFragment.SigninCallback callback) {
+        mSigninCallback = callback;
     }
 
-    public interface SignupCallback {
+    public interface SigninCallback {
 
-        void onSignupSubmitted(User user);
+        void onSigninSubmitted(String email, String password);
 
     }
-
 }

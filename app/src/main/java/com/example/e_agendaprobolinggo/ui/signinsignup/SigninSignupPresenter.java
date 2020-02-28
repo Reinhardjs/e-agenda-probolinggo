@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.signinsignup;
+package com.example.e_agendaprobolinggo.ui.signinsignup;
 
 import com.example.e_agendaprobolinggo.model.body.Login;
 import com.example.e_agendaprobolinggo.model.body.User;
