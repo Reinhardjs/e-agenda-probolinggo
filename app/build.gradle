@@ -19,6 +19,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -31,8 +36,19 @@ dependencies {
 
     implementation "com.google.android.material:material:${designSupportVersion}"
 
+    //AndroidX
+    implementation "androidx.cardview:cardview:1.0.0"
+
     // implementation 'com.stepstone.stepper:material-stepper:4.3.1'
     implementation project(':material-stepper-master:material-stepper')
 
-    // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.7.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0-RC8"
+
+    // RxJava
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
 }
