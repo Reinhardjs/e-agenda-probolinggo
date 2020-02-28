@@ -32,6 +32,6 @@
         android:alpha="0"
         android:translationY="@dimen/ms_progress_message_translation_when_hidden"
         tools:style="@style/MSStepTabsProgressMessage"
-        tools:text="Saving data. This will take a moment..." />
+        tools:text="Saving dataLogin. This will take a moment..." />
 
 </merge>
