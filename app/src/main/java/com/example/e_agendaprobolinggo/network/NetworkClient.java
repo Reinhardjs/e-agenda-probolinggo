@@ -13,15 +13,15 @@ public class NetworkClient {
 
     public static Retrofit getRetrofit(){
         if (retrofit == null){
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
-            OkHttpClient okHttpClient = builder.build();
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new BasicAuthInterceptor("sm4rts0ft", "?zwMAxBnS9jj"))
+                    .build();
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                    .client(okHttpClient)
+//                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                    .client(client)
                     .build();
         }
 
