@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+// apply plugin: 'kotlin-android'
 apply plugin: 'maven'
 apply from: '../material-stepper/code_coverage.gradle'
 apply from: '../config/quality/quality.gradle'
@@ -54,9 +54,9 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    testImplementation "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
+    // testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    // testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    // testImplementation "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
 }
 
 gradle.taskGraph.beforeTask { Task task ->
