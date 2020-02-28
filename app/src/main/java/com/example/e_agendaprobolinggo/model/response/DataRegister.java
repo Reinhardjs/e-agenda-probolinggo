@@ -1,9 +1,9 @@
 package com.example.e_agendaprobolinggo.model.response;
 
-import javax.annotation.Generated;
+//import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("com.robohorse.robopojogenerator")
+//@Generated("com.robohorse.robopojogenerator")
 public class DataRegister {
 
 	@SerializedName("password")

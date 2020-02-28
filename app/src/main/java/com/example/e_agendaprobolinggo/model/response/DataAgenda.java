@@ -4,7 +4,7 @@ package com.example.e_agendaprobolinggo.model.response;
 import com.google.gson.annotations.SerializedName;
 
 //@Generated("com.robohorse.robopojogenerator")
-public class DataItem{
+public class DataAgenda {
 
 	@SerializedName("status_kehadiran")
 	private String statusKehadiran;
