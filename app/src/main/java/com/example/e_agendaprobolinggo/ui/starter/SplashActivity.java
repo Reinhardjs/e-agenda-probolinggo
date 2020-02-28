@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.starter;
+package com.example.e_agendaprobolinggo.ui.starter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.ui.main.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

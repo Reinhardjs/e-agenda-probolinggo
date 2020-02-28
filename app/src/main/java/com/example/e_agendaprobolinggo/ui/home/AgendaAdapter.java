@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.home;
+package com.example.e_agendaprobolinggo.ui.home;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.model.response.DataItem;
+import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 
 import java.util.ArrayList;
 
 public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder> {
 
-    private ArrayList<DataItem> agendas;
+    private ArrayList<DataAgenda> agendas;
 
-    public AgendaAdapter(ArrayList<DataItem> agendas){
+    public AgendaAdapter(ArrayList<DataAgenda> agendas){
         this.agendas = agendas;
     }
 
@@ -31,7 +31,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull AgendaAdapter.ViewHolder holder, int position) {
-        DataItem agenda = agendas.get(holder.getLayoutPosition());
+        DataAgenda agenda = agendas.get(holder.getLayoutPosition());
         holder.tvTitle.setText(agenda.getNamaKegiatan());
         holder.tvSubtitle1.setText(agenda.getAgenda());
         holder.tvSubtitle2.setText(agenda.getKategori());

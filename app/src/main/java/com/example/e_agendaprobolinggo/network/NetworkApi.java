@@ -26,6 +26,7 @@ public interface NetworkApi {
             @Body Login login
             );
 
+    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
     @POST("data")
     Observable<Agenda> getAgenda();
 

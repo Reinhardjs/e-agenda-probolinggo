@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.signinsignup;
+package com.example.e_agendaprobolinggo.ui.signinsignup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.home.HomeActivity;
+import com.example.e_agendaprobolinggo.ui.home.HomeActivity;
 import com.example.e_agendaprobolinggo.model.body.Login;
 import com.example.e_agendaprobolinggo.model.body.User;
-import com.example.e_agendaprobolinggo.signinsignup.customdialogs.SigninDialogFragment;
-import com.example.e_agendaprobolinggo.signinsignup.customdialogs.SignupDialogFragment;
+import com.example.e_agendaprobolinggo.ui.signinsignup.customdialogs.SigninDialogFragment;
+import com.example.e_agendaprobolinggo.ui.signinsignup.customdialogs.SignupDialogFragment;
 
 public class SigninSignupActivity extends AppCompatActivity
         implements SigninSignupContract.View, SignupDialogFragment.SignupCallback, SigninDialogFragment.SigninCallback {
@@ -46,20 +46,14 @@ public class SigninSignupActivity extends AppCompatActivity
         btnSignup = findViewById(R.id.btnSignup);
         progressbar = findViewById(R.id.progressBar);
 
-        btnSignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //show it
-                signinDialogFragment.show(getSupportFragmentManager(), signinDialogFragment.getTag());
-            }
+        btnSignin.setOnClickListener(v -> {
+            //show it
+            signinDialogFragment.show(getSupportFragmentManager(), signinDialogFragment.getTag());
         });
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //show it
-                signupDialogFragment.show(getSupportFragmentManager(), signupDialogFragment.getTag());
-            }
+        btnSignup.setOnClickListener(v -> {
+            //show it
+            signupDialogFragment.show(getSupportFragmentManager(), signupDialogFragment.getTag());
         });
 
     }
@@ -72,11 +66,7 @@ public class SigninSignupActivity extends AppCompatActivity
     }
 
     @Override
-    public void onSignupSubmitted(String email, String password) {
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-
+    public void onSignupSubmitted(User user) {
         mPresenter.doSignup(user);
         signupDialogFragment.dismiss();
         progressbar.setVisibility(View.VISIBLE);
@@ -84,11 +74,11 @@ public class SigninSignupActivity extends AppCompatActivity
 
     @Override
     public void notifySigninSuccess(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
             }
         }, 100);
@@ -104,11 +94,11 @@ public class SigninSignupActivity extends AppCompatActivity
 
     @Override
     public void notifySigninFailure(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
             }
         }, 100);
@@ -116,11 +106,11 @@ public class SigninSignupActivity extends AppCompatActivity
 
     @Override
     public void notifySignupSuccess(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
             }
         }, 100);
@@ -128,11 +118,11 @@ public class SigninSignupActivity extends AppCompatActivity
 
     @Override
     public void notifySignupFailure(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
             }
         }, 100);

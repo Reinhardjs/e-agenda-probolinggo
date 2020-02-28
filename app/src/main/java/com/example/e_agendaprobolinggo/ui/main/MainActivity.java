@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.starter;
+package com.example.e_agendaprobolinggo.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,15 +6,31 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.e_agendaprobolinggo.App;
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.signinsignup.SigninSignupActivity;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.body.User;
+import com.example.e_agendaprobolinggo.ui.home.HomeActivity;
+import com.example.e_agendaprobolinggo.ui.signinsignup.SigninSignupActivity;
 import com.example.e_agendaprobolinggo.stepper.MyStepperAdapter;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
-public class  MainActivity extends AppCompatActivity implements StepperLayout.StepperListener {
+public class MainActivity extends AppCompatActivity implements StepperLayout.StepperListener {
 
     private StepperLayout mStepperLayout;
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        User user = SharedPreferenceUtils.getUser(App.getAppContext());
+        if (user != null) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

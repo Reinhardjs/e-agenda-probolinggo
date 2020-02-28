@@ -2,7 +2,9 @@ package com.example.e_agendaprobolinggo.model.body;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     @SerializedName("nama")
     private String nama;
