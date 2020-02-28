@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.home;
+package com.example.e_agendaprobolinggo.ui.home;
 
 import android.os.Bundle;
 import android.widget.TextView;

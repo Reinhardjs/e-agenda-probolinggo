@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.home;
+package com.example.e_agendaprobolinggo.ui.home;
 
 import com.example.e_agendaprobolinggo.model.response.Agenda;
 
