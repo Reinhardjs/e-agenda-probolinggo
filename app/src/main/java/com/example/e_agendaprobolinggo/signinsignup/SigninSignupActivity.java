@@ -46,20 +46,14 @@ public class SigninSignupActivity extends AppCompatActivity
         btnSignup = findViewById(R.id.btnSignup);
         progressbar = findViewById(R.id.progressBar);
 
-        btnSignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //show it
-                signinDialogFragment.show(getSupportFragmentManager(), signinDialogFragment.getTag());
-            }
+        btnSignin.setOnClickListener(v -> {
+            //show it
+            signinDialogFragment.show(getSupportFragmentManager(), signinDialogFragment.getTag());
         });
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //show it
-                signupDialogFragment.show(getSupportFragmentManager(), signupDialogFragment.getTag());
-            }
+        btnSignup.setOnClickListener(v -> {
+            //show it
+            signupDialogFragment.show(getSupportFragmentManager(), signupDialogFragment.getTag());
         });
 
     }
@@ -72,11 +66,7 @@ public class SigninSignupActivity extends AppCompatActivity
     }
 
     @Override
-    public void onSignupSubmitted(String email, String password) {
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-
+    public void onSignupSubmitted(User user) {
         mPresenter.doSignup(user);
         signupDialogFragment.dismiss();
         progressbar.setVisibility(View.VISIBLE);
