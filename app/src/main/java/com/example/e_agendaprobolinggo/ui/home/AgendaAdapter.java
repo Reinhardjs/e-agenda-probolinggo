@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
+import com.example.e_agendaprobolinggo.ui.detail.DetailActivity;
 
 import java.util.ArrayList;
 
@@ -26,7 +28,15 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
     public AgendaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View rootView = inflater.inflate(R.layout.item_home_bottom, parent, false);
-        return new AgendaAdapter.ViewHolder(rootView);
+
+        AgendaAdapter.ViewHolder viewHolder = new AgendaAdapter.ViewHolder(rootView);
+
+        rootView.setOnClickListener(v -> {
+            Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
+            detailIntent.putExtra(DetailActivity.KEY, agendas.get(viewHolder.getAdapterPosition()).getIdEncode());
+            parent.getContext().startActivity(detailIntent);
+        });
+        return viewHolder;
     }
 
     @Override
