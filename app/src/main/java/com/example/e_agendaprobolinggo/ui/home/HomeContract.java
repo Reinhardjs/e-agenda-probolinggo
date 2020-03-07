@@ -38,9 +38,9 @@ public interface HomeContract {
 
     interface Presenter {
 
-        void getAgendaList();
+        void requestAgendaList();
 
-        void getCategoryList();
+        void requestCategoryList();
 
     }
 

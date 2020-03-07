@@ -15,7 +15,7 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void getAgendaList() {
+    public void requestAgendaList() {
         mInteractor.requestAgendaList(new HomeContract.AgendaRequestCallback() {
             @Override
             public void onAgendaRequestCompleted(Agenda agenda) {
@@ -31,7 +31,7 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void getCategoryList() {
+    public void requestCategoryList() {
         mInteractor.requestCategoryList(new HomeContract.CategoryRequestCallback() {
             @Override
             public void onCategoryRequestCompleted(ArrayList<String> categories) {
