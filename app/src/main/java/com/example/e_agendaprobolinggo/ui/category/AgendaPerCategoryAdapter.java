@@ -27,7 +27,7 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
     @Override
     public AgendaPerCategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View rootView = inflater.inflate(R.layout.item_home_bottom, parent, false);
+        View rootView = inflater.inflate(R.layout.item_home_agenda, parent, false);
 
         AgendaPerCategoryAdapter.ViewHolder viewHolder = new AgendaPerCategoryAdapter.ViewHolder(rootView);
 

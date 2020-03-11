@@ -23,11 +23,16 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         this.agendas = agendas;
     }
 
+    public void replaceList(ArrayList<DataAgenda> list){
+        agendas = list;
+        this.notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public AgendaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View rootView = inflater.inflate(R.layout.item_home_bottom, parent, false);
+        View rootView = inflater.inflate(R.layout.item_home_agenda, parent, false);
 
         AgendaAdapter.ViewHolder viewHolder = new AgendaAdapter.ViewHolder(rootView);
 
@@ -46,7 +51,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         holder.tvSubtitle1.setText(agenda.getAgenda());
         holder.tvSubtitle2.setText(agenda.getKategori());
         holder.tvCreatedAt.setText(agenda.getCreatedAt());
-        holder.tvLabeled.setText(agenda.getStatusKehadiran());
+        holder.tvLabeled.setText(Integer.parseInt(agenda.getStatusKehadiran()) != 0 ? "Hadir" : "Tidak Hadir");
         holder.tvTime.setText(agenda.getJam() + " - " + agenda.getJamend());
     }
 

@@ -7,7 +7,6 @@ import com.example.e_agendaprobolinggo.model.response.LoginResponse;
 import com.example.e_agendaprobolinggo.model.response.RegisterResponse;
 
 import io.reactivex.rxjava3.core.Observable;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -29,8 +28,12 @@ public interface NetworkApi {
             );
 
     @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
+    @FormUrlEncoded
     @POST("data")
-    Observable<Agenda> getAgenda();
+    Observable<Agenda> getAgenda(
+            @Field("kode") String kode,
+            @Field("limit") String limit
+    );
 
     @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
     @FormUrlEncoded
