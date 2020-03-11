@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.ui.detail;
+package com.example.e_agendaprobolinggo.ui.category;
 
 import com.example.e_agendaprobolinggo.model.response.Agenda;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
@@ -17,15 +17,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 
-public class DetailInteractor implements DetailContract.Interactor {
+public class CategoryInteractor implements CategoryContract.Interactor {
 
     private NetworkApi networkApi = UtilsApi.getApiService();
-    private Agenda detailResponse = null;
+    private Agenda agendaPerCategory;
 
     @Override
-    public void requestDetailAgenda(String key, DetailContract.DetailAgendaRequestCallback detailAgendaRequestCallback) {
-
-        networkApi.getDetailAgenda(key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+    public void requestAgendaList(String category, CategoryContract.CategoryAgendaRequestCallback categoryAgendaRequestCallback) {
+        networkApi.getAgendaPerCategory(category, "all").subscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Agenda>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
@@ -34,7 +33,7 @@ public class DetailInteractor implements DetailContract.Interactor {
 
                     @Override
                     public void onNext(@NonNull Agenda agenda) {
-                        detailResponse = agenda;
+                        agendaPerCategory = agenda;
                     }
 
                     @Override
@@ -43,7 +42,7 @@ public class DetailInteractor implements DetailContract.Interactor {
 
                         try {
                             JSONObject jsonObject = new JSONObject(errorResponse.string());
-                            detailAgendaRequestCallback.onDetailAgendaRequestFailure(jsonObject.getString("message"));
+                            categoryAgendaRequestCallback.onCategoryAgendaRequestFailure(jsonObject.getString("message"));
                         } catch (JSONException ex) {
                             ex.printStackTrace();
                         } catch (IOException ex) {
@@ -53,11 +52,12 @@ public class DetailInteractor implements DetailContract.Interactor {
 
                     @Override
                     public void onComplete() {
-                        if (detailResponse != null) {
-                            if (detailResponse.isStatus()){
-                                detailAgendaRequestCallback.onDetailAgendaRequestCompleted(detailResponse);
-                            } else {
-                                detailAgendaRequestCallback.onDetailAgendaRequestFailure(detailResponse.getMessage());
+                        if (agendaPerCategory != null){
+                            if (agendaPerCategory.isStatus()){
+                                categoryAgendaRequestCallback.onCategoryAgendaRequestCompleted(agendaPerCategory);
+                            }
+                            else {
+                                categoryAgendaRequestCallback.onCategoryAgendaRequestFailure(agendaPerCategory.getMessage());
                             }
                         }
                     }

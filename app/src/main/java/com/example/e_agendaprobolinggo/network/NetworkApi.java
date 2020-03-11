@@ -35,12 +35,16 @@ public interface NetworkApi {
     @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
     @FormUrlEncoded
     @POST("detail")
-    Observable<Agenda> getDeailAgenda(
+    Observable<Agenda> getDetailAgenda(
            @Field("kode") String kode
     );
 
-//    @GET("data/{id}")
-//    Observable<DataItem> getDetailAgenda(
-//
-//    );
+    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
+    @FormUrlEncoded
+    @POST("pencarian")
+    Observable<Agenda> getAgendaPerCategory(
+            @Field("keyword") String keyword,
+            @Field("kode") String kode
+    );
+
 }
