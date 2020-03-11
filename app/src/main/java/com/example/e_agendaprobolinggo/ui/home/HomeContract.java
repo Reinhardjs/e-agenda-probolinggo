@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
+import com.example.e_agendaprobolinggo.model.body.AgendaType;
 import com.example.e_agendaprobolinggo.model.response.Agenda;
 
 import java.util.ArrayList;
@@ -12,10 +13,10 @@ public interface HomeContract {
         void onAgendaRequestFailure(String message);
     }
 
-    interface CategoryRequestCallback {
-        void onCategoryRequestCompleted(ArrayList<String> categories);
+    interface AgendaTypeRequestCallback {
+        void onAgendaTypeRequestCompleted(ArrayList<AgendaType> agendaTypes);
 
-        void onCategoryRequestFailure(String message);
+        void onAgendaTypeRequestFailure(String message);
     }
 
     interface View {
@@ -23,16 +24,16 @@ public interface HomeContract {
 
         void showAgendaFailure(String message);
 
-        void populateCategory(ArrayList<String> categories);
+        void populateAgendaType(ArrayList<AgendaType> agendaTypes);
 
-        void showCategoryFailure(String message);
+        void showAgendaTypeFailure(String message);
     }
 
     interface Interactor {
 
         void requestAgendaList(AgendaRequestCallback agendaRequestCallback);
 
-        void requestCategoryList(CategoryRequestCallback categoryRequestCallback);
+        void requestAgendaTypeList(AgendaTypeRequestCallback agendaTypeRequestCallback);
 
     }
 
@@ -40,7 +41,7 @@ public interface HomeContract {
 
         void requestAgendaList();
 
-        void requestCategoryList();
+        void requestAgendaTypeList();
 
     }
 

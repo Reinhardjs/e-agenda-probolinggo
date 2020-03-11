@@ -1,7 +1,10 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
+import android.util.SparseArray;
+
+import com.example.e_agendaprobolinggo.model.body.AgendaType;
+import com.example.e_agendaprobolinggo.model.body.SubAgendaType;
 import com.example.e_agendaprobolinggo.model.response.Agenda;
-import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
 
@@ -55,8 +58,8 @@ public class HomeInteractor implements HomeContract.Interactor {
 
                     @Override
                     public void onComplete() {
-                        if (agendaResponse != null){
-                            if (agendaResponse.isStatus()){
+                        if (agendaResponse != null) {
+                            if (agendaResponse.isStatus()) {
                                 agendaRequestCallback.onAgendaRequestCompleted(agendaResponse);
                             } else {
                                 agendaRequestCallback.onAgendaRequestFailure(agendaResponse.getMessage());
@@ -64,65 +67,109 @@ public class HomeInteractor implements HomeContract.Interactor {
                         }
                     }
                 });
-
-//        ArrayList<DataAgenda> agendas = new ArrayList<>();
-//        DataAgenda dataAgenda = new DataAgenda();
-//        dataAgenda.setNamaKegiatan("Mengikuti coaching aplikasi");
-//        dataAgenda.setAgenda("Seni Budaya");
-//        dataAgenda.setKategori("Bupati");
-//        dataAgenda.setCreatedAt("22 Januari 2018");
-//        dataAgenda.setStatusKehadiran("Hadir");
-//        dataAgenda.setJam("08.00");
-//        dataAgenda.setJamend("09.00");
-//        agendas.add(dataAgenda);
-//
-//        dataAgenda = new DataAgenda();
-//        dataAgenda.setNamaKegiatan("Pernikahan putra bungsuku");
-//        dataAgenda.setAgenda("Pernikahan");
-//        dataAgenda.setKategori("Ibu Bupati");
-//        dataAgenda.setCreatedAt("12 Februari 2018");
-//        dataAgenda.setStatusKehadiran("Diwakilkan");
-//        dataAgenda.setJam("07.00");
-//        dataAgenda.setJamend("10.00");
-//        agendas.add(dataAgenda);
-//
-//        dataAgenda = new DataAgenda();
-//        dataAgenda.setNamaKegiatan("Perayaan 17 Agustus");
-//        dataAgenda.setAgenda("Kejuaraan");
-//        dataAgenda.setKategori("Asisten Sekda I");
-//        dataAgenda.setCreatedAt("18 Agustus 2018");
-//        dataAgenda.setStatusKehadiran("Hadir");
-//        dataAgenda.setJam("07.00");
-//        dataAgenda.setJamend("selesai");
-//        agendas.add(dataAgenda);
-//
-//        Agenda agenda = new Agenda();
-//        agenda.setData(agendas);
-//
-//        if (true) {
-//            // Must executed in main thread
-//            agendaRequestCallback.onAgendaRequestCompleted(agenda);
-//        } else {
-//            // Must executed in main thread
-//            agendaRequestCallback.onAgendaRequestFailure("Request Agenda Gagal");
-//        }
-
     }
 
     @Override
-    public void requestCategoryList(HomeContract.CategoryRequestCallback categoryRequestCallback) {
-        ArrayList<String> categories = new ArrayList<>();
-        categories.add("Bupati");
-        categories.add("Wakil Bupati");
-        categories.add("Sekda");
-        categories.add("Asisten Sekda I");
+    public void requestAgendaTypeList(HomeContract.AgendaTypeRequestCallback agendaTypeRequestCallback) {
+        ArrayList<AgendaType> agendaTypes = new ArrayList<>();
+
+
+        // ########################################################################
+        AgendaType bupati = new AgendaType();
+        bupati.setIdAgenda("1");
+        bupati.setAgendaName("Bupati");
+
+        SparseArray<SubAgendaType> bupati_sub_agendas = new SparseArray<>();
+        bupati_sub_agendas.put(0, new SubAgendaType("1", "Bapak Bupati"));
+        bupati_sub_agendas.put(1, new SubAgendaType("2", "Ibu Bupati"));
+        bupati_sub_agendas.put(2, new SubAgendaType("3", "Bapak Ibu Bupati"));
+        bupati.setSubAgendaList(bupati_sub_agendas);
+        // ########################################################################
+
+
+        // ########################################################################
+        AgendaType wakil_bupati = new AgendaType();
+        wakil_bupati.setIdAgenda("2");
+        wakil_bupati.setAgendaName("Wakil Bupati");
+
+        SparseArray<SubAgendaType> wakil_bupati_subagendas = new SparseArray<>();
+        wakil_bupati_subagendas.put(0, new SubAgendaType("4", "Bapak Wakil Bupati"));
+        wakil_bupati_subagendas.put(1, new SubAgendaType("5", "Ibu Wakil Bupati"));
+        wakil_bupati_subagendas.put(2, new SubAgendaType("6", "Bapak Ibu Wakil Bupati"));
+        wakil_bupati.setSubAgendaList(wakil_bupati_subagendas);
+        // ########################################################################
+
+
+        // ########################################################################
+        AgendaType sekretaris_daerah = new AgendaType();
+        sekretaris_daerah.setIdAgenda("3");
+        sekretaris_daerah.setAgendaName("Sekda");
+
+        SparseArray<SubAgendaType> sekretaris_daerah_subagendas = new SparseArray<>();
+        sekretaris_daerah_subagendas.put(0, new SubAgendaType("7", "Sekda"));
+        sekretaris_daerah.setSubAgendaList(sekretaris_daerah_subagendas);
+        // ########################################################################
+
+
+        // ########################################################################
+        AgendaType ass1_sekda = new AgendaType();
+        ass1_sekda.setIdAgenda("4");
+        ass1_sekda.setAgendaName("Asisten I Sekda");
+
+        SparseArray<SubAgendaType> ass1_sekda_subagendas = new SparseArray<>();
+        ass1_sekda_subagendas.put(0, new SubAgendaType("8", "Asisten I Sekda"));
+        ass1_sekda.setSubAgendaList(ass1_sekda_subagendas);
+        // ########################################################################
+
+
+        // ########################################################################
+        AgendaType ass2_sekda = new AgendaType();
+        ass2_sekda.setIdAgenda("5");
+        ass2_sekda.setAgendaName("Asisten II Sekda");
+
+        SparseArray<SubAgendaType> ass2_sekda_subagendas = new SparseArray<>();
+        ass2_sekda_subagendas.put(0, new SubAgendaType("9", "Asisten II Sekda"));
+        ass2_sekda.setSubAgendaList(ass2_sekda_subagendas);
+        // ########################################################################
+
+
+        // ########################################################################
+        AgendaType ass3_sekda = new AgendaType();
+        ass3_sekda.setIdAgenda("6");
+        ass3_sekda.setAgendaName("Asisten III Sekda");
+
+        SparseArray<SubAgendaType> ass3_sekda_subagendas = new SparseArray<>();
+        ass3_sekda_subagendas.put(0, new SubAgendaType("10", "Asisten III Sekda"));
+        ass3_sekda.setSubAgendaList(ass3_sekda_subagendas);
+        // ########################################################################
+
+
+        // ########################################################################
+        AgendaType protokol = new AgendaType();
+        protokol.setIdAgenda("7");
+        protokol.setAgendaName("Protokol");
+
+        SparseArray<SubAgendaType> protokol_subagendas = new SparseArray<>();
+        protokol_subagendas.put(0, new SubAgendaType("11", "Protokol"));
+        protokol.setSubAgendaList(protokol_subagendas);
+        // ########################################################################
+
+
+        agendaTypes.add(bupati);
+        agendaTypes.add(wakil_bupati);
+        agendaTypes.add(sekretaris_daerah);
+        agendaTypes.add(ass1_sekda);
+        agendaTypes.add(ass2_sekda);
+        agendaTypes.add(ass3_sekda);
+        agendaTypes.add(protokol);
+
 
         if (true) {
             // Must executed in main thread
-            categoryRequestCallback.onCategoryRequestCompleted(categories);
+            agendaTypeRequestCallback.onAgendaTypeRequestCompleted(agendaTypes);
         } else {
             // Must executed in main thread
-            categoryRequestCallback.onCategoryRequestFailure("Request Category Gagal");
+            agendaTypeRequestCallback.onAgendaTypeRequestFailure("Request Category Gagal");
         }
     }
 }

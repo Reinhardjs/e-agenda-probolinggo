@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.response.Agenda;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
@@ -28,7 +28,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         mPresenter = new DetailPresenter(this);
         mPresenter.getDetailAgenda(key);
-
+        SharedPreferenceUtils.removeUser(this);
     }
 
     private void initView() {
