@@ -48,7 +48,6 @@ public class HomeInteractor implements HomeContract.Interactor {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-
                         if (e instanceof HttpException) {
 //                            if (((HttpException) e).code() == HttpURLConnection.HTTP_BAD_REQUEST) {
                                 ResponseBody errorResponse = ((HttpException) e).response().errorBody();
@@ -61,8 +60,7 @@ public class HomeInteractor implements HomeContract.Interactor {
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
-//                            }
-
+//
                         }
 
                     }

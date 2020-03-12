@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -8,10 +9,13 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -29,7 +33,9 @@ import com.example.e_agendaprobolinggo.model.response.DataKategori;
 import com.example.e_agendaprobolinggo.model.response.DataSubKategori;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
-import com.example.e_agendaprobolinggo.ui.home.customsearchresult.SearchResultDialogFragment;
+import com.example.e_agendaprobolinggo.ui.home.customsearchutils.SearchResultDialogFragment;
+import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
+import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -50,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private TextView tvSeeAll;
     private Toolbar toolbar;
     private MaterialSearchView materialSearchView;
-    private SearchResultDialogFragment searchResultDialogFragment;
+    private AnchorSheetBehavior<View> anchorBehavior;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,6 +73,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Ini untuk mengatasi masalah result anchorsheet yang ketutup toolbar pas keyboard muncul
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
         mPresenter = new HomePresenter(this);
 
         initView();
@@ -76,9 +85,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         mPresenter.requestAgendaTypeList();
         mPresenter.requestAgendaList();
         showShimmer();
-
-        searchResultDialogFragment = new SearchResultDialogFragment();
-        searchResultDialogFragment.show(getSupportFragmentManager(), searchResultDialogFragment.getTag());
     }
 
     private void initView() {
@@ -103,6 +109,18 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         agendaAdapter = new AgendaAdapter(agendas);
         rvAgenda.setAdapter(agendaAdapter);
+
+        anchorBehavior = AnchorSheetBehavior.from(findViewById(R.id.anchor_panel));
+        anchorBehavior.setHideable(true);
+        anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
+
+        ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
+        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) anchorSheet.getLayoutParams();
+        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this);
+        anchorSheet.setLayoutParams(params);
+
+        anchorBehavior.setAnchorOffset(AppDimenUtil.getActionBarHeight(getApplicationContext()));
+        anchorBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this));
     }
 
     private void addListener() {
@@ -172,11 +190,25 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             @Override
             public void onSearchViewShown() {
                 //Do some magic
+                anchorBehavior.setState(AnchorSheetBehavior.STATE_EXPANDED);
             }
 
             @Override
             public void onSearchViewClosed() {
                 //Do some magic
+                anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
+            }
+        });
+
+        anchorBehavior.setAnchorSheetCallback(new AnchorSheetBehavior.AnchorSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, @AnchorSheetBehavior.State int newState) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
             }
         });
     }
