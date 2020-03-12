@@ -1,20 +1,16 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.util.SparseArray;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +28,7 @@ import com.example.e_agendaprobolinggo.model.body.SubAgendaType;
 import com.example.e_agendaprobolinggo.model.response.Agenda;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
-import com.example.e_agendaprobolinggo.ui.home.customsearchutils.SearchResultDialogFragment;
+import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -83,31 +79,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         showShimmer();
     }
 
-    private int getStatusbarHeight(){
-        // reference from here : https://gist.github.com/hamakn/8939eb68a920a6d7a498
-        int statusBarHeight = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        }
-        return statusBarHeight;
-    }
-
-    private int getActionBarHeight(Context context) {
-        int actionBarHeight = 0;
-        TypedValue tv = new TypedValue();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv,
-                    true))
-                actionBarHeight = TypedValue.complexToDimensionPixelSize(
-                        tv.data, getResources().getDisplayMetrics());
-        } else {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
-                    getResources().getDisplayMetrics());
-        }
-        return actionBarHeight;
-    }
-
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -137,11 +108,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) anchorSheet.getLayoutParams();
-        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - getActionBarHeight(this) - getStatusbarHeight();
+        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this);
         anchorSheet.setLayoutParams(params);
 
-        anchorBehavior.setAnchorOffset(getActionBarHeight(getApplicationContext()));
-        anchorBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels - getActionBarHeight(this));
+        anchorBehavior.setAnchorOffset(AppDimenUtil.getActionBarHeight(getApplicationContext()));
+        anchorBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this));
     }
 
     private void addListener() {
