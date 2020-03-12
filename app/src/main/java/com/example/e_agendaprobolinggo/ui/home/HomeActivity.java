@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,16 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
-import com.example.e_agendaprobolinggo.model.body.AgendaType;
-import com.example.e_agendaprobolinggo.model.body.SubAgendaType;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
 import com.example.e_agendaprobolinggo.model.response.DataSubKategori;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
-import com.example.e_agendaprobolinggo.ui.home.customsearchutils.SearchResultDialogFragment;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -47,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     ArrayList<DataAgenda> agendas = new ArrayList<>();
     ArrayList<DataKategori> agendaTypes = new ArrayList<>();
+
     private ShimmerFrameLayout mShimmerViewContainer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private HomeContract.Presenter mPresenter;
@@ -125,12 +120,12 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
 
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
-        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) anchorSheet.getLayoutParams();
-        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this);
+        ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
+        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this) - AppDimenUtil.getStatusbarHeight(this);
         anchorSheet.setLayoutParams(params);
 
         anchorBehavior.setAnchorOffset(AppDimenUtil.getActionBarHeight(getApplicationContext()));
-        anchorBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this));
+        anchorBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this) - AppDimenUtil.getStatusbarHeight(this));
     }
 
     private void addListener() {
