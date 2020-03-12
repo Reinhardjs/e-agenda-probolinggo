@@ -1,6 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.category;
 
-import com.example.e_agendaprobolinggo.model.response.Agenda;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class CategoryPresenter implements CategoryContract.Presenter {
 
@@ -12,11 +12,11 @@ public class CategoryPresenter implements CategoryContract.Presenter {
         mInteractor = new CategoryInteractor();
     }
     @Override
-    public void getCategoryAgendaList(String category) {
-        mInteractor.requestAgendaList(category, new CategoryContract.CategoryAgendaRequestCallback() {
+    public void getCategoryAgendaList(String agendaId, String subAgendaId) {
+        mInteractor.requestAgendaList(agendaId, subAgendaId, new CategoryContract.CategoryAgendaRequestCallback() {
             @Override
-            public void onCategoryAgendaRequestCompleted(Agenda agenda) {
-                mView.populateCategoryAgenda(agenda);
+            public void onCategoryAgendaRequestCompleted(AgendaResponse agendaResponse) {
+                mView.populateCategoryAgenda(agendaResponse);
             }
 
             @Override

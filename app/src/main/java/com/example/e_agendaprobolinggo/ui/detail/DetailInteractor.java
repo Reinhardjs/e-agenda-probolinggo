@@ -1,6 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.detail;
 
-import com.example.e_agendaprobolinggo.model.response.Agenda;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
 
@@ -20,35 +20,40 @@ import retrofit2.HttpException;
 public class DetailInteractor implements DetailContract.Interactor {
 
     private NetworkApi networkApi = UtilsApi.getApiService();
-    private Agenda detailResponse = null;
+    private AgendaResponse detailResponse = null;
 
     @Override
     public void requestDetailAgenda(String key, DetailContract.DetailAgendaRequestCallback detailAgendaRequestCallback) {
 
         networkApi.getDetailAgenda(key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Agenda>() {
+                .subscribe(new Observer<AgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull Agenda agenda) {
-                        detailResponse = agenda;
+                    public void onNext(@NonNull AgendaResponse agendaResponse) {
+                        detailResponse = agendaResponse;
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+                        if (e instanceof HttpException) {
+//                            if (((HttpException) e).code() == HttpURLConnection.HTTP_BAD_REQUEST) {
+                                ResponseBody errorResponse = ((HttpException) e).response().errorBody();
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(errorResponse.string());
-                            detailAgendaRequestCallback.onDetailAgendaRequestFailure(jsonObject.getString("message"));
-                        } catch (JSONException ex) {
-                            ex.printStackTrace();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                    detailAgendaRequestCallback.onDetailAgendaRequestFailure(jsonObject.getString("message"));
+                                } catch (JSONException ex) {
+                                    ex.printStackTrace();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+//                            }
                         }
+
                     }
 
                     @Override

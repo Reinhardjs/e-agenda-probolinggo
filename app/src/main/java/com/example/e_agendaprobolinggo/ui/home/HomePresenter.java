@@ -1,7 +1,8 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
 import com.example.e_agendaprobolinggo.model.body.AgendaType;
-import com.example.e_agendaprobolinggo.model.response.Agenda;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 
 import java.util.ArrayList;
 
@@ -19,8 +20,8 @@ public class HomePresenter implements HomeContract.Presenter {
     public void requestAgendaList() {
         mInteractor.requestAgendaList(new HomeContract.AgendaRequestCallback() {
             @Override
-            public void onAgendaRequestCompleted(Agenda agenda) {
-                mView.populateAgenda(agenda);
+            public void onAgendaRequestCompleted(AgendaResponse agendaResponse) {
+                mView.populateAgenda(agendaResponse);
             }
 
             @Override
@@ -35,7 +36,7 @@ public class HomePresenter implements HomeContract.Presenter {
     public void requestAgendaTypeList() {
         mInteractor.requestAgendaTypeList(new HomeContract.AgendaTypeRequestCallback() {
             @Override
-            public void onAgendaTypeRequestCompleted(ArrayList<AgendaType> agendaTypes) {
+            public void onAgendaTypeRequestCompleted(KategoriResponse agendaTypes) {
                 // Must in main thread
                 mView.populateAgendaType(agendaTypes);
             }

@@ -4,11 +4,11 @@ import java.util.List;
 //import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
-//@Gene("com.robohorse.robopojogenerator")
-public class AgendaResponse {
+//@Generated("com.robohorse.robopojogenerator")
+public class KategoriResponse{
 
 	@SerializedName("data")
-	private List<DataAgenda> data;
+	private List<DataKategori> data;
 
 	@SerializedName("message")
 	private String message;
@@ -16,11 +16,11 @@ public class AgendaResponse {
 	@SerializedName("status")
 	private boolean status;
 
-	public void setData(List<DataAgenda> data){
+	public void setData(List<DataKategori> data){
 		this.data = data;
 	}
 
-	public List<DataAgenda> getData(){
+	public List<DataKategori> getData(){
 		return data;
 	}
 
@@ -43,7 +43,7 @@ public class AgendaResponse {
 	@Override
  	public String toString(){
 		return 
-			"Agenda{" + 
+			"KategoriResponse{" + 
 			"data = '" + data + '\'' + 
 			",message = '" + message + '\'' + 
 			",status = '" + status + '\'' + 

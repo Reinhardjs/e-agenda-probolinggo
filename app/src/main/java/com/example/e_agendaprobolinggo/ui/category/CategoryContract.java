@@ -1,30 +1,30 @@
 package com.example.e_agendaprobolinggo.ui.category;
 
-import com.example.e_agendaprobolinggo.model.response.Agenda;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public interface CategoryContract {
 
     interface CategoryAgendaRequestCallback {
-        void onCategoryAgendaRequestCompleted(Agenda agenda);
+        void onCategoryAgendaRequestCompleted(AgendaResponse agendaResponse);
 
         void onCategoryAgendaRequestFailure(String message);
     }
 
     interface View {
-        void populateCategoryAgenda(Agenda agenda);
+        void populateCategoryAgenda(AgendaResponse agendaResponse);
 
         void showCategoryAgendaFailure(String message);
     }
 
     interface Interactor {
 
-        void requestAgendaList(String category, CategoryAgendaRequestCallback categoryAgendaRequestCallback);
+        void requestAgendaList(String agendaId, String subAgendaId, CategoryAgendaRequestCallback categoryAgendaRequestCallback);
 
     }
 
     interface Presenter {
 
-        void getCategoryAgendaList(String category);
+        void getCategoryAgendaList(String agendaId, String subAgendaId);
 
     }
 }
