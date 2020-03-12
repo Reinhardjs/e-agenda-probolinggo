@@ -11,8 +11,4 @@
 
     <include layout="@layout/shimmer_item" />
 
-    <include layout="@layout/shimmer_item" />
-
-    <include layout="@layout/shimmer_item" />
-
 </LinearLayout>

@@ -61,6 +61,16 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     }
 
     @Override
+    public void onBackPressed() {
+        if (materialSearchView.isSearchOpen()) {
+            materialSearchView.closeSearch();
+            anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
