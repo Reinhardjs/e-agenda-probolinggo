@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,22 +24,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
 import com.example.e_agendaprobolinggo.model.body.AgendaType;
 import com.example.e_agendaprobolinggo.model.body.SubAgendaType;
-import com.example.e_agendaprobolinggo.model.response.Agenda;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
+import com.example.e_agendaprobolinggo.model.response.DataKategori;
+import com.example.e_agendaprobolinggo.model.response.DataSubKategori;
+import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
+import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
+import com.example.e_agendaprobolinggo.ui.home.customsearchutils.SearchResultDialogFragment;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity implements HomeContract.View {
 
     ArrayList<DataAgenda> agendas = new ArrayList<>();
-    ArrayList<AgendaType> agendaTypes = new ArrayList<>();
+    ArrayList<DataKategori> agendaTypes = new ArrayList<>();
     private ShimmerFrameLayout mShimmerViewContainer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private HomeContract.Presenter mPresenter;
@@ -141,27 +149,33 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(HomeActivity.this);
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HomeActivity.this, android.R.layout.select_dialog_item);
 
-            SparseArray<SubAgendaType> subAgendas = agendaType.getSubAgendaList();
-            SparseArray<String> whichSubSparse = new SparseArray<>();
+//            agendaType
+            List<DataSubKategori> subAgendas = agendaType;
+//            SparseArray<String> whichSubSparse = new SparseArray<>();
 
             for (int i = 0; i < subAgendas.size(); i++) {
-                int key = subAgendas.keyAt(i);
-                SubAgendaType subAgendaType = subAgendas.get(key);
+//                int key = subAgendas.keyAt(i);
+//                SubAgendaType subAgendaType = subAgendas.get(key);
+                String subAgendaName = subAgendas.get(i).getSubRole();
 
-                Log.d("MYAPP", subAgendaType.getIdSubAgenda());
-                String subAgendaName = subAgendaType.getSubAgendaName();
+//                Log.d("MYAPP", subAgendaType.getIdSubAgenda());
+//                String subAgendaName = subAgendaType.getSubAgendaName();
                 arrayAdapter.add(subAgendaName);
 
-                String subAgendaId = subAgendaType.getIdSubAgenda();
-                whichSubSparse.append(whichSubSparse.size() - 1, subAgendaId);
+//                String subAgendaId = subAgendaType.getIdSubAgenda();
+//                whichSubSparse.append(whichSubSparse.size() - 1, subAgendaId);
             }
 
             // builderSingle.setNegativeButton("cancel", (dialog, which) -> dialog.dismiss());
             builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
-                String agendaId = agendaType.getIdAgenda();
-                String subAgendaId = whichSubSparse.valueAt(which);
+                String agendaId = agendaType.get(which).getIdRole2();
+                String subAgendaId = agendaType.get(which).getIdSubRole();
 
-                Toast.makeText(getApplicationContext(), "AGENDA ID : " + agendaId + "\n" + "SUB AGENDA ID : " + subAgendaId, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "AGENDA ID : " + agendaId + "\n" + "SUB AGENDA ID : " + subAgendaId, Toast.LENGTH_SHORT).show();
+                Intent intentPerCategory = new Intent(HomeActivity.this, CategoryActivity.class);
+                intentPerCategory.putExtra(CategoryActivity.AGENDA_ID, agendaId);
+                intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_ID, subAgendaId);
+                startActivity(intentPerCategory);
             });
             builderSingle.show();
 
@@ -220,10 +234,10 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     }
 
     @Override
-    public void populateAgenda(Agenda agenda) {
+    public void populateAgenda(AgendaResponse agendaResponse) {
         new Handler().postDelayed(() -> {
             hideShimmer();
-            agendas.addAll(agenda.getData());
+            agendas.addAll(agendaResponse.getData());
 
             AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());
             agendaAdapter.notifyDataSetChanged();
@@ -244,8 +258,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     }
 
     @Override
-    public void populateAgendaType(ArrayList<AgendaType> agendaTypes) {
-        this.agendaTypes.addAll(agendaTypes);
+    public void populateAgendaType(KategoriResponse agendaTypes) {
+        this.agendaTypes.addAll(agendaTypes.getData());
+
         agendaTypeAdapter.notifyDataSetChanged();
     }
 

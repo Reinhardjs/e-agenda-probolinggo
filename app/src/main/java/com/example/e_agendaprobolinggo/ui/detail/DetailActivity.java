@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
-import com.example.e_agendaprobolinggo.model.response.Agenda;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
 
@@ -38,10 +38,10 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
-    public void populateDetailAenda(Agenda agenda) {
-        tvNamaKegiatan.setText(agenda.getData().get(0).getNamaKegiatan());
-        tvTanggalKegiatan.setText(agenda.getData().get(0).getTanggal());
-        tvWaktuKegiatan.setText(agenda.getData().get(0).getJam());
+    public void populateDetailAenda(AgendaResponse agendaResponse) {
+        tvNamaKegiatan.setText(agendaResponse.getData().get(0).getNamaKegiatan());
+        tvTanggalKegiatan.setText(agendaResponse.getData().get(0).getTanggal());
+        tvWaktuKegiatan.setText(agendaResponse.getData().get(0).getJam());
     }
 
     @Override

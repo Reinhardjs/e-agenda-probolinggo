@@ -1,17 +1,17 @@
 package com.example.e_agendaprobolinggo.ui.detail;
 
-import com.example.e_agendaprobolinggo.model.response.Agenda;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public interface DetailContract {
 
     interface DetailAgendaRequestCallback{
-        void onDetailAgendaRequestCompleted(Agenda agenda);
+        void onDetailAgendaRequestCompleted(AgendaResponse agendaResponse);
 
         void onDetailAgendaRequestFailure(String message);
     }
 
     interface View {
-        void populateDetailAenda(Agenda agenda);
+        void populateDetailAenda(AgendaResponse agendaResponse);
 
         void showFailureDetailAgenda(String message);
     }
