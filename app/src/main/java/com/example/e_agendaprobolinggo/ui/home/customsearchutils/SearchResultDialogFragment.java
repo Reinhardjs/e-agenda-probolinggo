@@ -1,25 +1,27 @@
-package com.example.e_agendaprobolinggo.ui.home.customsearchresult;
+package com.example.e_agendaprobolinggo.ui.home.customsearchutils;
 
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Bundle;
+import android.os.Build;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.e_agendaprobolinggo.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 // http://www.devexchanges.info/2016/03/modal-bottom-sheet-with-material-design.html
@@ -27,6 +29,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 // https://medium.com/@droidbyme/show-hide-password-in-edittext-in-android-c4c3db44f734
 // https://medium.com/@OguzhanAlpayli/bottom-sheet-dialog-fragment-expanded-full-height-65b725c8309
 // https://medium.com/better-programming/bottom-sheet-android-340703e114d2
+// https://medium.com/@oshanm1/how-to-implement-a-search-dialog-using-full-screen-bottomsheetfragment-29ceb0af3d41 (best)
+// https://medium.com/@marxallski/from-bottomsheetbehavior-to-anchorsheetbehavior-262ad7997286 (best)
 
 public class SearchResultDialogFragment extends BottomSheetDialogFragment {
 
@@ -51,29 +55,44 @@ public class SearchResultDialogFragment extends BottomSheetDialogFragment {
         }
     };
 
-    public void dismiss(){
+    public void dismiss() {
         mDialog.cancel();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private int getActionBarHeight() {
+        int actionBarHeight = 0;
+        TypedValue tv = new TypedValue();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv,
+                    true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(
+                        tv.data, getResources().getDisplayMetrics());
+        } else {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+                    getResources().getDisplayMetrics());
+        }
+        return actionBarHeight;
+    }
+
+    private int getStatusbarHeight() {
+        // reference from here : https://gist.github.com/hamakn/8939eb68a920a6d7a498
+        int statusBarHeight = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+        return statusBarHeight;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-                // androidx should use: com.google.android.material.R.id.design_bottom_sheet
-                FrameLayout bottomSheet = (FrameLayout) dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-                BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                behavior.setPeekHeight(0);
-            }
-        });
+    public void onStart() {
+        super.onStart();
+
+        Window window = getDialog().getWindow();
+        WindowManager.LayoutParams windowParams = window.getAttributes();
+        windowParams.dimAmount = 0.0f;
+        windowParams.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(windowParams);
     }
 
     @Override
@@ -85,26 +104,32 @@ public class SearchResultDialogFragment extends BottomSheetDialogFragment {
         View contentView = View.inflate(getContext(), R.layout.fragment_signin_dialog, null);
         dialog.setContentView(contentView);
 
+        LinearLayout bottomSheet = contentView.findViewById(R.id.signinContainer);
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) bottomSheet.getLayoutParams();
+        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - getActionBarHeight() - getStatusbarHeight();
+        bottomSheet.setLayoutParams(params);
+
         ((View) contentView.getParent()).setBackgroundColor(Color.TRANSPARENT);
         setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.AppTheme_BottomSheetDialogTheme);
 
         CoordinatorLayout.LayoutParams layoutParams =
                 (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = layoutParams.getBehavior();
+
         if (behavior != null && behavior instanceof BottomSheetBehavior) {
             BottomSheetBehavior bottomSheetBehavior = ((BottomSheetBehavior) behavior);
             // bottomSheetBehavior.setHideable(true);
             // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             bottomSheetBehavior.setBottomSheetCallback(mBottomSheetBehaviorCallback);
-            bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
+            bottomSheetBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels, true);
         }
 
         initView(contentView);
         initViewListener();
     }
 
-    private void initView(View parent){
+    private void initView(View parent) {
         btnSignin = parent.findViewById(R.id.btnSignin);
         etEmail = parent.findViewById(R.id.etEmail);
         etPassword = parent.findViewById(R.id.etPassword);

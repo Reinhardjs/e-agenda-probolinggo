@@ -44,9 +44,8 @@ public class HomeInteractor implements HomeContract.Interactor {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        ResponseBody errorResponse = ((HttpException) e).response().errorBody();
-
                         try {
+                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
                             JSONObject jsonObject = new JSONObject(errorResponse.string());
                             agendaRequestCallback.onAgendaRequestFailure(jsonObject.getString("message"));
                         } catch (JSONException ex) {
