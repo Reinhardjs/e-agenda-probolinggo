@@ -50,9 +50,9 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         holder.tvTitle.setText(agenda.getNamaKegiatan());
         holder.tvSubtitle1.setText(agenda.getAgenda());
         holder.tvSubtitle2.setText(agenda.getKategori());
-        holder.tvCreatedAt.setText(agenda.getCreatedAt());
+        holder.tvDate.setText(agenda.getTanggal());
         holder.tvLabeled.setText(Integer.parseInt(agenda.getStatusKehadiran()) != 0 ? "Hadir" : "Tidak Hadir");
-        holder.tvTime.setText(agenda.getJam() + " - " + agenda.getJamend());
+        holder.tvTime.setText(agenda.getJam());
     }
 
     @Override
@@ -62,14 +62,14 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvCreatedAt, tvLabeled, tvTime;
+        public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvSubtitle1 = itemView.findViewById(R.id.tvSubtitle1);
             tvSubtitle2 = itemView.findViewById(R.id.tvSubtitle2);
-            tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
+            tvDate = itemView.findViewById(R.id.tvDate);
             tvLabeled = itemView.findViewById(R.id.tvLabeled);
             tvTime = itemView.findViewById(R.id.tvTime);
         }

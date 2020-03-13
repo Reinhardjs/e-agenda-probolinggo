@@ -122,7 +122,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         materialSearchView = findViewById(R.id.search_view);
 
         User user = SharedPreferenceUtils.getUser(this);
-        tvWelcome.setText(Html.fromHtml("Selamat datang <b>"+ user.getNama() +"</b> di Aplikasi E-Agenda Probolinggo"));
+        tvWelcome.setText(Html.fromHtml("Selamat datang, <b>" + user.getNama() + "</b>"));
         setupAllRecyclerViews();
         setupAnchorSheetBehavior();
     }

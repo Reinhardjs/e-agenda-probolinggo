@@ -507,7 +507,7 @@ public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behav
                                     float velocityX,
                                     float velocityY) {
         return target == mNestedScrollingChildRef.get() &&
-                (mState != STATE_EXPANDED ||
+                ((mState != STATE_EXPANDED && mState == STATE_DRAGGING) ||
                         super.onNestedPreFling(coordinatorLayout, child, target,
                                 velocityX, velocityY));
     }

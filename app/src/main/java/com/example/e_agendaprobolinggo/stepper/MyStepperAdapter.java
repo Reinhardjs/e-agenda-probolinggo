@@ -39,6 +39,7 @@ public class MyStepperAdapter extends AbstractFragmentStepAdapter {
 
         descriptions.add("");
 
+
         imageRes.add(R.drawable.slide1);
         imageRes.add(R.drawable.slide2);
         imageRes.add(R.drawable.slide3);

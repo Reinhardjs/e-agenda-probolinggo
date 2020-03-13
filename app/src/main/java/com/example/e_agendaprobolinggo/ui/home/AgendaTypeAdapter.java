@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
 import com.example.e_agendaprobolinggo.model.response.DataSubKategori;
@@ -46,7 +48,7 @@ public class AgendaTypeAdapter extends RecyclerView.Adapter<AgendaTypeAdapter.Vi
         DataKategori dataKategori = agendaTypes.get(holder.getLayoutPosition());
 
         holder.tvCategory.setText(dataKategori.getRole());
-//        Glide.with(context).load(dataKategori.getRoleImg()).into(holder.imgCategory);
+        Glide.with(context).load(dataKategori.getRoleImg()).into(holder.imgCategory);
 
         holder.container.setOnClickListener(view -> {
             onClickAgendaTypeCallback.onClickAgendaType(dataKategori.getMasterSubRole());
@@ -66,12 +68,14 @@ public class AgendaTypeAdapter extends RecyclerView.Adapter<AgendaTypeAdapter.Vi
 
         MaterialCardView container;
         TextView tvCategory;
+        ImageView imgCategory;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             container = itemView.findViewById(R.id.container);
             tvCategory = itemView.findViewById(R.id.tvCategory);
+            imgCategory = itemView.findViewById(R.id.imgCategory);
         }
     }
 
