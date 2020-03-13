@@ -1,10 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import android.util.SparseArray;
-
 import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
-import com.example.e_agendaprobolinggo.model.body.AgendaType;
-import com.example.e_agendaprobolinggo.model.body.SubAgendaType;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
@@ -14,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -50,16 +45,16 @@ public class HomeInteractor implements HomeContract.Interactor {
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
 //                            if (((HttpException) e).code() == HttpURLConnection.HTTP_BAD_REQUEST) {
-                                ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
 
-                                try {
-                                    JSONObject jsonObject = new JSONObject(errorResponse.string());
-                                    agendaRequestCallback.onAgendaRequestFailure(jsonObject.getString("message"));
-                                } catch (JSONException ex) {
-                                    ex.printStackTrace();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
+                            try {
+                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                agendaRequestCallback.onAgendaRequestFailure(jsonObject.getString("message"));
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
 //
                         }
 
@@ -111,8 +106,8 @@ public class HomeInteractor implements HomeContract.Interactor {
 
                     @Override
                     public void onComplete() {
-                        if (kategoriResponse != null){
-                            if (kategoriResponse.isStatus()){
+                        if (kategoriResponse != null) {
+                            if (kategoriResponse.isStatus()) {
                                 agendaTypeRequestCallback.onAgendaTypeRequestCompleted(kategoriResponse);
                             } else {
                                 agendaTypeRequestCallback.onAgendaTypeRequestFailure(kategoriResponse.getMessage());

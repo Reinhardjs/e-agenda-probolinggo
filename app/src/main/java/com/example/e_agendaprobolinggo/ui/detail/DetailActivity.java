@@ -28,7 +28,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         mPresenter = new DetailPresenter(this);
         mPresenter.getDetailAgenda(key);
-        SharedPreferenceUtils.removeUser(this);
+        //SharedPreferenceUtils.removeUser(this);
     }
 
     private void initView() {

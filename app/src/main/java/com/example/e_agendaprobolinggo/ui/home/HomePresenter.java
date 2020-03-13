@@ -1,10 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import com.example.e_agendaprobolinggo.model.body.AgendaType;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
-
-import java.util.ArrayList;
 
 public class HomePresenter implements HomeContract.Presenter {
 

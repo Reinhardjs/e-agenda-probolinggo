@@ -29,8 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 // https://medium.com/@droidbyme/show-hide-password-in-edittext-in-android-c4c3db44f734
 // https://medium.com/@OguzhanAlpayli/bottom-sheet-dialog-fragment-expanded-full-height-65b725c8309
 // https://medium.com/better-programming/bottom-sheet-android-340703e114d2
-// https://medium.com/@oshanm1/how-to-implement-a-search-dialog-using-full-screen-bottomsheetfragment-29ceb0af3d41 (best)
-// https://medium.com/@marxallski/from-bottomsheetbehavior-to-anchorsheetbehavior-262ad7997286 (best)
+// https://medium.com/@oshanm1/how-to-implement-a-search-dialog-using-full-screen-bottomsheetfragment-29ceb0af3d41 (better)
 
 public class SearchResultDialogFragment extends BottomSheetDialogFragment {
 

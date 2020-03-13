@@ -35,6 +35,9 @@ import static androidx.core.view.ViewCompat.isNestedScrollingEnabled;
 import static androidx.core.view.ViewCompat.offsetTopAndBottom;
 import static androidx.core.view.ViewCompat.postOnAnimation;
 
+// https://medium.com/@marxallski/from-bottomsheetbehavior-to-anchorsheetbehavior-262ad7997286
+// (best solution for SearchResultDialogFragment problem)
+
 public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behavior<V> {
 
     /**

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -65,17 +66,26 @@
                 tools:context=".ui.home.HomeActivity">
 
                 <TextView
-                    android:id="@+id/categoryTitle"
+                    android:id="@+id/tvWelcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Selamat datang, "
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/categoryTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Kategori"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="@+id/tvWelcome"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvAgendaType"
@@ -157,18 +167,23 @@
         android:id="@+id/anchor_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:background="@color/colorPrimaryDark"
         app:layout_behavior=".ui.home.customsearchutils.AnchorSheetBehavior"
         app:behavior_peekHeight="80dp">
 
-        <TextView
-            android:id="@+id/panel_content"
+        <ProgressBar
+            android:id="@+id/searchProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAgendaSearch"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:text="Hello"
-            android:textSize="20sp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" />
 
     </FrameLayout>
 

@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,27 +43,23 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     ArrayList<DataAgenda> agendas = new ArrayList<>();
     ArrayList<DataKategori> agendaTypes = new ArrayList<>();
+    ArrayList<DataAgenda> agendaSearches = new ArrayList<>();
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private HomeContract.Presenter mPresenter;
-    private RecyclerView rvAgendaType, rvAgenda;
+    private RecyclerView rvAgenda, rvAgendaType, rvAgendaSearch;
     private AgendaAdapter agendaAdapter;
+    private AgendaAdapter agendaSearchAdapter;
     private AgendaTypeAdapter agendaTypeAdapter;
-    private TextView tvSeeAll;
+
+    private TextView tvSeeAll, tvWelcome;
+
     private Toolbar toolbar;
+
     private MaterialSearchView materialSearchView;
     private AnchorSheetBehavior<View> anchorBehavior;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu_item, menu);
-
-        MenuItem item = menu.findItem(R.id.action_search);
-        materialSearchView.setMenuItem(item);
-
-        return true;
-    }
+    private ProgressBar searchProgressBar;
 
     @Override
     public void onBackPressed() {
@@ -74,6 +72,16 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu_item, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        materialSearchView.setMenuItem(item);
+
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
@@ -81,54 +89,79 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         // Ini untuk mengatasi masalah result anchorsheet yang ketutup toolbar pas keyboard muncul
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-        mPresenter = new HomePresenter(this);
-
         initView();
-        addListener();
+        setupListenerOrCallback();
 
-        swipeRefreshLayout.setRefreshing(true);
+        mPresenter = new HomePresenter(this);
         mPresenter.requestAgendaTypeList();
         mPresenter.requestAgendaList();
+
+        swipeRefreshLayout.setRefreshing(true);
         showShimmer();
     }
 
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        TextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("E-Agenda");
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        setupToolbar();
+
+        int[] location = new int[2];
+        toolbar.getLocationOnScreen(location);
+        Toast.makeText(getApplicationContext(), "Y : " + location[1], Toast.LENGTH_SHORT).show();
 
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        rvAgendaType = findViewById(R.id.rvAgendaType);
+        searchProgressBar = findViewById(R.id.searchProgressBar);
+
         rvAgenda = findViewById(R.id.rvAgenda);
+        rvAgendaSearch = findViewById(R.id.rvAgendaSearch);
+        rvAgendaType = findViewById(R.id.rvAgendaType);
+
         tvSeeAll = findViewById(R.id.tvSeeAll);
+        tvWelcome = findViewById(R.id.tvWelcome);
         materialSearchView = findViewById(R.id.search_view);
 
-        rvAgendaType.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        rvAgenda.setLayoutManager(new LinearLayoutManager(this));
+        tvWelcome.setText(Html.fromHtml("Selamat datang <b>Budi</b> di Aplikasi E-Agenda Probolinggo"));
+        setupAllRecyclerViews();
+        setupAnchorSheetBehavior();
+    }
 
-        agendaTypeAdapter = new AgendaTypeAdapter(agendaTypes);
-        rvAgendaType.setAdapter(agendaTypeAdapter);
-
-        agendaAdapter = new AgendaAdapter(agendas);
-        rvAgenda.setAdapter(agendaAdapter);
-
+    private void setupAnchorSheetBehavior() {
         anchorBehavior = AnchorSheetBehavior.from(findViewById(R.id.anchor_panel));
         anchorBehavior.setHideable(true);
         anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
 
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
-        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this) - AppDimenUtil.getStatusbarHeight(this);
+        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this);
         anchorSheet.setLayoutParams(params);
 
-        anchorBehavior.setAnchorOffset(AppDimenUtil.getActionBarHeight(getApplicationContext()));
-        anchorBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this) - AppDimenUtil.getStatusbarHeight(this));
+        anchorBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this));
     }
 
-    private void addListener() {
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        TextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("E-Agenda Probolinggo");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    }
+
+    private void setupAllRecyclerViews() {
+        rvAgenda.setLayoutManager(new LinearLayoutManager(this));
+        rvAgendaSearch.setLayoutManager(new LinearLayoutManager(this));
+        rvAgendaType.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        agendaAdapter = new AgendaAdapter(agendas);
+        rvAgenda.setAdapter(agendaAdapter);
+
+        agendaSearchAdapter = new AgendaAdapter(agendaSearches);
+        //rvAgendaSearch.setAdapter(agendaSearchAdapter);
+        //rvAgendaSearch.setAdapter(agendaAdapter);
+
+        agendaTypeAdapter = new AgendaTypeAdapter(agendaTypes);
+        rvAgendaType.setAdapter(agendaTypeAdapter);
+    }
+
+    private void setupListenerOrCallback() {
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             agendas.clear();
@@ -144,21 +177,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(HomeActivity.this);
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HomeActivity.this, android.R.layout.select_dialog_item);
 
-//            agendaType
             List<DataSubKategori> subAgendas = agendaType;
-//            SparseArray<String> whichSubSparse = new SparseArray<>();
 
             for (int i = 0; i < subAgendas.size(); i++) {
-//                int key = subAgendas.keyAt(i);
-//                SubAgendaType subAgendaType = subAgendas.get(key);
                 String subAgendaName = subAgendas.get(i).getSubRole();
-
-//                Log.d("MYAPP", subAgendaType.getIdSubAgenda());
-//                String subAgendaName = subAgendaType.getSubAgendaName();
                 arrayAdapter.add(subAgendaName);
-
-//                String subAgendaId = subAgendaType.getIdSubAgenda();
-//                whichSubSparse.append(whichSubSparse.size() - 1, subAgendaId);
             }
 
             // builderSingle.setNegativeButton("cancel", (dialog, which) -> dialog.dismiss());
@@ -166,7 +189,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 String agendaId = agendaType.get(which).getIdRole2();
                 String subAgendaId = agendaType.get(which).getIdSubRole();
 
-//                Toast.makeText(getApplicationContext(), "AGENDA ID : " + agendaId + "\n" + "SUB AGENDA ID : " + subAgendaId, Toast.LENGTH_SHORT).show();
                 Intent intentPerCategory = new Intent(HomeActivity.this, CategoryActivity.class);
                 intentPerCategory.putExtra(CategoryActivity.AGENDA_ID, agendaId);
                 intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_ID, subAgendaId);
@@ -196,12 +218,16 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             public void onSearchViewShown() {
                 //Do some magic
                 anchorBehavior.setState(AnchorSheetBehavior.STATE_EXPANDED);
+                new Handler().postDelayed(() -> {
+                    rvAgendaSearch.setAdapter(agendaAdapter);
+                }, 2000);
             }
 
             @Override
             public void onSearchViewClosed() {
                 //Do some magic
                 anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
+                rvAgendaSearch.setAdapter(null);
             }
         });
 
@@ -234,7 +260,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             hideShimmer();
             agendas.addAll(agendaResponse.getData());
 
-            AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());
+            // AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());
             agendaAdapter.notifyDataSetChanged();
 
             if (swipeRefreshLayout.isRefreshing()) {
