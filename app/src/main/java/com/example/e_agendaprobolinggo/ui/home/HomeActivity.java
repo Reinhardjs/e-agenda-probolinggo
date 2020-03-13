@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.body.User;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
@@ -106,7 +108,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         int[] location = new int[2];
         toolbar.getLocationOnScreen(location);
-        Toast.makeText(getApplicationContext(), "Y : " + location[1], Toast.LENGTH_SHORT).show();
 
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
@@ -120,7 +121,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         tvWelcome = findViewById(R.id.tvWelcome);
         materialSearchView = findViewById(R.id.search_view);
 
-        tvWelcome.setText(Html.fromHtml("Selamat datang <b>Budi</b> di Aplikasi E-Agenda Probolinggo"));
+        User user = SharedPreferenceUtils.getUser(this);
+        tvWelcome.setText(Html.fromHtml("Selamat datang <b>"+ user.getNama() +"</b> di Aplikasi E-Agenda Probolinggo"));
         setupAllRecyclerViews();
         setupAnchorSheetBehavior();
     }
@@ -154,7 +156,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         rvAgenda.setAdapter(agendaAdapter);
 
         agendaSearchAdapter = new AgendaAdapter(agendaSearches);
-        //rvAgendaSearch.setAdapter(agendaSearchAdapter);
+        rvAgendaSearch.setAdapter(agendaSearchAdapter);
         //rvAgendaSearch.setAdapter(agendaAdapter);
 
         agendaTypeAdapter = new AgendaTypeAdapter(agendaTypes);
@@ -202,7 +204,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Do some magic
-                Toast.makeText(getApplicationContext(), "query : " + query, Toast.LENGTH_SHORT).show();
+                searchProgressBar.setVisibility(View.VISIBLE);
+                mPresenter.requestAgendaSearch(query);
                 return true;
             }
 
@@ -218,9 +221,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             public void onSearchViewShown() {
                 //Do some magic
                 anchorBehavior.setState(AnchorSheetBehavior.STATE_EXPANDED);
-                new Handler().postDelayed(() -> {
-                    rvAgendaSearch.setAdapter(agendaAdapter);
-                }, 2000);
             }
 
             @Override
@@ -234,7 +234,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         anchorBehavior.setAnchorSheetCallback(new AnchorSheetBehavior.AnchorSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, @AnchorSheetBehavior.State int newState) {
-
+                if (newState == AnchorSheetBehavior.STATE_HIDDEN){
+                    materialSearchView.closeSearch();
+                }
             }
 
             @Override
@@ -287,6 +289,23 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @Override
     public void showAgendaTypeFailure(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void populateAgendaSearch(AgendaResponse agendaResponse) {
+        new Handler().postDelayed(() -> {
+            searchProgressBar.setVisibility(View.GONE);
+
+            if (agendaResponse != null) {
+                agendaSearches.addAll(agendaResponse.getData());
+                agendaSearchAdapter.notifyDataSetChanged();
+            }
+        }, 1500);
+    }
+
+    @Override
+    public void showAgendaSearchFailure(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

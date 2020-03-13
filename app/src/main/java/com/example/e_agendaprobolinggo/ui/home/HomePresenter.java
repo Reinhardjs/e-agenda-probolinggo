@@ -45,4 +45,19 @@ public class HomePresenter implements HomeContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void requestAgendaSearch(String keyword) {
+        mInteractor.requestAgendaSearch(keyword, new HomeContract.SearchRequestCallback() {
+            @Override
+            public void onSearchRequestCompleted(AgendaResponse agendaResponse) {
+                mView.populateAgendaSearch(agendaResponse);
+            }
+
+            @Override
+            public void onSearchRequestFailure(String message) {
+                mView.showAgendaSearchFailure(message);
+            }
+        });
+    }
 }
