@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ public class StepFragment extends Fragment implements Step {
         View v = inflater.inflate(R.layout.step, container, false);
         String title = getArguments().getString("title");
         String description = getArguments().getString("description");
+        int imageRes = getArguments().getInt("imageRes");
 
         //initialize your UI
         TextView titleTv = v.findViewById(R.id.title);
@@ -27,6 +29,9 @@ public class StepFragment extends Fragment implements Step {
 
         TextView descriptionTv = v.findViewById(R.id.description);
         descriptionTv.setText(description);
+
+        ImageView imageView = v.findViewById(R.id.imageView);
+        // imageView.setImageResource(imageRes);
 
         return v;
     }

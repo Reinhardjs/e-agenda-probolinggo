@@ -1,10 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import com.example.e_agendaprobolinggo.model.body.AgendaType;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
-
-import java.util.ArrayList;
 
 public class HomePresenter implements HomeContract.Presenter {
 
@@ -45,6 +42,21 @@ public class HomePresenter implements HomeContract.Presenter {
             public void onAgendaTypeRequestFailure(String message) {
                 // Must in main thread
                 mView.showAgendaTypeFailure(message);
+            }
+        });
+    }
+
+    @Override
+    public void requestAgendaSearch(String keyword) {
+        mInteractor.requestAgendaSearch(keyword, new HomeContract.SearchRequestCallback() {
+            @Override
+            public void onSearchRequestCompleted(AgendaResponse agendaResponse) {
+                mView.populateAgendaSearch(agendaResponse);
+            }
+
+            @Override
+            public void onSearchRequestFailure(String message) {
+                mView.showAgendaSearchFailure(message);
             }
         });
     }
