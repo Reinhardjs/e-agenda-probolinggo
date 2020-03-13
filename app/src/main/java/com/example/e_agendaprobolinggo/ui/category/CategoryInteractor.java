@@ -24,12 +24,11 @@ public class CategoryInteractor implements CategoryContract.Interactor {
 
     private NetworkApi networkApi = UtilsApi.getApiService();
     private AgendaResponse agendaResponsePerCategory;
-    private ArrayList<DataAgenda> listDataPerCategory = new ArrayList<>();
 
     @Override
     public void requestAgendaList(String agendaId, String subAgendaId, CategoryContract.CategoryAgendaRequestCallback categoryAgendaRequestCallback) {
         AgendaRequest agendaRequest = new AgendaRequest(agendaId, "", subAgendaId);
-        networkApi.getAgenda(agendaRequest).subscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
+        networkApi.getAgenda(agendaRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {

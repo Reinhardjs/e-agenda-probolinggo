@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.LifecycleRegistryOwner;
 
 import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
+import com.example.e_agendaprobolinggo.model.body.SearchRequest;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
@@ -26,6 +27,7 @@ public class HomeInteractor implements HomeContract.Interactor {
 
     private NetworkApi networkApi = UtilsApi.getApiService();
     private AgendaResponse agendaResponse = null;
+    private AgendaResponse agendaSearchResponse = null;
     private KategoriResponse kategoriResponse = null;
 
     @Override
@@ -122,6 +124,47 @@ public class HomeInteractor implements HomeContract.Interactor {
 
     @Override
     public void requestAgendaSearch(String keyword, HomeContract.SearchRequestCallback searchRequestCallback) {
-        searchRequestCallback.onSearchRequestCompleted(null);
+//        searchRequestCallback.onSearchRequestCompleted(null);
+        SearchRequest searchRequest = new SearchRequest(keyword, "all", "all");
+        networkApi.getAgendaSearch(searchRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AgendaResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull AgendaResponse agendaResponse) {
+                        agendaSearchResponse = agendaResponse;
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        if (e instanceof HttpException){
+                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                searchRequestCallback.onSearchRequestFailure(jsonObject.getString("message"));
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (agendaSearchResponse != null){
+                            if (agendaSearchResponse.isStatus()){
+                                searchRequestCallback.onSearchRequestCompleted(agendaSearchResponse);
+                            }
+                            else {
+                                searchRequestCallback.onSearchRequestFailure(agendaSearchResponse.getMessage());
+                            }
+                        }
+                    }
+                });
     }
 }
