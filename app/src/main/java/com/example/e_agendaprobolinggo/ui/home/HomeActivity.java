@@ -11,20 +11,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.connection.ConnectionLiveData;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.ConnectionModel;
 import com.example.e_agendaprobolinggo.model.body.User;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
@@ -40,6 +45,9 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.example.e_agendaprobolinggo.connection.ConnectionLiveData.MobileData;
+import static com.example.e_agendaprobolinggo.connection.ConnectionLiveData.WifiData;
 
 public class HomeActivity extends AppCompatActivity implements HomeContract.View {
 
@@ -61,7 +69,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     private MaterialSearchView materialSearchView;
     private AnchorSheetBehavior<View> anchorBehavior;
+
     private ProgressBar searchProgressBar;
+    private ImageView ivNoConnection;
 
     @Override
     public void onBackPressed() {
@@ -93,6 +103,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         initView();
         setupListenerOrCallback();
+        setupInternetObserver();
 
         mPresenter = new HomePresenter(this);
         mPresenter.requestAgendaTypeList();
@@ -120,6 +131,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         tvSeeAll = findViewById(R.id.tvSeeAll);
         tvWelcome = findViewById(R.id.tvWelcome);
         materialSearchView = findViewById(R.id.search_view);
+
+        ivNoConnection = findViewById(R.id.ivNoConnection);
 
         User user = SharedPreferenceUtils.getUser(this);
         tvWelcome.setText(Html.fromHtml("Selamat datang <b>"+ user.getNama() +"</b> di Aplikasi E-Agenda Probolinggo"));
@@ -161,6 +174,31 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         agendaTypeAdapter = new AgendaTypeAdapter(agendaTypes);
         rvAgendaType.setAdapter(agendaTypeAdapter);
+    }
+
+    private void setupInternetObserver(){
+        /* Live data object and setting an oberser on it */
+        ConnectionLiveData connectionLiveData = new ConnectionLiveData(getApplicationContext());
+        connectionLiveData.observe(this, new Observer<ConnectionModel>() {
+            @Override
+            public void onChanged(@Nullable ConnectionModel connection) {
+                /* every time connection state changes, we'll be notified and can perform action accordingly */
+                if (connection.getIsConnected()) {
+                    ivNoConnection.setVisibility(View.GONE);
+                    
+                    switch (connection.getType()) {
+                        case WifiData:
+                            // Toast.makeText(HomeActivity.this, String.format("Wifi turned ON"), Toast.LENGTH_SHORT).show();
+                            break;
+                        case MobileData:
+                            // Toast.makeText(HomeActivity.this, String.format("Mobile data turned ON"), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                } else {
+                    ivNoConnection.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setupListenerOrCallback() {
@@ -308,4 +346,5 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     public void showAgendaSearchFailure(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
 }
