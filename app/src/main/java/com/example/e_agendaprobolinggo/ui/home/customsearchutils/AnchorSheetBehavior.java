@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -124,11 +125,13 @@ public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behav
 
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+
             dispatchOnSlide(top);
         }
 
         @Override
         public void onViewDragStateChanged(int state) {
+            Log.d("MYAPP", "onViewdragstateChanged");
             if (state == ViewDragHelper.STATE_DRAGGING) {
                 setStateInternal(STATE_DRAGGING);
             }
@@ -136,6 +139,7 @@ public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behav
 
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            Log.d("MYAPP", "onViewrelesed");
             int top;
             @State int targetState;
             if (yvel < 0) { // Moving up
@@ -264,10 +268,13 @@ public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behav
         } else {
             mState = ss.state;
         }
+
     }
 
     @Override
     public boolean onLayoutChild(CoordinatorLayout parent, V child, int layoutDirection) {
+        Log.d("MYAPP", "onLayoutChild");
+
         if (getFitsSystemWindows(parent) && !getFitsSystemWindows(child)) {
             child.setFitsSystemWindows(true);
         }
@@ -395,9 +402,12 @@ public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behav
                                        @NonNull View target,
                                        @ViewCompat.ScrollAxis int nestedScrollAxes,
                                        @ViewCompat.NestedScrollType int type) {
+        Log.d("MYAPP", "onStartNestedScroll");
+
         mLastNestedScrollDy = 0;
         mNestedScrolled = false;
         return (nestedScrollAxes & SCROLL_AXIS_VERTICAL) != 0;
+
     }
 
     @Override
@@ -408,6 +418,9 @@ public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behav
                                   int dy,
                                   @NonNull int[] consumed,
                                   @ViewCompat.NestedScrollType int type) {
+
+        Log.d("MYAPP", "onNestedPreScroll");
+
         View scrollingChild = mNestedScrollingChildRef.get();
         if (target != scrollingChild) {
             return;
@@ -447,6 +460,9 @@ public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behav
                                    @NonNull V child,
                                    @NonNull View target,
                                    @ViewCompat.NestedScrollType int type) {
+
+        Log.d("MYAPP", "ON SETOP NESTEDSCROLL");
+
         if (child.getTop() == mMinOffset) {
             setStateInternal(STATE_EXPANDED);
             return;
@@ -507,9 +523,19 @@ public class AnchorSheetBehavior<V extends View> extends CoordinatorLayout.Behav
                                     float velocityX,
                                     float velocityY) {
         return target == mNestedScrollingChildRef.get() &&
-                ((mState != STATE_EXPANDED && mState == STATE_DRAGGING) ||
-                        super.onNestedPreFling(coordinatorLayout, child, target,
-                                velocityX, velocityY));
+                ((mState != STATE_EXPANDED && mState == STATE_DRAGGING));
+    }
+
+    @Override
+    public boolean onNestedFling(@NonNull CoordinatorLayout coordinatorLayout,
+                                    @NonNull V child,
+                                    @NonNull View target,
+                                    float velocityX,
+                                    float velocityY,
+                                    boolean consumed) {
+        Log.d("MYAPP", "ON FLING, VELOCITY Y : " + velocityY + ":: CONSUMED? " + consumed);
+
+        return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
     }
 
     /**
