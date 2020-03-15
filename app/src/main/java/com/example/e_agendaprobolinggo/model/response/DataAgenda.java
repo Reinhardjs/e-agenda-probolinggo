@@ -1,9 +1,7 @@
 package com.example.e_agendaprobolinggo.model.response;
 
-//import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
-//@Generated("com.robohorse.robopojogenerator")
 public class DataAgenda {
 
 	@SerializedName("status_kehadiran")
@@ -17,6 +15,9 @@ public class DataAgenda {
 
 	@SerializedName("surat")
 	private String surat;
+
+	@SerializedName("status_color")
+	private String statusColor;
 
 	@SerializedName("created_at")
 	private String createdAt;
@@ -78,6 +79,9 @@ public class DataAgenda {
 	@SerializedName("tempat")
 	private String tempat;
 
+	@SerializedName("status_box")
+	private String statusBox;
+
 	@SerializedName("nama_kegiatan")
 	private String namaKegiatan;
 
@@ -132,6 +136,14 @@ public class DataAgenda {
 
 	public String getSurat(){
 		return surat;
+	}
+
+	public void setStatusColor(String statusColor){
+		this.statusColor = statusColor;
+	}
+
+	public String getStatusColor(){
+		return statusColor;
 	}
 
 	public void setCreatedAt(String createdAt){
@@ -294,6 +306,14 @@ public class DataAgenda {
 		return tempat;
 	}
 
+	public void setStatusBox(String statusBox){
+		this.statusBox = statusBox;
+	}
+
+	public String getStatusBox(){
+		return statusBox;
+	}
+
 	public void setNamaKegiatan(String namaKegiatan){
 		this.namaKegiatan = namaKegiatan;
 	}
@@ -366,6 +386,7 @@ public class DataAgenda {
 			",id_sub_agenda = '" + idSubAgenda + '\'' + 
 			",perlengkapan = '" + perlengkapan + '\'' + 
 			",surat = '" + surat + '\'' + 
+			",status_color = '" + statusColor + '\'' + 
 			",created_at = '" + createdAt + '\'' + 
 			",tanggalend = '" + tanggalend + '\'' + 
 			",sambutan = '" + sambutan + '\'' + 
@@ -386,6 +407,7 @@ public class DataAgenda {
 			",petugas_protokol = '" + petugasProtokol + '\'' + 
 			",status_agenda = '" + statusAgenda + '\'' + 
 			",tempat = '" + tempat + '\'' + 
+			",status_box = '" + statusBox + '\'' + 
 			",nama_kegiatan = '" + namaKegiatan + '\'' + 
 			",id_encode = '" + idEncode + '\'' + 
 			",undangan = '" + undangan + '\'' + 

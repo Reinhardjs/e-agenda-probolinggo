@@ -23,7 +23,6 @@ import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.ui.home.AgendaAdapter;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
-import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -216,7 +215,7 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
         setSupportActionBar(toolbarAllAgenda);
         TextView toolbarTitle = toolbarAllAgenda.findViewById(R.id.toolbar_title_all_agenda);
         toolbarTitle.setText(R.string.all_agenda_toolbar_title);
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);

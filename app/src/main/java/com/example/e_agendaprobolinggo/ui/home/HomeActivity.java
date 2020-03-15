@@ -409,6 +409,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @Override
     public void showAgendaSearchFailure(String message) {
+        searchProgressBar.setVisibility(View.GONE);
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
