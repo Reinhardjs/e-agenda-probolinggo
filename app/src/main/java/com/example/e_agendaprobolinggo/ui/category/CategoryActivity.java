@@ -265,6 +265,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
 
     @Override
     public void showAgendaPerCategorySearchFailure(String message) {
+        searchProgressBar.setVisibility(View.GONE);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

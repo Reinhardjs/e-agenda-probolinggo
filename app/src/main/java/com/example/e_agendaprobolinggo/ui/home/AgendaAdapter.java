@@ -2,6 +2,7 @@ package com.example.e_agendaprobolinggo.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,19 +52,15 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull AgendaAdapter.ViewHolder holder, int position) {
         DataAgenda agenda = agendas.get(holder.getLayoutPosition());
-        int statusKehadiran = Integer.parseInt(agenda.getStatusKehadiran());
 
         holder.tvTitle.setText(agenda.getNamaKegiatan());
         holder.tvSubtitle1.setText(agenda.getAgenda());
         holder.tvSubtitle2.setText(agenda.getKategori());
         holder.tvDate.setText(agenda.getTanggal());
-        holder.tvLabeled.setText(statusKehadiran != 0 ? "Hadir" : "Tidak Hadir");
-        holder.tvLabeled.setTextColor(statusKehadiran != 0 ?
-                context.getResources().getColor(R.color.colorPrimary) :
-                context.getResources().getColor(R.color.secondary_text_orange));
-        holder.cardLabeled.setCardBackgroundColor(statusKehadiran != 0 ?
-                context.getResources().getColor(R.color.secondary_card_blue) :
-                context.getResources().getColor(R.color.secondary_card_orange));
+        holder.tvLabeled.setText(agenda.getStatusAgenda());
+        holder.tvClothes.setText(agenda.getPakaian());
+        holder.tvPlace.setText(agenda.getTempat());
+        holder.cardLabeled.setCardBackgroundColor(Color.parseColor(agenda.getStatusColor()));
         holder.tvTime.setText(agenda.getJam());
     }
 
@@ -74,7 +71,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvTime;
+        public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvTime, tvPlace, tvClothes;
         public MaterialCardView cardLabeled;
 
         public ViewHolder(@NonNull View itemView) {
@@ -85,6 +82,8 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
             tvDate = itemView.findViewById(R.id.tvDate);
             tvLabeled = itemView.findViewById(R.id.tvLabeled);
             tvTime = itemView.findViewById(R.id.tvTime);
+            tvPlace = itemView.findViewById(R.id.tvPlace);
+            tvClothes = itemView.findViewById(R.id.tvClothes);
             cardLabeled = itemView.findViewById(R.id.cardLabeled);
         }
     }

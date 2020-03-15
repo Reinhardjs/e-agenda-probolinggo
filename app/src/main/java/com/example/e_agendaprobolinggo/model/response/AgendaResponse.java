@@ -1,11 +1,9 @@
 package com.example.e_agendaprobolinggo.model.response;
 
 import java.util.List;
-//import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
-//@Gene("com.robohorse.robopojogenerator")
-public class AgendaResponse {
+public class AgendaResponse{
 
 	@SerializedName("data")
 	private List<DataAgenda> data;
@@ -43,7 +41,7 @@ public class AgendaResponse {
 	@Override
  	public String toString(){
 		return 
-			"Agenda{" + 
+			"AgendaResponse{" + 
 			"data = '" + data + '\'' + 
 			",message = '" + message + '\'' + 
 			",status = '" + status + '\'' + 

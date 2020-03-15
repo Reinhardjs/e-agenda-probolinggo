@@ -7,7 +7,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {

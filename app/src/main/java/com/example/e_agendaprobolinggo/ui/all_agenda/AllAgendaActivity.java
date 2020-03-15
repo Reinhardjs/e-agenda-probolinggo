@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 

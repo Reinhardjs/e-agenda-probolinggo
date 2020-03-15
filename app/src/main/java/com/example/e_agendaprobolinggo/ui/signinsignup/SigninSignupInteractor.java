@@ -69,11 +69,16 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
                     public void onComplete() {
                         if (loginRes != null) {
                             if (loginRes.isStatus()) {
-                                DataLogin dataLogin = loginRes.getDataLogin();
-                                User user = new User(dataLogin.getNama(), dataLogin.getEmail(), "", dataLogin.getJabatan(), dataLogin.getOpd(), Integer.valueOf(dataLogin.getCreatedBy()));
-                                SharedPreferenceUtils.saveUser(App.getAppContext(), user);
+                                if (loginRes.getDataLogin().getStatus().equalsIgnoreCase("ENABLE")){
+                                    DataLogin dataLogin = loginRes.getDataLogin();
+                                    User user = new User(dataLogin.getNama(), dataLogin.getEmail(), "", dataLogin.getJabatan(), dataLogin.getOpd(), Integer.valueOf(dataLogin.getCreatedBy()));
+                                    SharedPreferenceUtils.saveUser(App.getAppContext(), user);
 
-                                signinCallback.onSigninSuccess(loginRes.getMessage());
+                                    signinCallback.onSigninSuccess(loginRes.getMessage());
+                                } else {
+                                    signinCallback.onSigninFailure(loginRes.getMessage());
+                                }
+
                             } else {
                                 signinCallback.onSigninFailure(loginRes.getMessage());
                             }

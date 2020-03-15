@@ -3,7 +3,6 @@ package com.example.e_agendaprobolinggo.ui.category;
 import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
 import com.example.e_agendaprobolinggo.model.body.SearchRequest;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
-import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
 
@@ -11,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
