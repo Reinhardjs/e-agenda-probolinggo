@@ -1,20 +1,19 @@
 package com.example.e_agendaprobolinggo.ui.detail;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
 
+    public static final String KEY = "key";
     private DetailContract.Presenter mPresenter;
     private TextView tvNamaKegiatan, tvTanggalKegiatan, tvWaktuKegiatan;
-    public static final String KEY = "key";
     private String key;
 //    private Toolbar toolbar;
 
@@ -28,7 +27,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         mPresenter = new DetailPresenter(this);
         mPresenter.getDetailAgenda(key);
-        //SharedPreferenceUtils.removeUser(this);
     }
 
     private void initView() {

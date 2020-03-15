@@ -82,7 +82,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="15dp"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         tools:text="Selamat datang, Yoga Darma"/>
 
                     <TextView
@@ -92,7 +92,8 @@
                         android:layout_marginRight="30dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:text="di Aplikasi E-Agenda Probolinggo"/>
+                        android:textSize="14sp"
+                        android:text="@string/welcome_below_text"/>
 
                 </LinearLayout>
 
@@ -102,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginLeft="16dp"
-                    android:text="Kategori"
+                    android:text="@string/home_subtitle_1"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tvWelcomeContainer"
@@ -124,7 +125,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Agenda Terdekat"
+                    android:text="@string/home_subtitle_2"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -182,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="Lihat semua Agenda"
+                    android:text="@string/see_all_agenda_text"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"

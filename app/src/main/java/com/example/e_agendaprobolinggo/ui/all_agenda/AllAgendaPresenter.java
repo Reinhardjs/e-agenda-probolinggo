@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.all_agenda;
 
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.ui.home.HomeContract;
 
 public class AllAgendaPresenter implements AllAgendaContract.Presenter{
 
@@ -23,6 +24,21 @@ public class AllAgendaPresenter implements AllAgendaContract.Presenter{
             @Override
             public void onAllAgendaRequestFailure(String message) {
                 mView.showAllAgendaFailure(message);
+            }
+        });
+    }
+
+    @Override
+    public void requestAgendaSearch(String keyword) {
+        mInteractor.requestAgendaSearch(keyword, new AllAgendaContract.SearchRequestCallback() {
+            @Override
+            public void onSearchRequestCompleted(AgendaResponse agendaResponse) {
+                mView.populateAgendaSearch(agendaResponse);
+            }
+
+            @Override
+            public void onSearchRequestFailure(String message) {
+                mView.showAgendaSearchFailure(message);
             }
         });
     }

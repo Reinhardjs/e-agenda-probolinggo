@@ -56,8 +56,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     ArrayList<DataKategori> agendaCategories = new ArrayList<>();
     ArrayList<DataAgenda> agendaSearches = new ArrayList<>();
 
-    private ShimmerFrameLayout mShimmerViewContainer;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView rvAgenda, rvAgendaCategory, rvAgendaSearch;
     private AgendaAdapter agendaAdapter;
     private AgendaAdapter agendaSearchAdapter;
@@ -65,6 +63,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     private Toolbar toolbar;
     private TextView tvSeeAll, tvWelcome;
+
+    private ShimmerFrameLayout mShimmerViewContainer;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private MaterialSearchView materialSearchView;
     private AnchorSheetBehavior<View> anchorBehavior;
@@ -121,6 +122,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         initView();
+        setupAllRecyclerViews();
+        setupAnchorSheetBehavior();
         setupListenerOrCallback();
         setupInternetObserver();
 
@@ -157,8 +160,16 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         User user = SharedPreferenceUtils.getUser(this);
         tvWelcome.setText(Html.fromHtml("Selamat datang, <b>" + user.getNama() + "</b>"));
-        setupAllRecyclerViews();
-        setupAnchorSheetBehavior();
+    }
+
+    private void showShimmer() {
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmerAnimation();
+    }
+
+    private void hideShimmer() {
+        mShimmerViewContainer.setVisibility(View.GONE);
+        mShimmerViewContainer.stopShimmerAnimation();
     }
 
     private void setupAnchorSheetBehavior() {
@@ -166,14 +177,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         anchorBehavior.setHideable(true);
         anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
 
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        int width = dm.widthPixels;
-//        int height = dm.heightPixels;
-
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
-        // params.height = height - AppDimenUtil.getActionBarHeight(this) - AppDimenUtil.getStatusbarHeight(this);
         swipeRefreshLayout.post(() -> {
             params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);;
             anchorSheet.setLayoutParams(params);
@@ -318,16 +323,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
             }
         });
-    }
-
-    private void showShimmer() {
-        mShimmerViewContainer.setVisibility(View.VISIBLE);
-        mShimmerViewContainer.startShimmerAnimation();
-    }
-
-    private void hideShimmer() {
-        mShimmerViewContainer.setVisibility(View.GONE);
-        mShimmerViewContainer.stopShimmerAnimation();
     }
 
     @Override

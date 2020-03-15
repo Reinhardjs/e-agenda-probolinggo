@@ -40,10 +40,10 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-<!--            <com.miguelcatalan.materialsearchview.MaterialSearchView-->
-<!--                android:id="@+id/search_view_all_agenda"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" />-->
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/search_view_all_agenda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </FrameLayout>
 
@@ -93,5 +93,26 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <FrameLayout
+        android:id="@+id/anchor_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EAEAEA"
+        app:layout_behavior=".ui.home.customsearchutils.AnchorSheetBehavior">
+
+        <ProgressBar
+            android:id="@+id/searchProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAgendaSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

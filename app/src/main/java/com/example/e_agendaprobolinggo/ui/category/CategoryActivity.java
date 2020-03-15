@@ -131,14 +131,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         anchorBehavior.setHideable(true);
         anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
 
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        int width = dm.widthPixels;
-//        int height = dm.heightPixels;
-
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
-        // params.height = height - AppDimenUtil.getActionBarHeight(this) - AppDimenUtil.getStatusbarHeight(this);
         swipeRefreshLayout.post(() -> {
             params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);;
             anchorSheet.setLayoutParams(params);
@@ -149,7 +143,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         TextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("Agenda " + subAgendaName);
+        toolbarTitle.setText(subAgendaName);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     }
 
