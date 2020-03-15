@@ -30,18 +30,18 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void requestAgendaTypeList() {
-        mInteractor.requestAgendaTypeList(new HomeContract.AgendaTypeRequestCallback() {
+    public void requestAgendaCategoryList() {
+        mInteractor.requestAgendaCategoryList(new HomeContract.AgendaCategoryRequestCallback() {
             @Override
-            public void onAgendaTypeRequestCompleted(KategoriResponse agendaTypes) {
+            public void onAgendaCategoryRequestCompleted(KategoriResponse agendaCategories) {
                 // Must in main thread
-                mView.populateAgendaType(agendaTypes);
+                mView.populateAgendaCategory(agendaCategories);
             }
 
             @Override
-            public void onAgendaTypeRequestFailure(String message) {
+            public void onAgendaCategoryRequestFailure(String message) {
                 // Must in main thread
-                mView.showAgendaTypeFailure(message);
+                mView.showAgendaCategoryFailure(message);
             }
         });
     }

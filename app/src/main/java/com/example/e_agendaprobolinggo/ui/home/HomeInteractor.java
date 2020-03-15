@@ -1,8 +1,5 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import androidx.lifecycle.LifecycleRegistry;
-import androidx.lifecycle.LifecycleRegistryOwner;
-
 import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
 import com.example.e_agendaprobolinggo.model.body.SearchRequest;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
@@ -79,7 +76,7 @@ public class HomeInteractor implements HomeContract.Interactor {
     }
 
     @Override
-    public void requestAgendaTypeList(HomeContract.AgendaTypeRequestCallback agendaTypeRequestCallback) {
+    public void requestAgendaCategoryList(HomeContract.AgendaCategoryRequestCallback agendaCategoryRequestCallback) {
 
         networkApi.getKategory().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<KategoriResponse>() {
@@ -100,7 +97,7 @@ public class HomeInteractor implements HomeContract.Interactor {
 
                             try {
                                 JSONObject jsonObject = new JSONObject(errorResponse.string());
-                                agendaTypeRequestCallback.onAgendaTypeRequestFailure(jsonObject.getString("message"));
+                                agendaCategoryRequestCallback.onAgendaCategoryRequestFailure(jsonObject.getString("message"));
                             } catch (JSONException ex) {
                                 ex.printStackTrace();
                             } catch (IOException ex) {
@@ -113,9 +110,9 @@ public class HomeInteractor implements HomeContract.Interactor {
                     public void onComplete() {
                         if (kategoriResponse != null) {
                             if (kategoriResponse.isStatus()) {
-                                agendaTypeRequestCallback.onAgendaTypeRequestCompleted(kategoriResponse);
+                                agendaCategoryRequestCallback.onAgendaCategoryRequestCompleted(kategoriResponse);
                             } else {
-                                agendaTypeRequestCallback.onAgendaTypeRequestFailure(kategoriResponse.getMessage());
+                                agendaCategoryRequestCallback.onAgendaCategoryRequestFailure(kategoriResponse.getMessage());
                             }
                         }
                     }

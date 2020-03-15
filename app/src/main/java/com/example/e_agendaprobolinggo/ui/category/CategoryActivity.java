@@ -1,14 +1,16 @@
 package com.example.e_agendaprobolinggo.ui.category;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
@@ -20,37 +22,44 @@ import java.util.Objects;
 
 public class CategoryActivity extends AppCompatActivity implements CategoryContract.View {
 
-    private ArrayList<DataAgenda> agendas = new ArrayList<>();
-    private CategoryContract.Presenter mPresenter;
-    private RecyclerView rvAgendaPerCategory;
     public static final String AGENDA_ID = "agenda_id";
     public static final String SUB_AGENDA_ID = "sub_agenda_id";
-    private String agendaId, subAgendaId;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public static final String SUB_AGENDA_NAME = "sub_agenda_name";
+
+    private ArrayList<DataAgenda> agendas = new ArrayList<>();
+    private RecyclerView rvAgendaPerCategory;
     private AgendaPerCategoryAdapter agendaPerCategoryAdapter;
+
     private ShimmerFrameLayout mShimmerViewContainer;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private Toolbar toolbar;
+
+    private String agendaId, subAgendaId, subAgendaName;
+    private CategoryContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        mPresenter = new CategoryPresenter(this);
+        agendaId = getIntent().getStringExtra(AGENDA_ID);
+        subAgendaId = getIntent().getStringExtra(SUB_AGENDA_ID);
+        subAgendaName = getIntent().getStringExtra(SUB_AGENDA_NAME);
 
         initView();
         addListener();
 
-        agendaId = getIntent().getStringExtra(AGENDA_ID);
-        subAgendaId = getIntent().getStringExtra(SUB_AGENDA_ID);
-
+        mPresenter = new CategoryPresenter(this);
         mPresenter.getCategoryAgendaList(agendaId, subAgendaId);
 
         swipeRefreshLayout.setRefreshing(true);
-
         showShimmer();
     }
 
     private void initView() {
+        toolbar = findViewById(R.id.toolbar);
+        setupToolbar();
+
         rvAgendaPerCategory = findViewById(R.id.rvAgendaPerCategory);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutCategory);
         mShimmerViewContainer = findViewById(R.id.shimmer_view_category);
@@ -59,16 +68,21 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
 
         agendaPerCategoryAdapter = new AgendaPerCategoryAdapter(agendas);
         rvAgendaPerCategory.setAdapter(agendaPerCategoryAdapter);
-
     }
 
-    private void addListener(){
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        TextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Agenda " + subAgendaName);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    }
+
+    private void addListener() {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             agendas.clear();
             mPresenter.getCategoryAgendaList(agendaId, subAgendaId);
             showShimmer();
 
-            // AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());
             agendaPerCategoryAdapter.notifyDataSetChanged();
         });
     }
@@ -97,9 +111,6 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
                 swipeRefreshLayout.setRefreshing(false);
             }
 
-//            agendaPerCategoryAdapter = new AgendaPerCategoryAdapter(agendas);
-//            rvAgendaPerCategory.setAdapter(agendaPerCategoryAdapter);
-
         }, 1500);
 
 
@@ -111,6 +122,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
+
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

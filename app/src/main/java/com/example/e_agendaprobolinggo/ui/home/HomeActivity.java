@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +36,6 @@ import com.example.e_agendaprobolinggo.model.body.User;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
-import com.example.e_agendaprobolinggo.model.response.DataSubKategori;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
@@ -43,7 +44,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import static com.example.e_agendaprobolinggo.connection.ConnectionLiveData.MobileData;
@@ -52,26 +52,26 @@ import static com.example.e_agendaprobolinggo.connection.ConnectionLiveData.Wifi
 public class HomeActivity extends AppCompatActivity implements HomeContract.View {
 
     ArrayList<DataAgenda> agendas = new ArrayList<>();
-    ArrayList<DataKategori> agendaTypes = new ArrayList<>();
+    ArrayList<DataKategori> agendaCategories = new ArrayList<>();
     ArrayList<DataAgenda> agendaSearches = new ArrayList<>();
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private HomeContract.Presenter mPresenter;
-    private RecyclerView rvAgenda, rvAgendaType, rvAgendaSearch;
+    private RecyclerView rvAgenda, rvAgendaCategory, rvAgendaSearch;
     private AgendaAdapter agendaAdapter;
     private AgendaAdapter agendaSearchAdapter;
-    private AgendaTypeAdapter agendaTypeAdapter;
-
-    private TextView tvSeeAll, tvWelcome;
+    private AgendaCategoryAdapter agendaCategoryAdapter;
 
     private Toolbar toolbar;
+    private TextView tvSeeAll, tvWelcome;
 
     private MaterialSearchView materialSearchView;
     private AnchorSheetBehavior<View> anchorBehavior;
 
     private ProgressBar searchProgressBar;
     private ImageView ivNoConnection;
+
+    private HomeContract.Presenter mPresenter;
 
     @Override
     public void onBackPressed() {
@@ -90,7 +90,25 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         MenuItem item = menu.findItem(R.id.action_search);
         materialSearchView.setMenuItem(item);
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if (id == R.id.action_logout) {
+            SharedPreferenceUtils.removeUser(getApplicationContext());
+            Intent i = getBaseContext().getPackageManager().
+                    getLaunchIntentForPackage(getBaseContext().getPackageName());
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
@@ -106,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         setupInternetObserver();
 
         mPresenter = new HomePresenter(this);
-        mPresenter.requestAgendaTypeList();
+        mPresenter.requestAgendaCategoryList();
         mPresenter.requestAgendaList();
 
         swipeRefreshLayout.setRefreshing(true);
@@ -117,16 +135,13 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         toolbar = findViewById(R.id.toolbar);
         setupToolbar();
 
-        int[] location = new int[2];
-        toolbar.getLocationOnScreen(location);
-
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         searchProgressBar = findViewById(R.id.searchProgressBar);
 
         rvAgenda = findViewById(R.id.rvAgenda);
         rvAgendaSearch = findViewById(R.id.rvAgendaSearch);
-        rvAgendaType = findViewById(R.id.rvAgendaType);
+        rvAgendaCategory = findViewById(R.id.rvAgendaType);
 
         tvSeeAll = findViewById(R.id.tvSeeAll);
         tvWelcome = findViewById(R.id.tvWelcome);
@@ -135,7 +150,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         ivNoConnection = findViewById(R.id.ivNoConnection);
 
         User user = SharedPreferenceUtils.getUser(this);
-        tvWelcome.setText(Html.fromHtml("Selamat datang <b>"+ user.getNama() +"</b> di Aplikasi E-Agenda Probolinggo"));
+        tvWelcome.setText(Html.fromHtml("Selamat datang, <b>" + user.getNama() + "</b>"));
         setupAllRecyclerViews();
         setupAnchorSheetBehavior();
     }
@@ -145,12 +160,19 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         anchorBehavior.setHideable(true);
         anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
 
+//        DisplayMetrics dm = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(dm);
+//        int width = dm.widthPixels;
+//        int height = dm.heightPixels;
+
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
-        params.height = Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this);
-        anchorSheet.setLayoutParams(params);
-
-        anchorBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels - AppDimenUtil.getActionBarHeight(this));
+        // params.height = height - AppDimenUtil.getActionBarHeight(this) - AppDimenUtil.getStatusbarHeight(this);
+        swipeRefreshLayout.post(() -> {
+            params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);;
+            anchorSheet.setLayoutParams(params);
+        });
+        anchorBehavior.setAnchorOffset(0.0f);
     }
 
     private void setupToolbar() {
@@ -163,20 +185,19 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private void setupAllRecyclerViews() {
         rvAgenda.setLayoutManager(new LinearLayoutManager(this));
         rvAgendaSearch.setLayoutManager(new LinearLayoutManager(this));
-        rvAgendaType.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rvAgendaCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         agendaAdapter = new AgendaAdapter(agendas);
         rvAgenda.setAdapter(agendaAdapter);
 
         agendaSearchAdapter = new AgendaAdapter(agendaSearches);
         rvAgendaSearch.setAdapter(agendaSearchAdapter);
-        //rvAgendaSearch.setAdapter(agendaAdapter);
 
-        agendaTypeAdapter = new AgendaTypeAdapter(agendaTypes);
-        rvAgendaType.setAdapter(agendaTypeAdapter);
+        agendaCategoryAdapter = new AgendaCategoryAdapter(agendaCategories);
+        rvAgendaCategory.setAdapter(agendaCategoryAdapter);
     }
 
-    private void setupInternetObserver(){
+    private void setupInternetObserver() {
         /* Live data object and setting an oberser on it */
         ConnectionLiveData connectionLiveData = new ConnectionLiveData(getApplicationContext());
         connectionLiveData.observe(this, new Observer<ConnectionModel>() {
@@ -185,7 +206,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 /* every time connection state changes, we'll be notified and can perform action accordingly */
                 if (connection.getIsConnected()) {
                     ivNoConnection.setVisibility(View.GONE);
-                    
+
                     switch (connection.getType()) {
                         case WifiData:
                             // Toast.makeText(HomeActivity.this, String.format("Wifi turned ON"), Toast.LENGTH_SHORT).show();
@@ -212,26 +233,26 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             agendaAdapter.notifyDataSetChanged();
         });
 
-        agendaTypeAdapter.setOnClickAgendaTypeCallback(agendaType -> {
+        agendaCategoryAdapter.setOnClickAgendaCategoryCallback(agendaCategories -> {
 
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(HomeActivity.this);
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HomeActivity.this, android.R.layout.select_dialog_item);
 
-            List<DataSubKategori> subAgendas = agendaType;
-
-            for (int i = 0; i < subAgendas.size(); i++) {
-                String subAgendaName = subAgendas.get(i).getSubRole();
+            for (int i = 0; i < agendaCategories.size(); i++) {
+                String subAgendaName = agendaCategories.get(i).getSubRole();
                 arrayAdapter.add(subAgendaName);
             }
 
             // builderSingle.setNegativeButton("cancel", (dialog, which) -> dialog.dismiss());
             builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
-                String agendaId = agendaType.get(which).getIdRole2();
-                String subAgendaId = agendaType.get(which).getIdSubRole();
+                String agendaId = agendaCategories.get(which).getIdRole2();
+                String subAgendaId = agendaCategories.get(which).getIdSubRole();
+                String subAgendaName = agendaCategories.get(which).getSubRole();
 
                 Intent intentPerCategory = new Intent(HomeActivity.this, CategoryActivity.class);
                 intentPerCategory.putExtra(CategoryActivity.AGENDA_ID, agendaId);
                 intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_ID, subAgendaId);
+                intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_NAME, subAgendaName);
                 startActivity(intentPerCategory);
             });
             builderSingle.show();
@@ -243,6 +264,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             public boolean onQueryTextSubmit(String query) {
                 //Do some magic
                 searchProgressBar.setVisibility(View.VISIBLE);
+                agendaSearches.clear();
+                agendaSearchAdapter.notifyDataSetChanged();
                 mPresenter.requestAgendaSearch(query);
                 return true;
             }
@@ -259,20 +282,21 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             public void onSearchViewShown() {
                 //Do some magic
                 anchorBehavior.setState(AnchorSheetBehavior.STATE_EXPANDED);
+                agendaSearches.clear();
+                agendaSearchAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onSearchViewClosed() {
                 //Do some magic
                 anchorBehavior.setState(AnchorSheetBehavior.STATE_HIDDEN);
-                rvAgendaSearch.setAdapter(null);
             }
         });
 
         anchorBehavior.setAnchorSheetCallback(new AnchorSheetBehavior.AnchorSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, @AnchorSheetBehavior.State int newState) {
-                if (newState == AnchorSheetBehavior.STATE_HIDDEN){
+                if (newState == AnchorSheetBehavior.STATE_HIDDEN) {
                     materialSearchView.closeSearch();
                 }
             }
@@ -319,14 +343,15 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     }
 
     @Override
-    public void populateAgendaType(KategoriResponse agendaTypes) {
-        this.agendaTypes.addAll(agendaTypes.getData());
-
-        agendaTypeAdapter.notifyDataSetChanged();
+    public void populateAgendaCategory(KategoriResponse agendaCategories) {
+        new Handler().postDelayed(() -> {
+            this.agendaCategories.addAll(agendaCategories.getData());
+            agendaCategoryAdapter.notifyDataSetChanged();
+        }, 1000);
     }
 
     @Override
-    public void showAgendaTypeFailure(String message) {
+    public void showAgendaCategoryFailure(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
@@ -336,10 +361,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             searchProgressBar.setVisibility(View.GONE);
 
             if (agendaResponse != null) {
+                agendaSearches.clear();
                 agendaSearches.addAll(agendaResponse.getData());
                 agendaSearchAdapter.notifyDataSetChanged();
             }
-        }, 1500);
+        }, 1000);
     }
 
     @Override

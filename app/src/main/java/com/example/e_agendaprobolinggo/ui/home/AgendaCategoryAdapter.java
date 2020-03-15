@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
 import com.example.e_agendaprobolinggo.model.response.DataSubKategori;
@@ -17,18 +19,18 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AgendaTypeAdapter extends RecyclerView.Adapter<AgendaTypeAdapter.ViewHolder> {
+public class AgendaCategoryAdapter extends RecyclerView.Adapter<AgendaCategoryAdapter.ViewHolder> {
 
     private ArrayList<DataKategori> agendaTypes;
-    private OnClickAgendaTypeCallback onClickAgendaTypeCallback;
+    private OnClickAgendaCategoryCallback onClickAgendaCategoryCallback;
     private Context context;
 
-    public AgendaTypeAdapter(ArrayList<DataKategori> agendaTypes) {
+    public AgendaCategoryAdapter(ArrayList<DataKategori> agendaTypes) {
         this.agendaTypes = agendaTypes;
     }
 
-    public void setOnClickAgendaTypeCallback(OnClickAgendaTypeCallback callback) {
-        onClickAgendaTypeCallback = callback;
+    public void setOnClickAgendaCategoryCallback(OnClickAgendaCategoryCallback callback) {
+        onClickAgendaCategoryCallback = callback;
     }
 
     @NonNull
@@ -46,10 +48,10 @@ public class AgendaTypeAdapter extends RecyclerView.Adapter<AgendaTypeAdapter.Vi
         DataKategori dataKategori = agendaTypes.get(holder.getLayoutPosition());
 
         holder.tvCategory.setText(dataKategori.getRole());
-//        Glide.with(context).load(dataKategori.getRoleImg()).into(holder.imgCategory);
+        Glide.with(context).load(dataKategori.getRoleImg()).into(holder.imgCategory);
 
         holder.container.setOnClickListener(view -> {
-            onClickAgendaTypeCallback.onClickAgendaType(dataKategori.getMasterSubRole());
+            onClickAgendaCategoryCallback.onClickAgendaCategory(dataKategori.getMasterSubRole());
         });
     }
 
@@ -58,20 +60,22 @@ public class AgendaTypeAdapter extends RecyclerView.Adapter<AgendaTypeAdapter.Vi
         return agendaTypes.size();
     }
 
-    interface OnClickAgendaTypeCallback {
-        void onClickAgendaType(List<DataSubKategori> agendaType);
+    interface OnClickAgendaCategoryCallback {
+        void onClickAgendaCategory(List<DataSubKategori> agendaCategories);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         MaterialCardView container;
         TextView tvCategory;
+        ImageView imgCategory;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             container = itemView.findViewById(R.id.container);
             tvCategory = itemView.findViewById(R.id.tvCategory);
+            imgCategory = itemView.findViewById(R.id.imgCategory);
         }
     }
 

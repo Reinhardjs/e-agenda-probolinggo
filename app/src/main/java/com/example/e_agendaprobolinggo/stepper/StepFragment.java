@@ -10,9 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.e_agendaprobolinggo.R;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
+
+import java.io.File;
 
 public class StepFragment extends Fragment implements Step {
 
@@ -31,7 +34,11 @@ public class StepFragment extends Fragment implements Step {
         descriptionTv.setText(description);
 
         ImageView imageView = v.findViewById(R.id.imageView);
-        // imageView.setImageResource(imageRes);
+//        imageView.setImageResource(imageRes);
+        Glide.with(getContext())
+                .load(imageRes) // Uri of the picture
+//                .transform(new CircleTransform(..))
+                .into(imageView);
 
         return v;
     }

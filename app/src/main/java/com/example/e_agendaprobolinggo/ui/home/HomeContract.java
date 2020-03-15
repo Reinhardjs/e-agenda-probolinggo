@@ -6,42 +6,50 @@ import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 public interface HomeContract {
 
     interface AgendaRequestCallback {
+
         void onAgendaRequestCompleted(AgendaResponse agendaResponse);
 
         void onAgendaRequestFailure(String message);
+
     }
 
-    interface AgendaTypeRequestCallback {
-        void onAgendaTypeRequestCompleted(KategoriResponse agendaTypes);
+    interface AgendaCategoryRequestCallback {
 
-        void onAgendaTypeRequestFailure(String message);
+        void onAgendaCategoryRequestCompleted(KategoriResponse agendaCategories);
+
+        void onAgendaCategoryRequestFailure(String message);
+
     }
 
     interface SearchRequestCallback {
+
         void onSearchRequestCompleted(AgendaResponse agendaResponse);
 
         void onSearchRequestFailure(String message);
+
     }
 
     interface View {
+
         void populateAgenda(AgendaResponse agendaResponse);
 
         void showAgendaFailure(String message);
 
-        void populateAgendaType(KategoriResponse agendaTypes);
+        void populateAgendaCategory(KategoriResponse agendaCategories);
 
-        void showAgendaTypeFailure(String message);
+        void showAgendaCategoryFailure(String message);
 
         void populateAgendaSearch(AgendaResponse agendaResponse);
 
         void showAgendaSearchFailure(String message);
+
     }
 
     interface Interactor {
 
         void requestAgendaList(AgendaRequestCallback agendaRequestCallback);
 
-        void requestAgendaTypeList(AgendaTypeRequestCallback agendaTypeRequestCallback);
+        void requestAgendaCategoryList(AgendaCategoryRequestCallback agendaCategoryRequestCallback);
 
         void requestAgendaSearch(String keyword, SearchRequestCallback searchRequestCallback);
 
@@ -51,7 +59,7 @@ public interface HomeContract {
 
         void requestAgendaList();
 
-        void requestAgendaTypeList();
+        void requestAgendaCategoryList();
 
         void requestAgendaSearch(String keyword);
 

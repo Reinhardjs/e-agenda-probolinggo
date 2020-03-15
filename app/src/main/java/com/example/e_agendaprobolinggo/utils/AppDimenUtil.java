@@ -1,7 +1,9 @@
 package com.example.e_agendaprobolinggo.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 public class AppDimenUtil {
@@ -14,6 +16,21 @@ public class AppDimenUtil {
             statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
         }
         return statusBarHeight;
+    }
+
+    public static int getNavigationBarHeight(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            DisplayMetrics metrics = new DisplayMetrics();
+            activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            int usableHeight = metrics.heightPixels;
+            activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+            int realHeight = metrics.heightPixels;
+            if (realHeight > usableHeight)
+                return realHeight - usableHeight;
+            else
+                return 0;
+        }
+        return 0;
     }
 
     public static int getActionBarHeight(Context context) {
