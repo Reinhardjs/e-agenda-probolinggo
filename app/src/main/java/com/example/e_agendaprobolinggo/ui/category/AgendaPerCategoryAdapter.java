@@ -3,12 +3,15 @@ package com.example.e_agendaprobolinggo.ui.category;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_agendaprobolinggo.R;
@@ -57,6 +60,13 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
         holder.tvPlace.setText(agenda.getTempat());
         holder.cardLabeled.setCardBackgroundColor(Color.parseColor(agenda.getStatusColor()));
         holder.tvTime.setText(agenda.getJam());
+
+        // https://stackoverflow.com/questions/32163918/programmatically-change-color-of-shape-in-layer-list
+        LayerDrawable ld = (LayerDrawable) context.getResources().getDrawable(R.drawable.item_left_border);
+        GradientDrawable leftBorder = (GradientDrawable)ld.findDrawableByLayerId(R.id.left_border);
+        leftBorder.setColor(Color.parseColor(agenda.getStatusBox()));
+
+        holder.container.setBackground(ld);
     }
 
     @Override
@@ -68,9 +78,11 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
 
         public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvTime, tvPlace, tvClothes;
         public MaterialCardView cardLabeled;
+        public ConstraintLayout container;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            container = itemView.findViewById(R.id.container);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvSubtitle1 = itemView.findViewById(R.id.tvSubtitle1);
             tvSubtitle2 = itemView.findViewById(R.id.tvSubtitle2);
