@@ -169,10 +169,9 @@
 
                 <ImageView
                     android:id="@+id/ivNoConnection"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="45dp"
-                    android:src="@drawable/no_connection"
+                    android:layout_width="400dp"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="60dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tvWelcomeContainer"

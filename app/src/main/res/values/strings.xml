@@ -19,10 +19,12 @@
             l -1.895158,0 0,-1.895157 1.895158,0 0,1.895157 Z
             m 0,-3.790315
             l -1.895158,0 0,-3.7903149 1.895158,0 0,3.7903149 Z</string>
+
     <string name="see_all_agenda_text">Lihat Semua Agenda</string>
     <string name="home_subtitle_2">Agenda Terdekat</string>
     <string name="home_subtitle_1">Kategori</string>
     <string name="welcome_below_text">di Aplikasi E-Agenda Probolinggo</string>
     <string name="all_agenda_toolbar_title">Semua Agenda</string>
+    <string name="not_connected_text">Maaf, Anda tidak terhubung ke internet</string>
 
 </resources>

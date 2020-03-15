@@ -1,12 +1,9 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.connection.ConnectionLiveData;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
@@ -73,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private ProgressBar searchProgressBar;
     private ImageView ivNoConnection;
 
+    private boolean isConnectedToInternet = true;
     private HomeContract.Presenter mPresenter;
 
     @Override
@@ -131,7 +130,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         mPresenter.requestAgendaCategoryList();
         mPresenter.requestAgendaList();
 
-        swipeRefreshLayout.setRefreshing(true);
+        startRefresh();
         showShimmer();
 
         tvSeeAll.setOnClickListener(v -> {
@@ -157,12 +156,29 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         materialSearchView = findViewById(R.id.search_view);
 
         ivNoConnection = findViewById(R.id.ivNoConnection);
+        Glide.with(getApplicationContext())
+                .load(R.drawable.no_connection)
+                .into(ivNoConnection);
 
         User user = SharedPreferenceUtils.getUser(this);
         tvWelcome.setText(Html.fromHtml("Selamat datang, <b>" + user.getNama() + "</b>"));
     }
 
+    private void startRefresh(){
+        if (!isConnectedToInternet)
+            return;
+
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    private void stopRefresh(){
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
     private void showShimmer() {
+        if (!isConnectedToInternet)
+            return;
+
         mShimmerViewContainer.setVisibility(View.VISIBLE);
         mShimmerViewContainer.startShimmerAnimation();
     }
@@ -180,7 +196,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
         swipeRefreshLayout.post(() -> {
-            params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);;
+            params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);
             anchorSheet.setLayoutParams(params);
         });
         anchorBehavior.setAnchorOffset(0.0f);
@@ -216,18 +232,27 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             public void onChanged(@Nullable ConnectionModel connection) {
                 /* every time connection state changes, we'll be notified and can perform action accordingly */
                 if (connection.getIsConnected()) {
+                    isConnectedToInternet = true;
                     ivNoConnection.setVisibility(View.GONE);
+                    rvAgenda.setVisibility(View.VISIBLE);
+                    rvAgendaCategory.setVisibility(View.VISIBLE);
 
                     switch (connection.getType()) {
                         case WifiData:
-                            // Toast.makeText(HomeActivity.this, String.format("Wifi turned ON"), Toast.LENGTH_SHORT).show();
+//                             Toast.makeText(HomeActivity.this, String.format("Wifi turned on"), Toast.LENGTH_SHORT).show();
                             break;
                         case MobileData:
-                            // Toast.makeText(HomeActivity.this, String.format("Mobile data turned ON"), Toast.LENGTH_SHORT).show();
+//                             Toast.makeText(HomeActivity.this, String.format("Mobile data turned on"), Toast.LENGTH_SHORT).show();
                             break;
                     }
                 } else {
+                    isConnectedToInternet = false;
                     ivNoConnection.setVisibility(View.VISIBLE);
+                    rvAgenda.setVisibility(View.GONE);
+                    rvAgendaCategory.setVisibility(View.GONE);
+
+                    stopRefresh();
+                    hideShimmer();
                 }
             }
         });
@@ -237,12 +262,22 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private void setupListenerOrCallback() {
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (!isConnectedToInternet){
+                Toast.makeText(getApplicationContext(), R.string.not_connected_text, Toast.LENGTH_SHORT).show();
+                stopRefresh();
+                return;
+            }
+
             agendas.clear();
+            agendaCategories.clear();
+
             mPresenter.requestAgendaList();
+            mPresenter.requestAgendaCategoryList();
             showShimmer();
 
             // AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());
             agendaAdapter.notifyDataSetChanged();
+            agendaCategoryAdapter.notifyDataSetChanged();
         });
 
         agendaCategoryAdapter.setOnClickAgendaCategoryCallback(agendaCategories -> {
@@ -262,12 +297,10 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 String subAgendaName = agendaCategories.get(which).getSubRole();
                 String subRole = agendaCategories.get(which).getSubRole();
 
-
                 Intent intentPerCategory = new Intent(HomeActivity.this, CategoryActivity.class);
                 intentPerCategory.putExtra(CategoryActivity.AGENDA_ID, agendaId);
                 intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_ID, subAgendaId);
                 intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_NAME, subAgendaName);
-
                 intentPerCategory.putExtra(CategoryActivity.AGENDA, subRole);
 
                 startActivity(intentPerCategory);
@@ -330,12 +363,10 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         new Handler().postDelayed(() -> {
             hideShimmer();
             agendas.addAll(agendaResponse.getData());
-
-            // AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());
             agendaAdapter.notifyDataSetChanged();
 
             if (swipeRefreshLayout.isRefreshing()) {
-                swipeRefreshLayout.setRefreshing(false);
+                stopRefresh();
             }
         }, 1500);
     }
@@ -343,7 +374,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @Override
     public void showAgendaFailure(String message) {
         if (swipeRefreshLayout.isRefreshing()) {
-            swipeRefreshLayout.setRefreshing(false);
+            stopRefresh();
         }
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

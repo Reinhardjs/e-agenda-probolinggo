@@ -1,6 +1,5 @@
 package com.example.e_agendaprobolinggo.ui.all_agenda;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -8,13 +7,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,9 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
-import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.AgendaAdapter;
-import com.example.e_agendaprobolinggo.ui.home.HomeActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -36,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class AllAgendaActivity extends AppCompatActivity implements AllAgendaContract.View {
-
 
     ArrayList<DataAgenda> agendas = new ArrayList<>();
     ArrayList<DataAgenda> agendaSearches = new ArrayList<>();
@@ -140,7 +134,7 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
         swipeRefreshLayout.post(() -> {
-            params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);;
+            params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);
             anchorSheet.setLayoutParams(params);
         });
         anchorBehavior.setAnchorOffset(0.0f);
