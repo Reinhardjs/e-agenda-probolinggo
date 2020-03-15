@@ -37,6 +37,7 @@ import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
+import com.example.e_agendaprobolinggo.ui.all_agenda.AllAgendaActivity;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
@@ -129,6 +130,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         swipeRefreshLayout.setRefreshing(true);
         showShimmer();
+
+        tvSeeAll.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, AllAgendaActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initView() {
@@ -187,13 +193,13 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         rvAgendaSearch.setLayoutManager(new LinearLayoutManager(this));
         rvAgendaCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        agendaAdapter = new AgendaAdapter(agendas);
+        agendaAdapter = new AgendaAdapter(agendas, this);
         rvAgenda.setAdapter(agendaAdapter);
 
-        agendaSearchAdapter = new AgendaAdapter(agendaSearches);
+        agendaSearchAdapter = new AgendaAdapter(agendaSearches, this);
         rvAgendaSearch.setAdapter(agendaSearchAdapter);
 
-        agendaCategoryAdapter = new AgendaCategoryAdapter(agendaCategories);
+        agendaCategoryAdapter = new AgendaCategoryAdapter(agendaCategories, this);
         rvAgendaCategory.setAdapter(agendaCategoryAdapter);
     }
 
@@ -220,6 +226,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 }
             }
         });
+
     }
 
     private void setupListenerOrCallback() {
@@ -248,11 +255,16 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 String agendaId = agendaCategories.get(which).getIdRole2();
                 String subAgendaId = agendaCategories.get(which).getIdSubRole();
                 String subAgendaName = agendaCategories.get(which).getSubRole();
+                String subRole = agendaCategories.get(which).getSubRole();
+
 
                 Intent intentPerCategory = new Intent(HomeActivity.this, CategoryActivity.class);
                 intentPerCategory.putExtra(CategoryActivity.AGENDA_ID, agendaId);
                 intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_ID, subAgendaId);
                 intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_NAME, subAgendaName);
+
+                intentPerCategory.putExtra(CategoryActivity.AGENDA, subRole);
+
                 startActivity(intentPerCategory);
             });
             builderSingle.show();

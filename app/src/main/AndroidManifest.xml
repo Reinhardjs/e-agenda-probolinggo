@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="n">
         <activity android:name=".ui.category.CategoryActivity"/>
+        <activity android:name=".ui.all_agenda.AllAgendaActivity"/>
         <activity android:name=".ui.detail.DetailActivity" />
         <activity android:name=".ui.home.HomeActivity" />
         <activity android:name=".ui.signinsignup.SigninSignupActivity" />
