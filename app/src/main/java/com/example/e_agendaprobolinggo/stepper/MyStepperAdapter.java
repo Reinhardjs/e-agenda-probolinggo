@@ -75,7 +75,7 @@ public class MyStepperAdapter extends AbstractFragmentStepAdapter {
                     .create();
         } else {
             return new StepViewModel.Builder(context)
-                    .setEndButtonLabel("")
+                    .setEndButtonLabel(null)
                     .setBackButtonLabel("KEMBALI")
                     // .setBackButtonStartDrawableResId(R.drawable.ic_navigate_back_black_24dp)
                     .setNextButtonEndDrawableResId(R.drawable.ic_navigate_next_black_24dp)

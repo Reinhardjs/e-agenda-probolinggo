@@ -28,7 +28,7 @@ limitations under the License.
     </style>
 
     <style name="MSNavBarButton.Next" tools:targetApi="jelly_bean_mr1">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">1sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal|center_vertical</item>

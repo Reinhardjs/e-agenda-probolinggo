@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements StepperLayout.Ste
 
         mStepperLayout = findViewById(R.id.stepperLayout);
         mStepperLayout.setBackButtonColor(getResources().getColor(R.color.ms_black));
-        mStepperLayout.setCompleteButtonColor(getResources().getColor(R.color.ms_black));
+        mStepperLayout.setCompleteButtonColor(getResources().getColor(R.color.ms_white));
+        mStepperLayout.setNextButtonColor(getResources().getColor(R.color.ms_white));
         mStepperLayout.setAdapter(new MyStepperAdapter(getSupportFragmentManager(), this));
         mStepperLayout.setListener(this);
     }

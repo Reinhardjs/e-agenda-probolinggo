@@ -38,12 +38,10 @@ import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.ui.all_agenda.AllAgendaActivity;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
-import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static com.example.e_agendaprobolinggo.connection.ConnectionLiveData.MobileData;
 import static com.example.e_agendaprobolinggo.connection.ConnectionLiveData.WifiData;
@@ -196,7 +194,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
         swipeRefreshLayout.post(() -> {
-            params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);
+            params.height = swipeRefreshLayout.getHeight();
             anchorSheet.setLayoutParams(params);
         });
         anchorBehavior.setAnchorOffset(0.0f);
@@ -205,8 +203,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         TextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("E-Agenda Probolinggo");
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        toolbarTitle.setText(R.string.app_name);
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
     }
 
     private void setupAllRecyclerViews() {

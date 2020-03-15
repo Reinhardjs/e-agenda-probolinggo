@@ -63,12 +63,24 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu_item, menu);
+        getMenuInflater().inflate(R.menu.default_menu_item, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
         materialSearchView.setMenuItem(item);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
@@ -134,7 +146,7 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
         ViewGroup anchorSheet = findViewById(R.id.anchor_panel);
         ViewGroup.LayoutParams params = anchorSheet.getLayoutParams();
         swipeRefreshLayout.post(() -> {
-            params.height = swipeRefreshLayout.getHeight() - AppDimenUtil.getStatusbarHeight(this);
+            params.height = swipeRefreshLayout.getHeight();
             anchorSheet.setLayoutParams(params);
         });
         anchorBehavior.setAnchorOffset(0.0f);
@@ -204,7 +216,11 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
         setSupportActionBar(toolbarAllAgenda);
         TextView toolbarTitle = toolbarAllAgenda.findViewById(R.id.toolbar_title_all_agenda);
         toolbarTitle.setText(R.string.all_agenda_toolbar_title);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     @Override

@@ -59,7 +59,7 @@ public class RightNavigationButton extends MaterialButton {
     @Override
     public int[] onCreateDrawableState(int extraSpace) {
         if (mVerificationFailed) {
-            final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
+            final int[] drawableState = super.onCreateDrawableState(extraSpace);
             mergeDrawableStates(drawableState, STATE_VERIFICATION_FAILED);
             return drawableState;
         } else {

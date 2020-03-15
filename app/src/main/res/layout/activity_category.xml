@@ -39,7 +39,9 @@
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:theme="@style/MaterialSearchViewThemeStyle"
+                style="@style/MaterialSearchViewStyle" />
 
         </FrameLayout>
 
@@ -110,7 +112,7 @@
             android:id="@+id/searchProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/search_progressbar_margintop"
             android:visibility="gone"
             android:layout_gravity="center_horizontal"/>
 

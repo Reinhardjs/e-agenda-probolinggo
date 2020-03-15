@@ -42,6 +42,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.annotation.UiThread;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -74,7 +75,7 @@ public class StepperLayout extends LinearLayout implements TabsContainer.TabItem
     public static final int DEFAULT_TAB_DIVIDER_WIDTH = -1;
     private ViewPager mPager;
     private Button mBackNavigationButton;
-    private RightNavigationButton mNextNavigationButton;
+    private AppCompatImageButton mNextNavigationButton;
     private RightNavigationButton mCompleteNavigationButton;
     private ViewGroup mStepNavigation;
     private DottedProgressBar mDottedProgressBar;
@@ -292,7 +293,7 @@ public class StepperLayout extends LinearLayout implements TabsContainer.TabItem
      * @param verificationFailed false if verification failed, true otherwise
      */
     public void setNextButtonVerificationFailed(boolean verificationFailed) {
-        mNextNavigationButton.setVerificationFailed(verificationFailed);
+//        mNextNavigationButton.setVerificationFailed(verificationFailed);
     }
 
     /**
@@ -439,7 +440,10 @@ public class StepperLayout extends LinearLayout implements TabsContainer.TabItem
      */
     public void setNextButtonColor(@NonNull ColorStateList newButtonColor) {
         mNextButtonColor = newButtonColor;
-        TintUtil.tintTextView(mNextNavigationButton, mNextButtonColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mNextNavigationButton.setImageTintList(newButtonColor);
+        }
+        // TintUtil.tintTextView(mNextNavigationButton, mNextButtonColor);
     }
 
     /**
@@ -640,14 +644,20 @@ public class StepperLayout extends LinearLayout implements TabsContainer.TabItem
         } else {
             mBackNavigationButton.setCompoundDrawablesWithIntrinsicBounds(chevronStartDrawable, null, null, null);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            mNextNavigationButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, chevronEndDrawable, null);
-        } else {
-            mNextNavigationButton.setCompoundDrawablesWithIntrinsicBounds(null, null, chevronEndDrawable, null);
-        }
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//            mNextNavigationButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, chevronEndDrawable, null);
+//        } else {
+//            mNextNavigationButton.setCompoundDrawablesWithIntrinsicBounds(null, null, chevronEndDrawable, null);
+//        }
+
+        mNextNavigationButton.setImageResource(nextDrawableResId);
 
         TintUtil.tintTextView(mBackNavigationButton, mBackButtonColor);
-        TintUtil.tintTextView(mNextNavigationButton, mNextButtonColor);
+        //TintUtil.tintTextView(mNextNavigationButton, mNextButtonColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mNextNavigationButton.setImageTintList(mNextButtonColor);
+        }
         TintUtil.tintTextView(mCompleteNavigationButton, mCompleteButtonColor);
     }
 
@@ -861,7 +871,7 @@ public class StepperLayout extends LinearLayout implements TabsContainer.TabItem
 
         updateEndButton(viewModel.getEndButtonLabel(),
                 isLast ? mCompleteButtonText : mNextButtonText,
-                isLast ? mCompleteNavigationButton : mNextNavigationButton);
+                isLast ? mCompleteNavigationButton : null);
 
         setCompoundDrawablesForNavigationButtons(viewModel.getBackButtonStartDrawableResId(), viewModel.getNextButtonEndDrawableResId());
 
@@ -875,11 +885,13 @@ public class StepperLayout extends LinearLayout implements TabsContainer.TabItem
 
     private void updateEndButton(@Nullable CharSequence endButtonTextForStep,
                                  @Nullable CharSequence defaultEndButtonText,
-                                 @NonNull TextView endButton) {
-        if (endButtonTextForStep == null) {
-            endButton.setText(defaultEndButtonText);
-        } else {
-            endButton.setText(endButtonTextForStep);
+                                 TextView endButton) {
+        if (endButton != null) {
+            if (endButtonTextForStep == null) {
+                endButton.setText(defaultEndButtonText);
+            } else {
+                endButton.setText(endButtonTextForStep);
+            }
         }
     }
 
