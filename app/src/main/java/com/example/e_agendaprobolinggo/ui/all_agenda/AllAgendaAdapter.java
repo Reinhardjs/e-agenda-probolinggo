@@ -1,4 +1,4 @@
-package com.example.e_agendaprobolinggo.ui.home;
+package com.example.e_agendaprobolinggo.ui.all_agenda;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,28 +17,23 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
-public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder> {
+public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.ViewHolder> {
 
     private ArrayList<DataAgenda> agendas;
     private Context context;
 
-    public AgendaAdapter(ArrayList<DataAgenda> agendas, Context context){
+    public AllAgendaAdapter(ArrayList<DataAgenda> agendas, Context context){
         this.agendas = agendas;
         this.context = context;
     }
 
-    public void replaceList(ArrayList<DataAgenda> list){
-        agendas = list;
-        this.notifyDataSetChanged();
-    }
-
     @NonNull
     @Override
-    public AgendaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View rootView = inflater.inflate(R.layout.item_home_agenda, parent, false);
 
-        AgendaAdapter.ViewHolder viewHolder = new AgendaAdapter.ViewHolder(rootView);
+        AllAgendaAdapter.ViewHolder viewHolder = new AllAgendaAdapter.ViewHolder(rootView);
 
         rootView.setOnClickListener(v -> {
             Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
@@ -49,15 +44,14 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AgendaAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DataAgenda agenda = agendas.get(holder.getLayoutPosition());
-        int statusKehadiran = Integer.parseInt(agenda.getStatusKehadiran());
-
+        int statusKehadiran = (Integer.parseInt(agenda.getStatusKehadiran()));
         holder.tvTitle.setText(agenda.getNamaKegiatan());
         holder.tvSubtitle1.setText(agenda.getAgenda());
         holder.tvSubtitle2.setText(agenda.getKategori());
         holder.tvDate.setText(agenda.getTanggal());
-        holder.tvLabeled.setText(statusKehadiran != 0 ? "Hadir" : "Tidak Hadir");
+        holder.tvLabeled.setText(Integer.parseInt(agenda.getStatusKehadiran()) != 0 ? "Hadir" : "Tidak Hadir");
         holder.tvLabeled.setTextColor(statusKehadiran != 0 ?
                 context.getResources().getColor(R.color.colorPrimary) :
                 context.getResources().getColor(R.color.secondary_text_orange));
@@ -72,13 +66,14 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         return agendas.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvTime;
         public MaterialCardView cardLabeled;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvSubtitle1 = itemView.findViewById(R.id.tvSubtitle1);
             tvSubtitle2 = itemView.findViewById(R.id.tvSubtitle2);
@@ -88,5 +83,4 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
             cardLabeled = itemView.findViewById(R.id.cardLabeled);
         }
     }
-
 }

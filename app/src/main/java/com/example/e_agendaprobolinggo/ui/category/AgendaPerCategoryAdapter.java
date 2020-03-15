@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.category;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.ui.detail.DetailActivity;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
 public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCategoryAdapter.ViewHolder> {
 
     private ArrayList<DataAgenda> agendas;
+    private Context context;
 
-    public AgendaPerCategoryAdapter(ArrayList<DataAgenda> agendas){
+    public AgendaPerCategoryAdapter(ArrayList<DataAgenda> agendas, Context context){
         this.agendas = agendas;
+        this.context = context;
     }
 
     @NonNull
@@ -42,11 +46,18 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
     @Override
     public void onBindViewHolder(@NonNull AgendaPerCategoryAdapter.ViewHolder holder, int position) {
         DataAgenda agenda = agendas.get(holder.getLayoutPosition());
+        int statusKehadiran = (Integer.parseInt(agenda.getStatusKehadiran()));
         holder.tvTitle.setText(agenda.getNamaKegiatan());
         holder.tvSubtitle1.setText(agenda.getAgenda());
         holder.tvSubtitle2.setText(agenda.getKategori());
         holder.tvDate.setText(agenda.getTanggal());
         holder.tvLabeled.setText(Integer.parseInt(agenda.getStatusKehadiran()) != 0 ? "Hadir" : "Tidak Hadir");
+        holder.tvLabeled.setTextColor(statusKehadiran != 0 ?
+                context.getResources().getColor(R.color.colorPrimary) :
+                context.getResources().getColor(R.color.secondary_text_orange));
+        holder.cardLabeled.setCardBackgroundColor(statusKehadiran != 0 ?
+                context.getResources().getColor(R.color.secondary_card_blue) :
+                context.getResources().getColor(R.color.secondary_card_orange));
         holder.tvTime.setText(agenda.getJam());
     }
 
@@ -58,6 +69,7 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
     class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvTime;
+        public MaterialCardView cardLabeled;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +79,7 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
             tvDate = itemView.findViewById(R.id.tvDate);
             tvLabeled = itemView.findViewById(R.id.tvLabeled);
             tvTime = itemView.findViewById(R.id.tvTime);
+            cardLabeled = itemView.findViewById(R.id.cardLabeled);
         }
     }
 

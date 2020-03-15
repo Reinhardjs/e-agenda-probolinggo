@@ -25,8 +25,9 @@ public class AgendaTypeAdapter extends RecyclerView.Adapter<AgendaTypeAdapter.Vi
     private OnClickAgendaTypeCallback onClickAgendaTypeCallback;
     private Context context;
 
-    public AgendaTypeAdapter(ArrayList<DataKategori> agendaTypes) {
+    public AgendaTypeAdapter(ArrayList<DataKategori> agendaTypes, Context context) {
         this.agendaTypes = agendaTypes;
+        this.context = context;
     }
 
     public void setOnClickAgendaTypeCallback(OnClickAgendaTypeCallback callback) {
@@ -38,7 +39,6 @@ public class AgendaTypeAdapter extends RecyclerView.Adapter<AgendaTypeAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View rootView = inflater.inflate(R.layout.item_home_agendatype, parent, false);
-        context = parent.getContext();
         return new ViewHolder(rootView);
     }
 

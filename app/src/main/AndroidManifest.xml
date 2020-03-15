@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.category.CategoryActivity"></activity>
+        <activity android:name=".ui.all_agenda.AllAgendaActivity"></activity>
+        <activity android:name=".ui.category.CategoryActivity" />
         <activity android:name=".ui.detail.DetailActivity" />
         <activity android:name=".ui.home.HomeActivity" />
         <activity android:name=".ui.signinsignup.SigninSignupActivity" />

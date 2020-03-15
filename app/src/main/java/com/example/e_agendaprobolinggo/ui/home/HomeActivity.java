@@ -31,6 +31,7 @@ import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
 import com.example.e_agendaprobolinggo.model.response.DataSubKategori;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
+import com.example.e_agendaprobolinggo.ui.all_agenda.AllAgendaActivity;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.example.e_agendaprobolinggo.utils.AppDimenUtil;
@@ -100,6 +101,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         swipeRefreshLayout.setRefreshing(true);
         showShimmer();
+
+        tvSeeAll.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, AllAgendaActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initView() {
@@ -152,14 +158,14 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         rvAgendaSearch.setLayoutManager(new LinearLayoutManager(this));
         rvAgendaType.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        agendaAdapter = new AgendaAdapter(agendas);
+        agendaAdapter = new AgendaAdapter(agendas, this);
         rvAgenda.setAdapter(agendaAdapter);
 
-        agendaSearchAdapter = new AgendaAdapter(agendaSearches);
+        agendaSearchAdapter = new AgendaAdapter(agendaSearches, this);
         rvAgendaSearch.setAdapter(agendaSearchAdapter);
         //rvAgendaSearch.setAdapter(agendaAdapter);
 
-        agendaTypeAdapter = new AgendaTypeAdapter(agendaTypes);
+        agendaTypeAdapter = new AgendaTypeAdapter(agendaTypes, this);
         rvAgendaType.setAdapter(agendaTypeAdapter);
     }
 
@@ -190,10 +196,12 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
                 String agendaId = agendaType.get(which).getIdRole2();
                 String subAgendaId = agendaType.get(which).getIdSubRole();
+                String subRole = agendaType.get(which).getSubRole();
 
                 Intent intentPerCategory = new Intent(HomeActivity.this, CategoryActivity.class);
                 intentPerCategory.putExtra(CategoryActivity.AGENDA_ID, agendaId);
                 intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_ID, subAgendaId);
+                intentPerCategory.putExtra(CategoryActivity.AGENDA, subRole);
                 startActivity(intentPerCategory);
             });
             builderSingle.show();

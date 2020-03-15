@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.category.CategoryActivity">
+    tools:context=".ui.all_agenda.AllAgendaActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_category"
+        android:id="@+id/app_bar_all_agenda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,12 +17,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
-            android:id="@+id/toolbar_container_category"
+            android:id="@+id/toolbar_container_all_agenda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_category"
+                android:id="@+id/toolbar_all_agenda"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
@@ -30,7 +30,7 @@
                 tools:targetApi="lollipop">
 
                 <TextView
-                    android:id="@+id/toolbar_title_category"
+                    android:id="@+id/toolbar_title_all_agenda"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -40,28 +40,34 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-            <!--            <com.miguelcatalan.materialsearchview.MaterialSearchView-->
-            <!--                android:id="@+id/search_view_all_agenda"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content" />-->
+<!--            <com.miguelcatalan.materialsearchview.MaterialSearchView-->
+<!--                android:id="@+id/search_view_all_agenda"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content" />-->
 
         </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutCategory"
+        android:id="@+id/swipeRefreshLayoutAllAgenda"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/listContainerAllAgenda"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent">
 
+            <!-- https://medium.com/mindorks/android-design-shimmer-effect-fa7f74c68a93 -->
             <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_view_category"
+                android:id="@+id/shimmer_view_container_all_agenda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -78,7 +84,7 @@
             </com.facebook.shimmer.ShimmerFrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAgendaPerCategory"
+                android:id="@+id/rvAllAgenda"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoryTitle" />
@@ -86,5 +92,6 @@
         </LinearLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

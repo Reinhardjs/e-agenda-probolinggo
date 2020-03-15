@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.category;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -8,6 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e_agendaprobolinggo.R;
@@ -25,10 +27,12 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     private RecyclerView rvAgendaPerCategory;
     public static final String AGENDA_ID = "agenda_id";
     public static final String SUB_AGENDA_ID = "sub_agenda_id";
-    private String agendaId, subAgendaId;
+    public static final String AGENDA = "agenda";
+    private String agendaId, subAgendaId, agenda;
     private SwipeRefreshLayout swipeRefreshLayout;
     private AgendaPerCategoryAdapter agendaPerCategoryAdapter;
     private ShimmerFrameLayout mShimmerViewContainer;
+    private Toolbar toolbarCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +40,12 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         setContentView(R.layout.activity_category);
 
         mPresenter = new CategoryPresenter(this);
+        agendaId = getIntent().getStringExtra(AGENDA_ID);
+        subAgendaId = getIntent().getStringExtra(SUB_AGENDA_ID);
+        agenda = getIntent().getStringExtra(AGENDA);
 
         initView();
         addListener();
-
-        agendaId = getIntent().getStringExtra(AGENDA_ID);
-        subAgendaId = getIntent().getStringExtra(SUB_AGENDA_ID);
 
         mPresenter.getCategoryAgendaList(agendaId, subAgendaId);
 
@@ -51,15 +55,25 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     }
 
     private void initView() {
+        toolbarCategory = findViewById(R.id.toolbar_category);
+        setupToolbar();;
+
         rvAgendaPerCategory = findViewById(R.id.rvAgendaPerCategory);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutCategory);
         mShimmerViewContainer = findViewById(R.id.shimmer_view_category);
 
         rvAgendaPerCategory.setLayoutManager(new LinearLayoutManager(this));
 
-        agendaPerCategoryAdapter = new AgendaPerCategoryAdapter(agendas);
+        agendaPerCategoryAdapter = new AgendaPerCategoryAdapter(agendas, this);
         rvAgendaPerCategory.setAdapter(agendaPerCategoryAdapter);
 
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbarCategory);
+        TextView toolbarTitle = toolbarCategory.findViewById(R.id.toolbar_title_category);
+        toolbarTitle.setText(agenda);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     }
 
     private void addListener(){
@@ -111,6 +125,16 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void populateAgendaPerCategorySearch(AgendaResponse agendaResponse) {
+        // data udah diambil tinggal masukin ke layout search
+    }
+
+    @Override
+    public void showAgendaPerCategorySearchFailure(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
