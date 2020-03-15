@@ -18,6 +18,7 @@ public class MyStepperAdapter extends AbstractFragmentStepAdapter {
 
     ArrayList<String> titles = new ArrayList<>();
     ArrayList<String> descriptions = new ArrayList<>();
+    ArrayList<Integer> imageRes = new ArrayList<>();
 
     public MyStepperAdapter(FragmentManager fm, Context context) {
         super(fm, context);
@@ -37,6 +38,11 @@ public class MyStepperAdapter extends AbstractFragmentStepAdapter {
                 "Pemerintah Daerah Probolinggo");
 
         descriptions.add("");
+
+
+        imageRes.add(R.drawable.slide1);
+        imageRes.add(R.drawable.slide2);
+        imageRes.add(R.drawable.slide3);
     }
 
     @Override
@@ -46,6 +52,7 @@ public class MyStepperAdapter extends AbstractFragmentStepAdapter {
         b.putInt("step_position", position);
         b.putString("title", titles.get(position));
         b.putString("description", descriptions.get(position));
+        b.putInt("imageRes", imageRes.get(position));
         step.setArguments(b);
         return step;
     }

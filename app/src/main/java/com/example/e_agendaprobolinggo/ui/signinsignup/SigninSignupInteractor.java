@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -103,15 +104,17 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
-                            errorResponse = ((HttpException) e).response().errorBody();
-                            try {
-                                JSONObject jsonObject = new JSONObject(errorResponse.string());
-                                signupCallback.onSignupFailure(jsonObject.getString("message"));
-                            } catch (JSONException ex) {
-                                ex.printStackTrace();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+//                            if (((HttpException) e).code() == HttpURLConnection.HTTP_BAD_REQUEST) {
+                                errorResponse = ((HttpException) e).response().errorBody();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                    signupCallback.onSignupFailure(jsonObject.getString("message"));
+                                } catch (JSONException ex) {
+                                    ex.printStackTrace();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+//                            }
                         }
                     }
 

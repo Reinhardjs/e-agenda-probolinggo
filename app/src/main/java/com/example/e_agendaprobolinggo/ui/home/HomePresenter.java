@@ -1,8 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import com.example.e_agendaprobolinggo.model.response.Agenda;
-
-import java.util.ArrayList;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 
 public class HomePresenter implements HomeContract.Presenter {
 
@@ -15,11 +14,11 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void getAgendaList() {
+    public void requestAgendaList() {
         mInteractor.requestAgendaList(new HomeContract.AgendaRequestCallback() {
             @Override
-            public void onAgendaRequestCompleted(Agenda agenda) {
-                mView.populateAgenda(agenda);
+            public void onAgendaRequestCompleted(AgendaResponse agendaResponse) {
+                mView.populateAgenda(agendaResponse);
             }
 
             @Override
@@ -31,18 +30,33 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void getCategoryList() {
-        mInteractor.requestCategoryList(new HomeContract.CategoryRequestCallback() {
+    public void requestAgendaCategoryList() {
+        mInteractor.requestAgendaCategoryList(new HomeContract.AgendaCategoryRequestCallback() {
             @Override
-            public void onCategoryRequestCompleted(ArrayList<String> categories) {
+            public void onAgendaCategoryRequestCompleted(KategoriResponse agendaCategories) {
                 // Must in main thread
-                mView.populateCategory(categories);
+                mView.populateAgendaCategory(agendaCategories);
             }
 
             @Override
-            public void onCategoryRequestFailure(String message) {
+            public void onAgendaCategoryRequestFailure(String message) {
                 // Must in main thread
-                mView.showCategoryFailure(message);
+                mView.showAgendaCategoryFailure(message);
+            }
+        });
+    }
+
+    @Override
+    public void requestAgendaSearch(String keyword) {
+        mInteractor.requestAgendaSearch(keyword, new HomeContract.SearchRequestCallback() {
+            @Override
+            public void onSearchRequestCompleted(AgendaResponse agendaResponse) {
+                mView.populateAgendaSearch(agendaResponse);
+            }
+
+            @Override
+            public void onSearchRequestFailure(String message) {
+                mView.showAgendaSearchFailure(message);
             }
         });
     }

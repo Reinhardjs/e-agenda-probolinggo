@@ -1,46 +1,67 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import com.example.e_agendaprobolinggo.model.response.Agenda;
-
-import java.util.ArrayList;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 
 public interface HomeContract {
 
     interface AgendaRequestCallback {
-        void onAgendaRequestCompleted(Agenda agenda);
+
+        void onAgendaRequestCompleted(AgendaResponse agendaResponse);
 
         void onAgendaRequestFailure(String message);
+
     }
 
-    interface CategoryRequestCallback {
-        void onCategoryRequestCompleted(ArrayList<String> categories);
+    interface AgendaCategoryRequestCallback {
 
-        void onCategoryRequestFailure(String message);
+        void onAgendaCategoryRequestCompleted(KategoriResponse agendaCategories);
+
+        void onAgendaCategoryRequestFailure(String message);
+
+    }
+
+    interface SearchRequestCallback {
+
+        void onSearchRequestCompleted(AgendaResponse agendaResponse);
+
+        void onSearchRequestFailure(String message);
+
     }
 
     interface View {
-        void populateAgenda(Agenda agenda);
+
+        void populateAgenda(AgendaResponse agendaResponse);
 
         void showAgendaFailure(String message);
 
-        void populateCategory(ArrayList<String> categories);
+        void populateAgendaCategory(KategoriResponse agendaCategories);
 
-        void showCategoryFailure(String message);
+        void showAgendaCategoryFailure(String message);
+
+        void populateAgendaSearch(AgendaResponse agendaResponse);
+
+        void showAgendaSearchFailure(String message);
+
     }
 
     interface Interactor {
 
         void requestAgendaList(AgendaRequestCallback agendaRequestCallback);
 
-        void requestCategoryList(CategoryRequestCallback categoryRequestCallback);
+        void requestAgendaCategoryList(AgendaCategoryRequestCallback agendaCategoryRequestCallback);
+
+        void requestAgendaSearch(String keyword, SearchRequestCallback searchRequestCallback);
 
     }
 
     interface Presenter {
 
-        void getAgendaList();
+        void requestAgendaList();
 
-        void getCategoryList();
+        void requestAgendaCategoryList();
+
+        void requestAgendaSearch(String keyword);
 
     }
 

@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements StepperLayout.Ste
 
         User user = SharedPreferenceUtils.getUser(App.getAppContext());
         if (user != null) {
+        //if (true){
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             finish();

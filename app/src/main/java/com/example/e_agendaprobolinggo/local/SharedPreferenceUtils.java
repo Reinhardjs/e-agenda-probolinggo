@@ -10,13 +10,20 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPreferenceUtils {
 
+    public static void removeUser(Context context){
+        SharedPreferences prefs = context.getSharedPreferences("myData", MODE_PRIVATE);
+        SharedPreferences.Editor mEditor = prefs.edit();
+        mEditor.remove("user_json");
+        mEditor.apply();
+    }
+
     public static void saveUser(Context context, User user){
         SharedPreferences prefs = context.getSharedPreferences("myData", MODE_PRIVATE);
         SharedPreferences.Editor mEditor = prefs.edit();
         Gson gson = new Gson();
         String user_json = gson.toJson(user);
         mEditor.putString("user_json", user_json);
-        mEditor.commit();
+        mEditor.apply();
     }
 
     public static User getUser(Context context){

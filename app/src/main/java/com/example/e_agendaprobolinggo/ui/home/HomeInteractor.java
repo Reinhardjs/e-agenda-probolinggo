@@ -1,7 +1,9 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import com.example.e_agendaprobolinggo.model.response.Agenda;
-import com.example.e_agendaprobolinggo.model.response.DataAgenda;
+import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
+import com.example.e_agendaprobolinggo.model.body.SearchRequest;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
 
@@ -9,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -22,41 +23,49 @@ import retrofit2.HttpException;
 public class HomeInteractor implements HomeContract.Interactor {
 
     private NetworkApi networkApi = UtilsApi.getApiService();
-    private Agenda agendaResponse = null;
+    private AgendaResponse agendaResponse = null;
+    private AgendaResponse agendaSearchResponse = null;
+    private KategoriResponse kategoriResponse = null;
 
     @Override
     public void requestAgendaList(HomeContract.AgendaRequestCallback agendaRequestCallback) {
 
-        networkApi.getAgenda().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Agenda>() {
+        AgendaRequest agendaRequest = new AgendaRequest("all", "5", "all");
+        networkApi.getAgenda(agendaRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull Agenda agenda) {
-                        agendaResponse = agenda;
+                    public void onNext(@NonNull AgendaResponse agendaRes) {
+                        agendaResponse = agendaRes;
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+                        if (e instanceof HttpException) {
+//                            if (((HttpException) e).code() == HttpURLConnection.HTTP_BAD_REQUEST) {
+                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(errorResponse.string());
-                            agendaRequestCallback.onAgendaRequestFailure(jsonObject.getString("message"));
-                        } catch (JSONException ex) {
-                            ex.printStackTrace();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
+                            try {
+                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                agendaRequestCallback.onAgendaRequestFailure(jsonObject.getString("message"));
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+//
                         }
+
                     }
 
                     @Override
                     public void onComplete() {
-                        if (agendaResponse != null){
-                            if (agendaResponse.isStatus()){
+                        if (agendaResponse != null) {
+                            if (agendaResponse.isStatus()) {
                                 agendaRequestCallback.onAgendaRequestCompleted(agendaResponse);
                             } else {
                                 agendaRequestCallback.onAgendaRequestFailure(agendaResponse.getMessage());
@@ -64,65 +73,95 @@ public class HomeInteractor implements HomeContract.Interactor {
                         }
                     }
                 });
-
-//        ArrayList<DataAgenda> agendas = new ArrayList<>();
-//        DataAgenda dataAgenda = new DataAgenda();
-//        dataAgenda.setNamaKegiatan("Mengikuti coaching aplikasi");
-//        dataAgenda.setAgenda("Seni Budaya");
-//        dataAgenda.setKategori("Bupati");
-//        dataAgenda.setCreatedAt("22 Januari 2018");
-//        dataAgenda.setStatusKehadiran("Hadir");
-//        dataAgenda.setJam("08.00");
-//        dataAgenda.setJamend("09.00");
-//        agendas.add(dataAgenda);
-//
-//        dataAgenda = new DataAgenda();
-//        dataAgenda.setNamaKegiatan("Pernikahan putra bungsuku");
-//        dataAgenda.setAgenda("Pernikahan");
-//        dataAgenda.setKategori("Ibu Bupati");
-//        dataAgenda.setCreatedAt("12 Februari 2018");
-//        dataAgenda.setStatusKehadiran("Diwakilkan");
-//        dataAgenda.setJam("07.00");
-//        dataAgenda.setJamend("10.00");
-//        agendas.add(dataAgenda);
-//
-//        dataAgenda = new DataAgenda();
-//        dataAgenda.setNamaKegiatan("Perayaan 17 Agustus");
-//        dataAgenda.setAgenda("Kejuaraan");
-//        dataAgenda.setKategori("Asisten Sekda I");
-//        dataAgenda.setCreatedAt("18 Agustus 2018");
-//        dataAgenda.setStatusKehadiran("Hadir");
-//        dataAgenda.setJam("07.00");
-//        dataAgenda.setJamend("selesai");
-//        agendas.add(dataAgenda);
-//
-//        Agenda agenda = new Agenda();
-//        agenda.setData(agendas);
-//
-//        if (true) {
-//            // Must executed in main thread
-//            agendaRequestCallback.onAgendaRequestCompleted(agenda);
-//        } else {
-//            // Must executed in main thread
-//            agendaRequestCallback.onAgendaRequestFailure("Request Agenda Gagal");
-//        }
-
     }
 
     @Override
-    public void requestCategoryList(HomeContract.CategoryRequestCallback categoryRequestCallback) {
-        ArrayList<String> categories = new ArrayList<>();
-        categories.add("Bupati");
-        categories.add("Wakil Bupati");
-        categories.add("Sekda");
-        categories.add("Asisten Sekda I");
+    public void requestAgendaCategoryList(HomeContract.AgendaCategoryRequestCallback agendaCategoryRequestCallback) {
 
-        if (true) {
-            // Must executed in main thread
-            categoryRequestCallback.onCategoryRequestCompleted(categories);
-        } else {
-            // Must executed in main thread
-            categoryRequestCallback.onCategoryRequestFailure("Request Category Gagal");
-        }
+        networkApi.getKategory().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<KategoriResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull KategoriResponse kategoriRes) {
+                        kategoriResponse = kategoriRes;
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        if (e instanceof HttpException) {
+                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                agendaCategoryRequestCallback.onAgendaCategoryRequestFailure(jsonObject.getString("message"));
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (kategoriResponse != null) {
+                            if (kategoriResponse.isStatus()) {
+                                agendaCategoryRequestCallback.onAgendaCategoryRequestCompleted(kategoriResponse);
+                            } else {
+                                agendaCategoryRequestCallback.onAgendaCategoryRequestFailure(kategoriResponse.getMessage());
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void requestAgendaSearch(String keyword, HomeContract.SearchRequestCallback searchRequestCallback) {
+//        searchRequestCallback.onSearchRequestCompleted(null);
+        SearchRequest searchRequest = new SearchRequest(keyword, "all", "all");
+        networkApi.getAgendaSearch(searchRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AgendaResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull AgendaResponse agendaResponse) {
+                        agendaSearchResponse = agendaResponse;
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        if (e instanceof HttpException){
+                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                searchRequestCallback.onSearchRequestFailure(jsonObject.getString("message"));
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (agendaSearchResponse != null){
+                            if (agendaSearchResponse.isStatus()){
+                                searchRequestCallback.onSearchRequestCompleted(agendaSearchResponse);
+                            }
+                            else {
+                                searchRequestCallback.onSearchRequestFailure(agendaSearchResponse.getMessage());
+                            }
+                        }
+                    }
+                });
     }
 }

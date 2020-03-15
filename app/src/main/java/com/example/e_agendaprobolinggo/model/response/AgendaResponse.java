@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 //@Gene("com.robohorse.robopojogenerator")
-public class Agenda{
+public class AgendaResponse {
 
 	@SerializedName("data")
 	private List<DataAgenda> data;
