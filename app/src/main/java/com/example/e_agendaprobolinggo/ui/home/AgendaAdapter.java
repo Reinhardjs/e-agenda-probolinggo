@@ -68,9 +68,10 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         holder.cardLabeled.setCardBackgroundColor(Color.parseColor(agenda.getStatusColor()));
         holder.tvTime.setText(agenda.getJam());
 
+        // https://stackoverflow.com/questions/32163918/programmatically-change-color-of-shape-in-layer-list
         LayerDrawable ld = (LayerDrawable) context.getResources().getDrawable(R.drawable.item_left_border);
         GradientDrawable leftBorder = (GradientDrawable)ld.findDrawableByLayerId(R.id.left_border);
-        leftBorder.setColor(Color.parseColor(agenda.getStatusColor()));
+        leftBorder.setColor(Color.parseColor(agenda.getStatusBox()));
 
         holder.container.setBackground(ld);
     }
