@@ -25,6 +25,7 @@
     <string name="home_subtitle_1">Kategori</string>
     <string name="welcome_below_text">di Aplikasi E-Agenda Probolinggo</string>
     <string name="all_agenda_toolbar_title">Semua Agenda</string>
+    <string name="detail_toolbar_title">Detail Agenda</string>
     <string name="not_connected_text">Maaf, Anda tidak terhubung ke internet</string>
 
 </resources>
