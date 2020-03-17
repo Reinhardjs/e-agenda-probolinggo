@@ -39,9 +39,10 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     public static final String KEY = "key";
     private DetailContract.Presenter mPresenter;
-    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda, tvPersonAgenda, tvStatusAgenda,
-            tvStartDate, tvStartTime, tvEndDate, tvEndTime, tvRoundown, tvNote, tvClothes;
-    private MaterialCardView materialCardView;
+    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda, tvDate, tvPersonAgenda,  tvNote, tvSubAgenda,
+    tvClothes, tvUndangan, tvPeran, tvRoundown, tvTataRuang, tvPerlengkapan, tvPenyelenggara, tvPetugasProtokol, tvPerwakilan;
+//    tvStatusAgenda, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
+//    private MaterialCardView materialCardView;
     private String key;
     private String urlLetter, urlSambutan;
     private String fileName;
@@ -124,7 +125,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
             if (checkDirectoryAndFileExists(fileName)) {
                 downloadTask = new DownloadTask(DetailActivity.this);
-                downloadTask.execute("https://dev.karyastudio.com/e-agenda/webfile/6950c16c9bcc6995f376b297f163175926421.png");
+                downloadTask.execute(urlSambutan);
             }
         });
         btnSambutan.setEnabled(false);
@@ -143,17 +144,28 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         tvCategoryAgenda = findViewById(R.id.tv_category_agenda);
         tvPlaceAgenda = findViewById(R.id.tv_place_agenda);
         tvPersonAgenda = findViewById(R.id.tv_person_agenda);
-        tvStatusAgenda = findViewById(R.id.tv_status);
-        tvStartDate = findViewById(R.id.tv_start_date);
-        tvStartTime = findViewById(R.id.tv_start_time);
-        tvEndDate = findViewById(R.id.tv_end_date);
-        tvEndTime = findViewById(R.id.tv_end_time);
-        tvRoundown = findViewById(R.id.tv_roundown);
-        tvNote = findViewById(R.id.tv_note);
-        tvClothes = findViewById(R.id.tv_clothes);
+        tvNote = findViewById(R.id.tv_note_agenda);
+        tvClothes = findViewById(R.id.tv_clothes_agenda);
+        tvRoundown = findViewById(R.id.tv_roundown_agenda);
+        tvSubAgenda = findViewById(R.id.tv_sub_agenda);
+        tvUndangan = findViewById(R.id.tv_undangan_agenda);
+        tvPeran = findViewById(R.id.tv_peran_agenda);
+        tvTataRuang = findViewById(R.id.tv_tata_ruangan_agenda);
+        tvPerlengkapan = findViewById(R.id.tv_perlengkapan_agenda);
+        tvPenyelenggara = findViewById(R.id.tv_penyelenggara_agenda);
+        tvPetugasProtokol = findViewById(R.id.tv_petugas_agenda);
+        tvPerwakilan = findViewById(R.id.tv_perwakilan_agenda);
+        tvDate = findViewById(R.id.tv_date_agenda);
         btnLetter = findViewById(R.id.btn_download_letter);
         btnSambutan = findViewById(R.id.btn_download_sambutan);
-        materialCardView = findViewById(R.id.cardLabeled);
+
+//        tvStatusAgenda = findViewById(R.id.tv_status);
+//        tvStartDate = findViewById(R.id.tv_start_date);
+//        tvStartTime = findViewById(R.id.tv_start_time);
+//        tvEndDate = findViewById(R.id.tv_end_date);
+//        tvEndTime = findViewById(R.id.tv_end_time);
+
+//        materialCardView = findViewById(R.id.cardLabeled);
 
         mProgressDialog = new ProgressDialog(DetailActivity.this);
         mProgressDialog.setMessage("Downloading...");
@@ -179,16 +191,30 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         tvNameAgenda.setText(dataAgenda.getNamaKegiatan());
         tvCategoryAgenda.setText(dataAgenda.getKategori());
         tvPlaceAgenda.setText(dataAgenda.getTempat());
-        tvPersonAgenda.setText(dataAgenda.getSubAgenda());
-        tvStartDate.setText(dataAgenda.getTanggal());
-        tvEndDate.setText(dataAgenda.getTanggalend());
-        tvStartTime.setText(dataAgenda.getJam());
-        tvEndTime.setText(dataAgenda.getJamend());
-        tvStatusAgenda.setText(dataAgenda.getStatusAgenda());
-        tvRoundown.setText(Html.fromHtml(dataAgenda.getUrutanAcara()));
-        tvNote.setText(Html.fromHtml(dataAgenda.getCatatan()));
+        tvPersonAgenda.setText(dataAgenda.getAgenda());
+        tvDate.setText(dataAgenda.getTanggal());
         tvClothes.setText(dataAgenda.getPakaian());
-        materialCardView.setCardBackgroundColor(Color.parseColor(agendaResponse.getData().get(0).getStatusColor()));
+        tvSubAgenda.setText(dataAgenda.getSubAgenda());
+        tvTataRuang.setText(dataAgenda.getTataRuangan());
+        tvPerlengkapan.setText(dataAgenda.getPerlengkapan());
+        tvPenyelenggara.setText(dataAgenda.getPenyelenggara());
+        tvPetugasProtokol.setText(dataAgenda.getPetugasProtokol());
+        tvPerwakilan.setText(dataAgenda.getPerwakilan());
+
+        Toast.makeText(this, dataAgenda.getTanggal(), Toast.LENGTH_SHORT).show();
+
+        tvRoundown.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUrutanAcara())));
+        tvNote.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getCatatan())));
+        tvUndangan.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUndangan())));
+        tvPeran.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getPeranPimpinan())));
+
+
+//        tvEndDate.setText(dataAgenda.getTanggalend());
+//        tvStartTime.setText(dataAgenda.getJam());
+//        tvEndTime.setText(dataAgenda.getJamend());
+//        tvStatusAgenda.setText(dataAgenda.getStatusAgenda());
+//
+//        materialCardView.setCardBackgroundColor(Color.parseColor(agendaResponse.getData().get(0).getStatusColor()));
 
         urlLetter = dataAgenda.getSurat();
         urlSambutan = dataAgenda.getSambutan();
@@ -199,7 +225,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             btnLetter.setEnabled(true);
         }
 
-        if ((urlSambutan.charAt(urlSambutan.length() - 1) == '-') || urlLetter == null || urlLetter.isEmpty()) {
+        if ((urlSambutan.charAt(urlSambutan.length() - 1) == '-') || urlSambutan == null || urlSambutan.isEmpty()) {
             btnSambutan.setEnabled(false);
         } else {
             btnSambutan.setEnabled(true);
@@ -236,7 +262,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         if (new CheckForSDCard().isSDCardPresent()) {
             outputDirectory = new File(path);
         } else {
-            Toast.makeText(this, "Memori tidak ditemukan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Memori tidak ditemukan", Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -247,7 +273,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             File f = new File(path + "/" + fileName);
 
             if (f.exists()) {
-                Toast.makeText(this, "File sudah ada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "File sudah ada\nLokasi file di Penyimpanan/Download/E-Agenda", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 return true;
@@ -261,6 +287,25 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                     Environment.MEDIA_MOUNTED);
         }
     }
+
+//    public static CharSequence trim(CharSequence s, int start, int end) {
+//        while (start < end && Character.isWhitespace(s.charAt(start))) {
+//            start++;
+//        }
+//
+//        while (end > start && Character.isWhitespace(s.charAt(end - 1))) {
+//            end--;
+//        }
+//
+//        return s.subSequence(start, end);
+//    }
+private CharSequence noTrailingwhiteLines(CharSequence text) {
+
+    while (text.charAt(text.length() - 1) == '\n') {
+        text = text.subSequence(0, text.length() - 1);
+    }
+    return text;
+}
 
     private class DownloadTask extends AsyncTask<String, Integer, String> {
 
@@ -354,7 +399,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             if (result != null)
                 Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
             else {
-                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Download berhasil\nLokasi file di Penyimpanan/Download/E-Agenda", Toast.LENGTH_LONG).show();
             }
         }
     }
