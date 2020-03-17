@@ -12,9 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.text.Html;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +50,41 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private ProgressDialog mProgressDialog;
     private DownloadTask downloadTask;
 
+    public static String getFileNameFromURL(String url) {
+        if (url == null) {
+            return "";
+        }
+        try {
+            URL resource = new URL(url);
+            String host = resource.getHost();
+            if (host.length() > 0 && url.endsWith(host)) {
+                // handle ...example.com
+                return "";
+            }
+        } catch (MalformedURLException e) {
+            return "";
+        }
+
+        int startIndex = url.lastIndexOf('/') + 1;
+        int length = url.length();
+
+        // find end index for ?
+        int lastQMPos = url.lastIndexOf('?');
+        if (lastQMPos == -1) {
+            lastQMPos = length;
+        }
+
+        // find end index for #
+        int lastHashPos = url.lastIndexOf('#');
+        if (lastHashPos == -1) {
+            lastHashPos = length;
+        }
+
+        // calculate the end index
+        int endIndex = Math.min(lastQMPos, lastHashPos);
+        return url.substring(startIndex, endIndex);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,23 +107,27 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         btnLetter.setOnClickListener(v -> {
 
-            fileName = getFileNameFromURL("https://dev.karyastudio.com/e-agenda/webfile/no_image.png");
+            // "https://dev.karyastudio.com/e-agenda/webfile/no_image.png"
+            fileName = getFileNameFromURL(urlLetter);
 
-            if (checkDirectoryAndFileExists(fileName)){
+            if (checkDirectoryAndFileExists(fileName)) {
                 downloadTask = new DownloadTask(DetailActivity.this);
-                downloadTask.execute("https://dev.karyastudio.com/e-agenda/webfile/no_image.png");
+                downloadTask.execute(urlLetter);
             }
 
         });
+        btnLetter.setEnabled(false);
 
         btnSambutan.setOnClickListener(v -> {
-            fileName = getFileNameFromURL("https://dev.karyastudio.com/e-agenda/webfile/6950c16c9bcc6995f376b297f163175926421.png");
+            // "https://dev.karyastudio.com/e-agenda/webfile/6950c16c9bcc6995f376b297f163175926421.png"
+            fileName = getFileNameFromURL(urlSambutan);
 
-            if (checkDirectoryAndFileExists(fileName)){
+            if (checkDirectoryAndFileExists(fileName)) {
                 downloadTask = new DownloadTask(DetailActivity.this);
                 downloadTask.execute("https://dev.karyastudio.com/e-agenda/webfile/6950c16c9bcc6995f376b297f163175926421.png");
             }
         });
+        btnSambutan.setEnabled(false);
 
         mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Batal", (dialog, which) -> {
             downloadTask.cancel(true);
@@ -156,13 +193,13 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         urlLetter = dataAgenda.getSurat();
         urlSambutan = dataAgenda.getSambutan();
 
-        if ((urlLetter.charAt(urlLetter.length() - 1) == '-') || urlLetter == null || urlLetter.isEmpty()){
+        if ((urlLetter.charAt(urlLetter.length() - 1) == '-') || urlLetter == null || urlLetter.isEmpty()) {
             btnLetter.setEnabled(false);
         } else {
             btnLetter.setEnabled(true);
         }
 
-        if ((urlSambutan.charAt(urlSambutan.length() - 1) == '-') || urlLetter == null || urlLetter.isEmpty()){
+        if ((urlSambutan.charAt(urlSambutan.length() - 1) == '-') || urlLetter == null || urlLetter.isEmpty()) {
             btnSambutan.setEnabled(false);
         } else {
             btnSambutan.setEnabled(true);
@@ -189,42 +226,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         }
 
         return super.onOptionsItemSelected(menuItem);
-    }
-
-    public static String getFileNameFromURL(String url) {
-        if (url == null) {
-            return "";
-        }
-        try {
-            URL resource = new URL(url);
-            String host = resource.getHost();
-            if (host.length() > 0 && url.endsWith(host)) {
-                // handle ...example.com
-                return "";
-            }
-        }
-        catch(MalformedURLException e) {
-            return "";
-        }
-
-        int startIndex = url.lastIndexOf('/') + 1;
-        int length = url.length();
-
-        // find end index for ?
-        int lastQMPos = url.lastIndexOf('?');
-        if (lastQMPos == -1) {
-            lastQMPos = length;
-        }
-
-        // find end index for #
-        int lastHashPos = url.lastIndexOf('#');
-        if (lastHashPos == -1) {
-            lastHashPos = length;
-        }
-
-        // calculate the end index
-        int endIndex = Math.min(lastQMPos, lastHashPos);
-        return url.substring(startIndex, endIndex);
     }
 
     private boolean checkDirectoryAndFileExists(String fileName) {
@@ -256,11 +257,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     public class CheckForSDCard {
         public boolean isSDCardPresent() {
-            if (Environment.getExternalStorageState().equals(
-                    Environment.MEDIA_MOUNTED)) {
-                return true;
-            }
-            return false;
+            return Environment.getExternalStorageState().equals(
+                    Environment.MEDIA_MOUNTED);
         }
     }
 
@@ -291,22 +289,22 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
                 int fileLength = connection.getContentLength();
 
-                    input = connection.getInputStream();
-                    output = new FileOutputStream(Environment.getExternalStorageDirectory() + "/Download/E-Agenda/" + fileName);
+                input = connection.getInputStream();
+                output = new FileOutputStream(Environment.getExternalStorageDirectory() + "/Download/E-Agenda/" + fileName);
 
-                    byte data[] = new byte[4096];
-                    long total = 0;
-                    int count;
-                    while ((count = input.read(data)) != -1) {
-                        if (isCancelled()) {
-                            input.close();
-                            return null;
-                        }
-                        total += count;
-                        if (fileLength > 0)
-                            publishProgress((int) (total * 100 / fileLength));
-                        output.write(data, 0, count);
+                byte[] data = new byte[4096];
+                long total = 0;
+                int count;
+                while ((count = input.read(data)) != -1) {
+                    if (isCancelled()) {
+                        input.close();
+                        return null;
                     }
+                    total += count;
+                    if (fileLength > 0)
+                        publishProgress((int) (total * 100 / fileLength));
+                    output.write(data, 0, count);
+                }
 
 
             } catch (Exception e) {
