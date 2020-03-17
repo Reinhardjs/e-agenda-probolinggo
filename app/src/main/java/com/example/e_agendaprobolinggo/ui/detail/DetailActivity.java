@@ -39,9 +39,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     public static final String KEY = "key";
     private DetailContract.Presenter mPresenter;
-    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda, tvDate, tvPersonAgenda,  tvNote, tvSubAgenda,
-    tvClothes, tvUndangan, tvPeran, tvRoundown, tvTataRuang, tvPerlengkapan, tvPenyelenggara, tvPetugasProtokol, tvPerwakilan;
-//    tvStatusAgenda, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
+    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda, tvDate, tvPersonAgenda, tvNote, tvSubAgenda,
+            tvClothes, tvUndangan, tvPeran, tvRoundown, tvTataRuang, tvPerlengkapan, tvPenyelenggara, tvPetugasProtokol, tvPerwakilan;
+    //    tvStatusAgenda, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
 //    private MaterialCardView materialCardView;
     private String key;
     private String urlLetter, urlSambutan;
@@ -288,24 +288,13 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         }
     }
 
-//    public static CharSequence trim(CharSequence s, int start, int end) {
-//        while (start < end && Character.isWhitespace(s.charAt(start))) {
-//            start++;
-//        }
-//
-//        while (end > start && Character.isWhitespace(s.charAt(end - 1))) {
-//            end--;
-//        }
-//
-//        return s.subSequence(start, end);
-//    }
-private CharSequence noTrailingwhiteLines(CharSequence text) {
+    private CharSequence noTrailingwhiteLines(CharSequence text) {
 
-    while (text.charAt(text.length() - 1) == '\n') {
-        text = text.subSequence(0, text.length() - 1);
+        while (text.charAt(text.length() - 1) == '\n') {
+            text = text.subSequence(0, text.length() - 1);
+        }
+        return text;
     }
-    return text;
-}
 
     private class DownloadTask extends AsyncTask<String, Integer, String> {
 
