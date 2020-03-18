@@ -62,6 +62,7 @@
             android:layout_marginBottom="7dp"
             android:background="@drawable/rounded_edittext"
             android:hint="Email Address"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="@+id/etNama"
