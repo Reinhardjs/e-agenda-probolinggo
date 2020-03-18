@@ -52,7 +52,7 @@ public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.View
         DataAgenda agenda = agendas.get(holder.getLayoutPosition());
 
         holder.tvTitle.setText(agenda.getNamaKegiatan());
-        holder.tvSubtitle1.setText(agenda.getAgenda());
+        holder.tvSubtitle1.setText(agenda.getSubAgenda());
         holder.tvSubtitle2.setText(agenda.getKategori());
         holder.tvDate.setText(agenda.getTanggal());
         holder.tvLabeled.setText(agenda.getStatusAgenda());

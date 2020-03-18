@@ -201,8 +201,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         tvPetugasProtokol.setText(dataAgenda.getPetugasProtokol());
         tvPerwakilan.setText(dataAgenda.getPerwakilan());
 
-        Toast.makeText(this, dataAgenda.getTanggal(), Toast.LENGTH_SHORT).show();
-
         tvRoundown.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUrutanAcara())));
         tvNote.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getCatatan())));
         tvUndangan.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUndangan())));
