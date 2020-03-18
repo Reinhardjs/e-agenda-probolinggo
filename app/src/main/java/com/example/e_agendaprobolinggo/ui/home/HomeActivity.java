@@ -61,6 +61,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private TextView tvSeeAll, tvWelcome;
 
     private ShimmerFrameLayout mShimmerViewContainer;
+    private ShimmerFrameLayout mShimmerViewContainerCategory;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private MaterialSearchView materialSearchView;
@@ -130,6 +131,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         startRefresh();
         showShimmer();
+        showShimmerCategory();
 
         tvSeeAll.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, AllAgendaActivity.class);
@@ -142,6 +144,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         setupToolbar();
 
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainerCategory = findViewById(R.id.shimmer_view_container_category);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         searchProgressBar = findViewById(R.id.searchProgressBar);
 
@@ -162,14 +165,14 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         tvWelcome.setText(Html.fromHtml("Selamat datang, <b>" + user.getNama() + "</b>"));
     }
 
-    private void startRefresh(){
+    private void startRefresh() {
         if (!isConnectedToInternet)
             return;
 
         swipeRefreshLayout.setRefreshing(true);
     }
 
-    private void stopRefresh(){
+    private void stopRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -179,11 +182,25 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         mShimmerViewContainer.setVisibility(View.VISIBLE);
         mShimmerViewContainer.startShimmerAnimation();
+
+    }
+
+    private void showShimmerCategory() {
+        if (!isConnectedToInternet)
+            return;
+
+        mShimmerViewContainerCategory.setVisibility(View.VISIBLE);
+        mShimmerViewContainerCategory.startShimmerAnimation();
     }
 
     private void hideShimmer() {
         mShimmerViewContainer.setVisibility(View.GONE);
         mShimmerViewContainer.stopShimmerAnimation();
+    }
+
+    private void hideShimmerCategory() {
+        mShimmerViewContainerCategory.setVisibility(View.GONE);
+        mShimmerViewContainerCategory.stopShimmerAnimation();
     }
 
     private void setupAnchorSheetBehavior() {
@@ -205,7 +222,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         TextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.app_name);
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
     }
@@ -254,6 +271,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
                     stopRefresh();
                     hideShimmer();
+                    hideShimmerCategory();
                 }
             }
         });
@@ -263,7 +281,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private void setupListenerOrCallback() {
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            if (!isConnectedToInternet){
+            if (!isConnectedToInternet) {
                 Toast.makeText(getApplicationContext(), R.string.not_connected_text, Toast.LENGTH_SHORT).show();
                 stopRefresh();
                 return;
@@ -275,6 +293,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             mPresenter.requestAgendaList();
             mPresenter.requestAgendaCategoryList();
             showShimmer();
+            showShimmerCategory();
 
             // AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());
             agendaAdapter.notifyDataSetChanged();
@@ -384,9 +403,10 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @Override
     public void populateAgendaCategory(KategoriResponse agendaCategories) {
         new Handler().postDelayed(() -> {
+            hideShimmerCategory();
             this.agendaCategories.addAll(agendaCategories.getData());
             agendaCategoryAdapter.notifyDataSetChanged();
-        }, 1000);
+        }, 1500);
     }
 
     @Override
