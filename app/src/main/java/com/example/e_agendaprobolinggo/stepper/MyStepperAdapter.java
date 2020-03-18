@@ -37,7 +37,8 @@ public class MyStepperAdapter extends AbstractFragmentStepAdapter {
                 "transparasi publik terhadap kegiatan \n" +
                 "Pemerintah Daerah Probolinggo");
 
-        descriptions.add("");
+        descriptions.add("Mulai agendamu dengan E-Agenda \n" +
+                "Probolinggo, sahabat agendamu.");
 
 
         imageRes.add(R.drawable.slide1);

@@ -34,7 +34,7 @@
             android:lineSpacingMultiplier="1.1"
             android:text="E-Agenda\nProbolinggo"
             android:textAlignment="center"
-            android:textColor="#525252"
+            android:textColor="#1B2E41"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -44,9 +44,9 @@
             android:layout_marginTop="20dp"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="Elektronik Agenda\nPemerintah Kabupaten Probolinggo"
+            android:text="Elektronik Agenda Pemerintah\nKabupaten Probolinggo"
             android:textAlignment="center"
-            android:textColor="#525252"
+            android:textColor="#1B2E41"
             android:textSize="18sp"
             android:textStyle="normal" />
 
@@ -92,6 +92,7 @@
             android:textColor="@android:color/white" />
 
         <Button
+            android:background="@drawable/bordered_button"
             android:id="@+id/btnSignin"
             style="@style/DefaultButton"
             android:layout_width="match_parent"
@@ -100,7 +101,7 @@
             android:padding="15dp"
             android:text="Masuk"
             android:textAllCaps="false"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/primary_text"/>
 
     </LinearLayout>
 
