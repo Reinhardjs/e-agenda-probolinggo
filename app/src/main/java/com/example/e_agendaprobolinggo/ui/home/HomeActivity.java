@@ -132,11 +132,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         startRefresh();
         showShimmer();
         showShimmerCategory();
-
-        tvSeeAll.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, AllAgendaActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void initView() {
@@ -280,24 +275,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     private void setupListenerOrCallback() {
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            if (!isConnectedToInternet) {
-                Toast.makeText(getApplicationContext(), R.string.not_connected_text, Toast.LENGTH_SHORT).show();
-                stopRefresh();
-                return;
-            }
-
-            agendas.clear();
-            agendaCategories.clear();
-
-            mPresenter.requestAgendaList();
-            mPresenter.requestAgendaCategoryList();
-            showShimmer();
-            showShimmerCategory();
-
-            // AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());
-            agendaAdapter.notifyDataSetChanged();
-            agendaCategoryAdapter.notifyDataSetChanged();
+        tvSeeAll.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, AllAgendaActivity.class);
+            startActivity(intent);
         });
 
         agendaCategoryAdapter.setOnClickAgendaCategoryCallback(agendaCategories -> {
@@ -327,6 +307,25 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             });
             builderSingle.show();
 
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (!isConnectedToInternet) {
+                Toast.makeText(getApplicationContext(), R.string.not_connected_text, Toast.LENGTH_SHORT).show();
+                stopRefresh();
+                return;
+            }
+
+            agendas.clear();
+            agendaCategories.clear();
+
+            agendaAdapter.notifyDataSetChanged();
+            agendaCategoryAdapter.notifyDataSetChanged();
+
+            mPresenter.requestAgendaList();
+            mPresenter.requestAgendaCategoryList();
+            showShimmer();
+            showShimmerCategory();
         });
 
         materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
