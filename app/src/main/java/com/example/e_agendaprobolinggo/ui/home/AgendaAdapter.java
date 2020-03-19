@@ -66,7 +66,6 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         holder.tvClothes.setText(agenda.getPakaian());
         holder.tvPlace.setText(agenda.getTempat());
         holder.cardLabeled.setCardBackgroundColor(Color.parseColor(agenda.getStatusColor()));
-        holder.tvTime.setText(agenda.getJam());
 
         // https://stackoverflow.com/questions/32163918/programmatically-change-color-of-shape-in-layer-list
         LayerDrawable ld = (LayerDrawable) context.getResources().getDrawable(R.drawable.item_left_border);
@@ -83,7 +82,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvTime, tvPlace, tvClothes;
+        public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvPlace, tvClothes;
         public MaterialCardView cardLabeled;
         public ConstraintLayout container;
 
@@ -95,7 +94,6 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
             tvSubtitle2 = itemView.findViewById(R.id.tvSubtitle2);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvLabeled = itemView.findViewById(R.id.tvLabeled);
-            tvTime = itemView.findViewById(R.id.tvTime);
             tvPlace = itemView.findViewById(R.id.tvPlace);
             tvClothes = itemView.findViewById(R.id.tvClothes);
             cardLabeled = itemView.findViewById(R.id.cardLabeled);
