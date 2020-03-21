@@ -238,6 +238,10 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
 
     @Override
     public void showAllAgendaFailure(String message) {
+        hideShimmer();
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 

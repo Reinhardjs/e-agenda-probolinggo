@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -398,6 +399,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         }
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        tvSeeAll.setEnabled(false);
+        tvSeeAll.setText("Tidak ada agenda");
+        tvSeeAll.setTextColor(getResources().getColor(R.color.secondary_text_gray));
     }
 
     @Override
