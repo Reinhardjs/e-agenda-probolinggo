@@ -40,7 +40,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     public static final String KEY = "key";
     private DetailContract.Presenter mPresenter;
     private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda, tvDate, tvPersonAgenda, tvNote, tvSubAgenda,
-            tvClothes, tvUndangan, tvPeran, tvRoundown, tvTataRuang, tvPerlengkapan, tvPenyelenggara, tvPetugasProtokol, tvPerwakilan;
+            tvClothes, tvUndangan, tvPeran, tvRoundown, tvTataRuang, tvPerlengkapan, tvPenyelenggara, tvPetugasProtokol;
     //    tvStatusAgenda, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
 //    private MaterialCardView materialCardView;
     private String key;
@@ -154,7 +154,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         tvPerlengkapan = findViewById(R.id.tv_perlengkapan_agenda);
         tvPenyelenggara = findViewById(R.id.tv_penyelenggara_agenda);
         tvPetugasProtokol = findViewById(R.id.tv_petugas_agenda);
-        tvPerwakilan = findViewById(R.id.tv_perwakilan_agenda);
         tvDate = findViewById(R.id.tv_date_agenda);
         btnLetter = findViewById(R.id.btn_download_letter);
         btnSambutan = findViewById(R.id.btn_download_sambutan);
@@ -199,7 +198,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         tvPerlengkapan.setText(dataAgenda.getPerlengkapan());
         tvPenyelenggara.setText(dataAgenda.getPenyelenggara());
         tvPetugasProtokol.setText(dataAgenda.getPetugasProtokol());
-        tvPerwakilan.setText(dataAgenda.getPerwakilan());
 
         tvRoundown.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUrutanAcara())));
         tvNote.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getCatatan())));

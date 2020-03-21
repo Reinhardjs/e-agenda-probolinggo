@@ -77,7 +77,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvSubtitle1" />
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvClothes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -86,6 +86,17 @@
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPlace" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Default"
+            android:textColor="@color/secondary_text_gray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvClothes" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardLabeled"
@@ -109,18 +120,6 @@
                 android:textSize="11sp" />
 
         </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/tvClothes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Default"
-            android:textColor="@color/secondary_text_gray"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle2" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

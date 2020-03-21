@@ -370,20 +370,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Mulai kegiatan"
-                android:textColor="@color/colorPrimary" />
-
-            <TextView
-                android:id="@+id/tv_date_agenda"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:text="17-12-2020 - 18-12-2020" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:text="Agenda"
                 android:textColor="@color/colorPrimary" />
 
@@ -398,7 +384,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Sub agenda"
+                android:text="Sub Agenda"
                 android:textColor="@color/colorPrimary" />
 
             <TextView
@@ -407,6 +393,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 tools:text="Bapak Bupati" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Waktu Kegiatan"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tv_date_agenda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="17-12-2020 - 18-12-2020" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -455,7 +455,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Peran pimpinan"
+                android:text="Peran Pimpinan"
                 android:textColor="@color/colorPrimary" />
 
             <TextView
@@ -469,7 +469,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Urutan acara"
+                android:text="Urutan Acara"
                 android:textColor="@color/colorPrimary" />
 
             <TextView
@@ -483,7 +483,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Tata ruangan"
+                android:text="Tata Ruangan"
                 android:textColor="@color/colorPrimary" />
 
             <TextView
@@ -525,7 +525,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Petugas protokol"
+                android:text="Petugas Protokol"
                 android:textColor="@color/colorPrimary" />
 
             <TextView
@@ -534,20 +534,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 tools:text="Gladi" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Perwakilan"
-                android:textColor="@color/colorPrimary" />
-
-            <TextView
-                android:id="@+id/tv_perwakilan_agenda"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:text="tes" />
 
             <TextView
                 android:layout_width="wrap_content"
