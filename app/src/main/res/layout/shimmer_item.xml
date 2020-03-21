@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:strokeColor="#000"
     app:cardCornerRadius="8dp"
-    app:cardElevation="10dp">
+    app:cardElevation="10dp"
+    app:strokeColor="#000">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp"
         android:background="@drawable/item_left_border"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/shimmer_background"
-            android:textColor="@color/shimmer_background"
+            android:ellipsize="end"
+            android:maxEms="12"
+            android:singleLine="true"
             android:text="Default Default Default any"
+            android:textColor="@color/shimmer_background"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:maxEms="12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,8 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/shimmer_background"
-            android:textColor="@color/shimmer_background"
             android:text="Default"
+            android:textColor="@color/shimmer_background"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/tvTitle"
@@ -52,8 +50,8 @@
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
             android:background="@color/shimmer_background"
-            android:textColor="@color/shimmer_background"
             android:text="."
+            android:textColor="@color/shimmer_background"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/tvSubtitle1"
@@ -66,10 +64,10 @@
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
             android:background="@color/shimmer_background"
-            android:textColor="@color/shimmer_background"
             android:text="Default"
-            android:textStyle="bold"
+            android:textColor="@color/shimmer_background"
             android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/tvDot"
             app:layout_constraintTop_toTopOf="@+id/tvDot" />
 
@@ -85,14 +83,14 @@
                 android:id="@+id/tvLabeled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
                 android:background="@color/shimmer_background"
+                android:paddingLeft="8dp"
+                android:paddingTop="3dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="3dp"
+                android:text="default"
                 android:textColor="@color/shimmer_background"
-                android:textSize="11sp"
-                android:text="default" />
+                android:textSize="11sp" />
 
         </com.google.android.material.card.MaterialCardView>
 

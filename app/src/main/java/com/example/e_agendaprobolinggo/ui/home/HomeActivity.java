@@ -392,6 +392,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @Override
     public void showAgendaFailure(String message) {
+        hideShimmer();
         if (swipeRefreshLayout.isRefreshing()) {
             stopRefresh();
         }
