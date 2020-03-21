@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,18 +12,20 @@ import android.os.Environment;
 import android.os.PowerManager;
 import android.text.Html;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
-import com.google.android.material.card.MaterialCardView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,10 +40,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     public static final String KEY = "key";
     private DetailContract.Presenter mPresenter;
-    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda, tvDate, tvPersonAgenda, tvNote, tvSubAgenda,
-            tvClothes, tvUndangan, tvPeran, tvRoundown, tvTataRuang, tvPerlengkapan, tvPenyelenggara, tvPetugasProtokol, tvPerwakilan;
-    //    tvStatusAgenda, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
-//    private MaterialCardView materialCardView;
+    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda, tvDate, tvPersonAgenda, tvNote, tvSubAgenda, tvClothes, tvUndangan, tvPeran, tvRoundown, tvTataRuang, tvPerlengkapan, tvPenyelenggara, tvPetugasProtokol;
     private String key;
     private String urlLetter, urlSambutan;
     private String fileName;
@@ -50,6 +48,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private Button btnLetter, btnSambutan;
     private ProgressDialog mProgressDialog;
     private DownloadTask downloadTask;
+    private LinearLayout listContainer;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static String getFileNameFromURL(String url) {
         if (url == null) {
@@ -134,11 +135,19 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             downloadTask.cancel(true);
         });
 
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            mPresenter.getDetailAgenda(key);
+            listContainer.setVisibility(View.GONE);
+        });
+
     }
 
     private void initView() {
         toolbarDetail = findViewById(R.id.toolbar_detail);
         setupTollbar();
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        listContainer = findViewById(R.id.listContainer);
 
         tvNameAgenda = findViewById(R.id.tv_name_agenda);
         tvCategoryAgenda = findViewById(R.id.tv_category_agenda);
@@ -154,18 +163,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         tvPerlengkapan = findViewById(R.id.tv_perlengkapan_agenda);
         tvPenyelenggara = findViewById(R.id.tv_penyelenggara_agenda);
         tvPetugasProtokol = findViewById(R.id.tv_petugas_agenda);
-        tvPerwakilan = findViewById(R.id.tv_perwakilan_agenda);
         tvDate = findViewById(R.id.tv_date_agenda);
         btnLetter = findViewById(R.id.btn_download_letter);
         btnSambutan = findViewById(R.id.btn_download_sambutan);
-
-//        tvStatusAgenda = findViewById(R.id.tv_status);
-//        tvStartDate = findViewById(R.id.tv_start_date);
-//        tvStartTime = findViewById(R.id.tv_start_time);
-//        tvEndDate = findViewById(R.id.tv_end_date);
-//        tvEndTime = findViewById(R.id.tv_end_time);
-
-//        materialCardView = findViewById(R.id.cardLabeled);
 
         mProgressDialog = new ProgressDialog(DetailActivity.this);
         mProgressDialog.setMessage("Downloading...");
@@ -187,6 +187,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void populateDetailAenda(AgendaResponse agendaResponse) {
+        swipeRefreshLayout.setRefreshing(false);
+        listContainer.setVisibility(View.VISIBLE);
+
         DataAgenda dataAgenda = agendaResponse.getData().get(0);
         tvNameAgenda.setText(dataAgenda.getNamaKegiatan());
         tvCategoryAgenda.setText(dataAgenda.getKategori());
@@ -199,20 +202,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         tvPerlengkapan.setText(dataAgenda.getPerlengkapan());
         tvPenyelenggara.setText(dataAgenda.getPenyelenggara());
         tvPetugasProtokol.setText(dataAgenda.getPetugasProtokol());
-        tvPerwakilan.setText(dataAgenda.getPerwakilan());
 
         tvRoundown.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUrutanAcara())));
         tvNote.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getCatatan())));
         tvUndangan.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUndangan())));
         tvPeran.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getPeranPimpinan())));
-
-
-//        tvEndDate.setText(dataAgenda.getTanggalend());
-//        tvStartTime.setText(dataAgenda.getJam());
-//        tvEndTime.setText(dataAgenda.getJamend());
-//        tvStatusAgenda.setText(dataAgenda.getStatusAgenda());
-//
-//        materialCardView.setCardBackgroundColor(Color.parseColor(agendaResponse.getData().get(0).getStatusColor()));
 
         urlLetter = dataAgenda.getSurat();
         urlSambutan = dataAgenda.getSambutan();
@@ -279,19 +273,19 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         }
     }
 
-    public class CheckForSDCard {
-        public boolean isSDCardPresent() {
-            return Environment.getExternalStorageState().equals(
-                    Environment.MEDIA_MOUNTED);
-        }
-    }
-
     private CharSequence noTrailingwhiteLines(CharSequence text) {
 
         while (text.charAt(text.length() - 1) == '\n') {
             text = text.subSequence(0, text.length() - 1);
         }
         return text;
+    }
+
+    public class CheckForSDCard {
+        public boolean isSDCardPresent() {
+            return Environment.getExternalStorageState().equals(
+                    Environment.MEDIA_MOUNTED);
+        }
     }
 
     private class DownloadTask extends AsyncTask<String, Integer, String> {

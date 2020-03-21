@@ -65,28 +65,6 @@
             app:layout_constraintStart_toEndOf="@+id/tvDot"
             app:layout_constraintTop_toTopOf="@+id/tvDot" />
 
-        <TextView
-            android:id="@+id/tvPlace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Default"
-            android:textColor="@color/secondary_text_gray"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle1" />
-
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Default"
-            android:textColor="@color/secondary_text_gray"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPlace" />
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardLabeled"
             android:layout_width="wrap_content"
@@ -111,15 +89,35 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
+            android:id="@+id/tvPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Default"
+            android:textColor="@color/secondary_text_gray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle1" />
+
+        <TextView
             android:id="@+id/tvClothes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Default"
             android:textColor="@color/secondary_text_gray"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle2" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlace" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Default"
+            android:textColor="@color/secondary_text_gray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvClothes" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -72,30 +73,6 @@
             app:layout_constraintStart_toEndOf="@+id/tvDot"
             app:layout_constraintTop_toTopOf="@+id/tvDot" />
 
-        <TextView
-            android:id="@+id/tvPlace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/shimmer_background"
-            android:text="Default"
-            android:textColor="@color/shimmer_background"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle1" />
-
-        <TextView
-            android:id="@+id/tvCreatedAt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/shimmer_background"
-            android:textColor="@color/shimmer_background"
-            android:text="Default"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPlace" />
-
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,16 +97,40 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/tvClothes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/tvPlace"
+            android:layout_width="75dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/shimmer_background"
             android:text="Default"
             android:textColor="@color/shimmer_background"
-            android:background="@color/shimmer_background"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle2" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle1" />
+
+        <TextView
+            android:id="@+id/tvClothes"
+            android:layout_width="75dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/shimmer_background"
+            android:text="Default"
+            android:textColor="@color/shimmer_background"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlace" />
+
+        <TextView
+            android:id="@+id/tvCreatedAt"
+            android:layout_width="75dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/shimmer_background"
+            android:text="Default"
+            android:textColor="@color/shimmer_background"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvClothes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
