@@ -40,10 +40,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     public static final String KEY = "key";
     private DetailContract.Presenter mPresenter;
-    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda, tvDate, tvPersonAgenda, tvNote, tvSubAgenda,
-            tvClothes, tvUndangan, tvPeran, tvRoundown, tvTataRuang, tvPerlengkapan, tvPenyelenggara, tvPetugasProtokol;
-    //    tvStatusAgenda, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
-//    private MaterialCardView materialCardView;
+    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda,
+            tvDate, tvPersonAgenda, tvNote, tvSubAgenda,
+            tvClothes, tvUndangan, tvPeran, tvRoundown,
+            tvTataRuang, tvPerlengkapan, tvPenyelenggara,
+            tvPetugasProtokol;
     private String key;
     private String urlLetter, urlSambutan;
     private String fileName;
