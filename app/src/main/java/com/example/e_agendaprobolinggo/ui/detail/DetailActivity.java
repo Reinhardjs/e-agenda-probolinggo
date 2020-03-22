@@ -229,6 +229,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void showFailureDetailAgenda(String message) {
+
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 

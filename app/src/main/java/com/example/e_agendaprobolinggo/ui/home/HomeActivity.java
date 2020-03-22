@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -58,7 +59,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private AgendaCategoryAdapter agendaCategoryAdapter;
 
     private Toolbar toolbar;
-    private TextView tvSeeAll, tvWelcome;
+    private TextView tvSeeAll, tvWelcome, tvNotFound;
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private ShimmerFrameLayout mShimmerViewContainerCategory;
@@ -149,6 +150,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         tvSeeAll = findViewById(R.id.tvSeeAll);
         tvWelcome = findViewById(R.id.tvWelcome);
+        tvNotFound = findViewById(R.id.tvNotFound);
         materialSearchView = findViewById(R.id.search_view);
 
         ivNoConnection = findViewById(R.id.ivNoConnection);
@@ -387,6 +389,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             if (swipeRefreshLayout.isRefreshing()) {
                 stopRefresh();
             }
+            tvNotFound.setVisibility(View.GONE);
+            tvSeeAll.setVisibility(View.VISIBLE);
         }, 1500);
     }
 
@@ -398,6 +402,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         }
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+        tvNotFound.setVisibility(View.VISIBLE);
+        tvSeeAll.setVisibility(View.GONE);
     }
 
     @Override
