@@ -27,15 +27,14 @@ public class MyStepperAdapter extends AbstractFragmentStepAdapter {
         titles.add("Mengapa E-Agenda");
         titles.add("Yuk mulai");
 
-        descriptions.add("E-Agenda merupakan media yang disediakan \n" +
-                "Pemerintah Kabupaten Probolinggo untuk \n" +
-                "memudahkan para stakeholder memperoleh \n" +
-                "informasi jadwal kegiatan pemerintah daerah.");
+        descriptions.add("E-Agenda merupakan media yang disediakan " +
+                "Pemerintah Kabupaten Probolinggo untuk memudahkan " +
+                "para stakeholder memperoleh informasi jadwal kegiatan " +
+                "pemerintah daerah.");
 
-        descriptions.add("E-Agenda lahir dari semangat reformasi birokrasi \n" +
-                "berupa penataan tata laksana dan penguatan \n" +
-                "akuntabilitas manajemen kegiatan Pemerintah \n" +
-                "Kabupaten Probolinggo.");
+        descriptions.add("E-Agenda lahir dari semangat reformasi birokrasi " +
+                "berupa penataan tata laksana dan penguatan akuntabilitas " +
+                "manajemen kegiatan Pemerintah Kabupaten Probolinggo.");
 
         descriptions.add("Mulai agendamu dengan E-Agenda \n" +
                 "Probolinggo, sahabat agendamu.");
