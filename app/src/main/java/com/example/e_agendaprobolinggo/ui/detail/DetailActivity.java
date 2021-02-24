@@ -148,7 +148,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     private void initView() {
         toolbarDetail = findViewById(R.id.toolbar_detail);
-        setupTollbar();
+        setupToolbar();
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         listContainer = findViewById(R.id.listContainer);
@@ -178,7 +178,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         mProgressDialog.setCancelable(true);
     }
 
-    private void setupTollbar() {
+    private void setupToolbar() {
         setSupportActionBar(toolbarDetail);
         TextView toolbarTitle = toolbarDetail.findViewById(R.id.toolbar_title_detail);
         toolbarTitle.setText(R.string.detail_toolbar_title);

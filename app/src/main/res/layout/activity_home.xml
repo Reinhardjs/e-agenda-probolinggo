@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -38,10 +38,10 @@
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
+                style="@style/MaterialSearchViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/MaterialSearchViewThemeStyle"
-                style="@style/MaterialSearchViewStyle" />
+                android:theme="@style/MaterialSearchViewThemeStyle" />
 
         </FrameLayout>
 
@@ -70,32 +70,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:paddingEnd="30dp"
                     android:paddingRight="30dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:paddingEnd="30dp">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/tvWelcome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginRight="30dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="15dp"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginRight="30dp"
                         android:textSize="14sp"
-                        tools:text="Selamat datang, Yoga Darma"/>
+                        tools:text="Selamat datang, Yoga Darma" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginRight="30dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:textSize="14sp"
-                        android:text="@string/welcome_below_text"/>
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginRight="30dp"
+                        android:text="@string/welcome_below_text"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -103,8 +103,8 @@
                     android:id="@+id/categoryTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/home_subtitle_1"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -157,6 +157,19 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/listContainerCategory" />
+
+                <TextView
+                    android:id="@+id/tv_calendar_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/show_calendar_text"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/agendaTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/agendaTitle" />
 
                 <LinearLayout
                     android:id="@+id/listContainer"
@@ -246,9 +259,9 @@
             android:id="@+id/searchProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/search_progressbar_margintop"
-            android:visibility="gone"
-            android:layout_gravity="center_horizontal"/>
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAgendaSearch"

@@ -28,5 +28,6 @@
     <string name="detail_toolbar_title">Detail Agenda</string>
     <string name="not_connected_text">Maaf, Anda tidak terhubung ke internet</string>
     <string name="agenda_not_found">Tidak ada agenda</string>
-
+    <string name="show_calendar_text">Lihat pada kalender</string>
+    <string name="calendar_title">Kalender Agenda</string>
 </resources>

@@ -78,7 +78,7 @@ public class HomeInteractor implements HomeContract.Interactor {
     @Override
     public void requestAgendaCategoryList(HomeContract.AgendaCategoryRequestCallback agendaCategoryRequestCallback) {
 
-        networkApi.getKategory().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        networkApi.getCategory().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<KategoriResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {

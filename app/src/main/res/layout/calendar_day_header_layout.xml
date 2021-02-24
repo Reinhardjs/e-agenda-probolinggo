@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendar_day_header_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:ignore="HardcodedText">
+
+    <TextView
+        android:id="@+id/day_header_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="MIN"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/day_header_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="SEN"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/day_header_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="SEL"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/day_header_4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="RAB"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/day_header_5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="KAM"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/day_header_6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="JUM"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/day_header_7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="SAB"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+</LinearLayout>

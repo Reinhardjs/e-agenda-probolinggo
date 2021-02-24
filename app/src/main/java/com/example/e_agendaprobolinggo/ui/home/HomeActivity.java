@@ -37,6 +37,7 @@ import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.ui.all_agenda.AllAgendaActivity;
+import com.example.e_agendaprobolinggo.ui.calendar.CalendarActivity;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -59,7 +60,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private AgendaCategoryAdapter agendaCategoryAdapter;
 
     private Toolbar toolbar;
-    private TextView tvSeeAll, tvWelcome, tvNotFound;
+    private TextView tvSeeAll, tvWelcome, tvNotFound, tvCalendarMode;
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private ShimmerFrameLayout mShimmerViewContainerCategory;
@@ -152,6 +153,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         tvWelcome = findViewById(R.id.tvWelcome);
         tvNotFound = findViewById(R.id.tvNotFound);
         materialSearchView = findViewById(R.id.search_view);
+        tvCalendarMode = findViewById(R.id.tv_calendar_mode);
 
         ivNoConnection = findViewById(R.id.ivNoConnection);
         Glide.with(getApplicationContext())
@@ -279,6 +281,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         tvSeeAll.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, AllAgendaActivity.class);
+            startActivity(intent);
+        });
+
+        tvCalendarMode.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, CalendarActivity.class);
             startActivity(intent);
         });
 

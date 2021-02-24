@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkClient {
 
-    public static final String BASE_URL = "https://protokol.probolinggokab.go.id/e-agenda/api/agenda/";
+    public static final String BASE_URL = "https://protokol.probolinggokab.go.id/e-agenda/api/";
     public static Retrofit retrofit = null;
 
     public static Retrofit getRetrofit() {

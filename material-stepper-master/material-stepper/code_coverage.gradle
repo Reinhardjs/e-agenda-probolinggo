@@ -12,7 +12,7 @@ task('jacocoTestReport', type: JacocoReport, dependsOn: 'testDebugUnitTest') {
         html.enabled = true
     }
 
-    classDirectories = fileTree(
+    getClassDirectories().setFrom(fileTree(
             dir: './build/intermediates/classes/debug',
             excludes: ['**/R.class',
                        '**/R$*.class',
@@ -22,11 +22,12 @@ task('jacocoTestReport', type: JacocoReport, dependsOn: 'testDebugUnitTest') {
                        'android/**/*.*',
                        '**/**_ViewBinding.*',
                        '**/**_ViewBinding$*']
-    )
+    ))
 
     def coverageSourceDirs = [
             '../app/src/main/java'
     ]
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
+
+    getSourceDirectories().from(files(coverageSourceDirs))
+    getExecutionData().from(files("$buildDir/jacoco/testDebugUnitTest.exec"))
 }
