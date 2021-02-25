@@ -30,4 +30,8 @@
     <string name="agenda_not_found">Tidak ada agenda</string>
     <string name="show_calendar_text">Lihat pada kalender</string>
     <string name="calendar_title">Kalender Agenda</string>
+    <string name="logout_text">Keluar</string>
+    <string name="logout_message">Apakah anda yakin ingin keluar?</string>
+    <string name="yes_text">Iya</string>
+    <string name="no_text">Tidak</string>
 </resources>

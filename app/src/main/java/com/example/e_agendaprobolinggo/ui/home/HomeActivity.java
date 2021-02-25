@@ -1,7 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -41,6 +40,7 @@ import com.example.e_agendaprobolinggo.ui.calendar.CalendarActivity;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -89,24 +89,20 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu_item, menu);
 
-        MenuItem item = menu.findItem(R.id.action_search);
-        materialSearchView.setMenuItem(item);
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
-
-        if (id == R.id.action_logout) {
-            SharedPreferenceUtils.removeUser(getApplicationContext());
-            Intent i = getBaseContext().getPackageManager().
-                    getLaunchIntentForPackage(getBaseContext().getPackageName());
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
-            finish();
+        if (id == android.R.id.home) {
+            materialSearchView.showSearch();
+            return true;
+        } else if (id == R.id.action_logout) {
+            new MaterialAlertDialogBuilder(this).setTitle(getResources().getString(R.string.logout_text)).setMessage(getResources().getString(R.string.logout_message))
+                    .setNegativeButton(getResources().getString(R.string.no_text), (dialogInterface, i) -> {
+                    })
+                    .setPositiveButton(getResources().getString(R.string.yes_text), (dialogInterface, i) -> logout()).show();
             return true;
         }
 
@@ -223,7 +219,19 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_search_white_24dp);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    private void logout() {
+        SharedPreferenceUtils.removeUser(getApplicationContext());
+        Intent i = getBaseContext().getPackageManager().
+                getLaunchIntentForPackage(getBaseContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        finish();
     }
 
     private void setupAllRecyclerViews() {

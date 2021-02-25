@@ -3,23 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/ic_search_white_24dp"
-        android:orderInCategory="100"
-        android:title="Search"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_more"
-        android:icon="@drawable/ic_more_vert_white_24dp"
-        android:orderInCategory="100"
-        android:title="Search"
-        app:showAsAction="always">
-        <menu>
-            <item
-                android:id="@+id/action_logout"
-                android:title="Keluar" />
-        </menu>
-    </item>
+        android:id="@+id/action_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/logout_text"
+        app:showAsAction="always"/>
 
 </menu>
