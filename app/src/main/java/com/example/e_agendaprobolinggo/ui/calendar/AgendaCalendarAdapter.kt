@@ -9,11 +9,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_agendaprobolinggo.R
 import com.example.e_agendaprobolinggo.databinding.ItemHomeAgendaBinding
-import com.example.e_agendaprobolinggo.model.response.DataItem
+import com.example.e_agendaprobolinggo.model.response.DataAgenda
 
 class AgendaCalendarAdapter : RecyclerView.Adapter<AgendaCalendarAdapter.ViewHolder>() {
 
-    val agendas = mutableListOf<DataItem>()
+    val agendas = mutableListOf<DataAgenda>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemHomeAgendaBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -26,7 +26,7 @@ class AgendaCalendarAdapter : RecyclerView.Adapter<AgendaCalendarAdapter.ViewHol
     override fun getItemCount(): Int = agendas.size
 
     inner class ViewHolder(val binding: ItemHomeAgendaBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(agenda: DataItem) {
+        fun bind(agenda: DataAgenda) {
             binding.tvTitle.text = agenda.namaKegiatan
             binding.tvSubtitle1.text = agenda.subAgenda
             binding.tvSubtitle2.text = agenda.kategori

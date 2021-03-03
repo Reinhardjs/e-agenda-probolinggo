@@ -1,7 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.category;
 
-import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
-import com.example.e_agendaprobolinggo.model.body.SearchRequest;
+import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
@@ -27,8 +27,8 @@ public class CategoryInteractor implements CategoryContract.Interactor {
 
     @Override
     public void requestAgendaList(String agendaId, String subAgendaId, CategoryContract.CategoryAgendaRequestCallback categoryAgendaRequestCallback) {
-        AgendaRequest agendaRequest = new AgendaRequest(agendaId, "", subAgendaId);
-        networkApi.getAgenda(agendaRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        Agenda agenda = new Agenda(agendaId, "", subAgendaId);
+        networkApi.getAgenda(agenda).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
@@ -73,9 +73,9 @@ public class CategoryInteractor implements CategoryContract.Interactor {
 
     @Override
     public void requestAgendaPerCategorySearch(String keyword, String agendaId, String subAgendaId, CategoryContract.AgendaPerCategorySearchRequestCallBack agendaPerCategorySearchRequestCallBack) {
-        SearchRequest searchRequest = new SearchRequest(keyword, agendaId, subAgendaId);
+        Search search = new Search(keyword, agendaId, subAgendaId);
 
-        networkApi.getAgendaSearch(searchRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        networkApi.getAgendaSearch(search).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {

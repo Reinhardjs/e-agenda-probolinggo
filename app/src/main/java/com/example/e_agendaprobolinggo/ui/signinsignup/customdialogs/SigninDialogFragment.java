@@ -31,7 +31,7 @@ public class SigninDialogFragment extends BottomSheetDialogFragment {
     Dialog mDialog;
 
     SigninDialogFragment.SigninCallback mSigninCallback;
-    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
+    private final BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
 
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -57,15 +57,13 @@ public class SigninDialogFragment extends BottomSheetDialogFragment {
 
     @Override
     public void setupDialog(Dialog dialog, int style) {
-        super.setupDialog(dialog, style);
-
         mDialog = dialog;
 
         View contentView = View.inflate(getContext(), R.layout.fragment_signin_dialog, null);
         dialog.setContentView(contentView);
 
         ((View) contentView.getParent()).setBackgroundColor(Color.TRANSPARENT);
-        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.AppTheme_BottomSheetDialogTheme);
+//        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.AppTheme_BottomSheetDialogTheme);
 
         CoordinatorLayout.LayoutParams layoutParams =
                 (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
@@ -74,8 +72,8 @@ public class SigninDialogFragment extends BottomSheetDialogFragment {
             BottomSheetBehavior bottomSheetBehavior = ((BottomSheetBehavior) behavior);
             // bottomSheetBehavior.setHideable(true);
             // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            bottomSheetBehavior.setBottomSheetCallback(mBottomSheetBehaviorCallback);
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            bottomSheetBehavior.addBottomSheetCallback(mBottomSheetBehaviorCallback);
         }
 
         initView(contentView);
@@ -90,27 +88,21 @@ public class SigninDialogFragment extends BottomSheetDialogFragment {
     }
 
     private void initViewListener() {
-        passwordSeek.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // show password
-                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                } else {
-                    // hide password
-                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
+        passwordSeek.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // show password
+                etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            } else {
+                // hide password
+                etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
 
-        btnSignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = etEmail.getText().toString();
-                String password = etPassword.getText().toString();
+        btnSignin.setOnClickListener(v -> {
+            String email = etEmail.getText().toString();
+            String password = etPassword.getText().toString();
 
-                mSigninCallback.onSigninSubmitted(email, password);
-            }
+            mSigninCallback.onSigninSubmitted(email, password);
         });
     }
 

@@ -1,13 +1,14 @@
 package com.example.e_agendaprobolinggo.model.response;
 
-//import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
-//@Generated("com.robohorse.robopojogenerator")
 public class LoginResponse{
 
+	@SerializedName("api_code")
+	private String apiCode;
+
 	@SerializedName("data")
-	private DataLogin dataLogin;
+	private User user;
 
 	@SerializedName("message")
 	private String message;
@@ -15,37 +16,19 @@ public class LoginResponse{
 	@SerializedName("status")
 	private boolean status;
 
-	public void setDataLogin(DataLogin dataLogin){
-		this.dataLogin = dataLogin;
+	public String getApiCode(){
+		return apiCode;
 	}
 
-	public DataLogin getDataLogin(){
-		return dataLogin;
-	}
-
-	public void setMessage(String message){
-		this.message = message;
+	public User getUser(){
+		return user;
 	}
 
 	public String getMessage(){
 		return message;
 	}
 
-	public void setStatus(boolean status){
-		this.status = status;
-	}
-
 	public boolean isStatus(){
 		return status;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"LoginResponse{" + 
-			"data = '" + dataLogin + '\'' +
-			",message = '" + message + '\'' + 
-			",status = '" + status + '\'' + 
-			"}";
-		}
 }

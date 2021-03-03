@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.e_agendaprobolinggo.App;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
-import com.example.e_agendaprobolinggo.model.body.User;
+import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.home.HomeActivity;
 import com.example.e_agendaprobolinggo.ui.signinsignup.SigninSignupActivity;
 import com.example.e_agendaprobolinggo.stepper.MyStepperAdapter;

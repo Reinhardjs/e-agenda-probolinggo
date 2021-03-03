@@ -1,7 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
-import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
-import com.example.e_agendaprobolinggo.model.body.SearchRequest;
+import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
@@ -22,7 +22,7 @@ import retrofit2.HttpException;
 
 public class HomeInteractor implements HomeContract.Interactor {
 
-    private NetworkApi networkApi = UtilsApi.getApiService();
+    private final NetworkApi networkApi = UtilsApi.getApiService();
     private AgendaResponse agendaResponse = null;
     private AgendaResponse agendaSearchResponse = null;
     private KategoriResponse kategoriResponse = null;
@@ -30,8 +30,8 @@ public class HomeInteractor implements HomeContract.Interactor {
     @Override
     public void requestAgendaList(HomeContract.AgendaRequestCallback agendaRequestCallback) {
 
-        AgendaRequest agendaRequest = new AgendaRequest("all", "5", "all");
-        networkApi.getAgenda(agendaRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        Agenda agenda = new Agenda("all", "5", "all");
+        networkApi.getAgenda(agenda).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
@@ -122,8 +122,8 @@ public class HomeInteractor implements HomeContract.Interactor {
     @Override
     public void requestAgendaSearch(String keyword, HomeContract.SearchRequestCallback searchRequestCallback) {
 //        searchRequestCallback.onSearchRequestCompleted(null);
-        SearchRequest searchRequest = new SearchRequest(keyword, "all", "all");
-        networkApi.getAgendaSearch(searchRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        Search search = new Search(keyword, "all", "all");
+        networkApi.getAgendaSearch(search).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {

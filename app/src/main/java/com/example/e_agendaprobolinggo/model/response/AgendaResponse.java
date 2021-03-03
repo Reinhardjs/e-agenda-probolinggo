@@ -1,9 +1,12 @@
 package com.example.e_agendaprobolinggo.model.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class AgendaResponse{
+public class AgendaResponse implements Parcelable {
 
 	@SerializedName("data")
 	private List<DataAgenda> data;
@@ -14,24 +17,29 @@ public class AgendaResponse{
 	@SerializedName("status")
 	private boolean status;
 
-	public void setData(List<DataAgenda> data){
-		this.data = data;
+	protected AgendaResponse(Parcel in) {
+		message = in.readString();
+		status = in.readByte() != 0;
 	}
+
+	public static final Creator<AgendaResponse> CREATOR = new Creator<AgendaResponse>() {
+		@Override
+		public AgendaResponse createFromParcel(Parcel in) {
+			return new AgendaResponse(in);
+		}
+
+		@Override
+		public AgendaResponse[] newArray(int size) {
+			return new AgendaResponse[size];
+		}
+	};
 
 	public List<DataAgenda> getData(){
 		return data;
 	}
 
-	public void setMessage(String message){
-		this.message = message;
-	}
-
 	public String getMessage(){
 		return message;
-	}
-
-	public void setStatus(boolean status){
-		this.status = status;
 	}
 
 	public boolean isStatus(){
@@ -39,12 +47,13 @@ public class AgendaResponse{
 	}
 
 	@Override
- 	public String toString(){
-		return 
-			"AgendaResponse{" + 
-			"data = '" + data + '\'' + 
-			",message = '" + message + '\'' + 
-			",status = '" + status + '\'' + 
-			"}";
-		}
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int i) {
+		parcel.writeString(message);
+		parcel.writeByte((byte) (status ? 1 : 0));
+	}
 }

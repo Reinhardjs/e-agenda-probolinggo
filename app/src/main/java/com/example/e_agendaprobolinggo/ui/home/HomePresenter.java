@@ -5,8 +5,8 @@ import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 
 public class HomePresenter implements HomeContract.Presenter {
 
-    private HomeContract.View mView;
-    private HomeContract.Interactor mInteractor;
+    private final HomeContract.View mView;
+    private final HomeContract.Interactor mInteractor;
 
     public HomePresenter(HomeContract.View view) {
         mView = view;

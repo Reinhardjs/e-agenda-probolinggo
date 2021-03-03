@@ -30,11 +30,11 @@ import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.connection.ConnectionLiveData;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.ConnectionModel;
-import com.example.e_agendaprobolinggo.model.body.User;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
+import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.all_agenda.AllAgendaActivity;
 import com.example.e_agendaprobolinggo.ui.calendar.CalendarActivity;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
@@ -157,7 +157,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 .into(ivNoConnection);
 
         User user = SharedPreferenceUtils.getUser(this);
-        tvWelcome.setText(Html.fromHtml("Selamat datang, <b>" + user.getNama() + "</b>"));
+        tvWelcome.setText(Html.fromHtml("Selamat Datang <b>" + user.getNama() + "</b>"));
     }
 
     private void startRefresh() {

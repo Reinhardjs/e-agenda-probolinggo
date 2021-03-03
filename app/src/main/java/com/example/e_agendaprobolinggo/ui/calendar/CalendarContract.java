@@ -1,12 +1,12 @@
 package com.example.e_agendaprobolinggo.ui.calendar;
 
-import com.example.e_agendaprobolinggo.model.response.AgendaCalendarResponse;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public interface CalendarContract {
 
     interface AgendaCalendarRequestCallback {
 
-        void onAgendaCalendarRequestCompleted(AgendaCalendarResponse agendaCalendarResponse);
+        void onAgendaCalendarRequestCompleted(AgendaResponse agendaResponse);
 
         void onAgendaCalendarRequestFailure(String message);
 
@@ -14,7 +14,7 @@ public interface CalendarContract {
 
     interface View {
 
-        void populateAgenda(AgendaCalendarResponse agendaCalendarResponse);
+        void populateAgenda(AgendaResponse agendaResponse);
 
         void showAgendaFailure(String message);
 

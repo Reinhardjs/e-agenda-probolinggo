@@ -19,7 +19,7 @@ import retrofit2.HttpException;
 
 public class DetailInteractor implements DetailContract.Interactor {
 
-    private NetworkApi networkApi = UtilsApi.getApiService();
+    private final NetworkApi networkApi = UtilsApi.getApiService();
     private AgendaResponse detailResponse = null;
 
     @Override

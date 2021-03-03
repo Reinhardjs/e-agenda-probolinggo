@@ -96,7 +96,6 @@ public class SearchResultDialogFragment extends BottomSheetDialogFragment {
 
     @Override
     public void setupDialog(Dialog dialog, int style) {
-        super.setupDialog(dialog, style);
 
         mDialog = dialog;
 

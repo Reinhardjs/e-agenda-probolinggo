@@ -1,7 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.calendar;
 
-import com.example.e_agendaprobolinggo.model.body.AgendaRequest;
-import com.example.e_agendaprobolinggo.model.response.AgendaCalendarResponse;
+import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
 
@@ -21,21 +21,21 @@ import retrofit2.HttpException;
 public class CalendarInteractor implements CalendarContract.Interactor {
 
     private NetworkApi networkApi = UtilsApi.getApiService();
-    private AgendaCalendarResponse agendaCalendarResponse = null;
+    private AgendaResponse agendaResponse = null;
 
     @Override
     public void requestAgendaCalendarList(String agendaId, String limit, String subAgendaId, CalendarContract.AgendaCalendarRequestCallback calendarAgendaRequestCallback) {
-        AgendaRequest agendaRequest = new AgendaRequest(agendaId, limit, subAgendaId);
-        networkApi.getCalendarAgenda(agendaRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AgendaCalendarResponse>() {
+        Agenda agenda = new Agenda(agendaId, limit, subAgendaId);
+        networkApi.getAgenda(agenda).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull AgendaCalendarResponse response) {
-                        agendaCalendarResponse = response;
+                    public void onNext(@NonNull AgendaResponse response) {
+                        agendaResponse = response;
                     }
 
                     @Override
@@ -56,11 +56,11 @@ public class CalendarInteractor implements CalendarContract.Interactor {
 
                     @Override
                     public void onComplete() {
-                        if (agendaCalendarResponse != null) {
-                            if (agendaCalendarResponse.isStatus()) {
-                                calendarAgendaRequestCallback.onAgendaCalendarRequestCompleted(agendaCalendarResponse);
+                        if (agendaResponse != null) {
+                            if (agendaResponse.isStatus()) {
+                                calendarAgendaRequestCallback.onAgendaCalendarRequestCompleted(agendaResponse);
                             } else {
-                                calendarAgendaRequestCallback.onAgendaCalendarRequestFailure(agendaCalendarResponse.getMessage());
+                                calendarAgendaRequestCallback.onAgendaCalendarRequestFailure(agendaResponse.getMessage());
                             }
                         }
                     }

@@ -4,8 +4,8 @@ import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class DetailPresenter implements DetailContract.Presenter {
 
-    private DetailContract.View mView;
-    private DetailContract.Interactor mInteractor;
+    private final DetailContract.View mView;
+    private final DetailContract.Interactor mInteractor;
 
     public DetailPresenter(DetailContract.View view) {
         mView = view;
@@ -16,7 +16,7 @@ public class DetailPresenter implements DetailContract.Presenter {
         mInteractor.requestDetailAgenda(key, new DetailContract.DetailAgendaRequestCallback() {
             @Override
             public void onDetailAgendaRequestCompleted(AgendaResponse agendaResponse) {
-                mView.populateDetailAenda(agendaResponse);
+                mView.populateDetailAgenda(agendaResponse);
             }
 
             @Override

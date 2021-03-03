@@ -190,7 +190,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
-    public void populateDetailAenda(AgendaResponse agendaResponse) {
+    public void populateDetailAgenda(AgendaResponse agendaResponse) {
         swipeRefreshLayout.setRefreshing(false);
         listContainer.setVisibility(View.VISIBLE);
 

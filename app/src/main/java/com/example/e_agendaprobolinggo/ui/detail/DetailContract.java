@@ -11,7 +11,7 @@ public interface DetailContract {
     }
 
     interface View {
-        void populateDetailAenda(AgendaResponse agendaResponse);
+        void populateDetailAgenda(AgendaResponse agendaResponse);
 
         void showFailureDetailAgenda(String message);
     }

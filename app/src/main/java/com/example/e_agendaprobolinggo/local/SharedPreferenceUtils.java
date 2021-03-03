@@ -3,7 +3,7 @@ package com.example.e_agendaprobolinggo.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.e_agendaprobolinggo.model.body.User;
+import com.example.e_agendaprobolinggo.model.response.User;
 import com.google.gson.Gson;
 
 import static android.content.Context.MODE_PRIVATE;

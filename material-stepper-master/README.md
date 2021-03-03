@@ -11,7 +11,7 @@ Quoting the [documentation](https://www.google.com/design/spec/components/steppe
 >Steppers display progress through a sequence by breaking it up into multiple logical and numbered steps.
 
 All of the code & features mentioned in [Getting started](#getting-started) and [Advanced usage](#advanced-usage) are showcased in the sample app.
-Moreover, you can find there other examples, e.g. how to persist state on rotation, display errors, change whether the user can go to the next step, etc. So please have a look!
+Moreover, you can find there other examples, e.g. how to persist state on rotation, display errors, change whether the register can go to the next step, etc. So please have a look!
 
 ## Jump to section
 - [Supported steppers](#supported-steppers)
@@ -104,7 +104,7 @@ public class StepFragmentSample extends Fragment implements Step {
 
     @Override
     public VerificationError verifyStep() {
-        //return null if the user can go to the next step, create a new VerificationError instance otherwise
+        //return null if the register can go to the next step, create a new VerificationError instance otherwise
         return null;
     }
 
@@ -211,14 +211,14 @@ public class StepperActivity extends AppCompatActivity implements StepperLayout.
 ## Advanced usage
 
 ### Making extra operations before going to the next step
-After clicking on the Next button if the user wants to e.g.:
+After clicking on the Next button if the register wants to e.g.:
 * save something in the database
 * make a network call on a separate Thread
 * simply save the dataLogin from the current step to some other component or parent Activity (see 'Passing dataLogin between steps' in the sample app for more details)
 
 he can perform these operations and then invoke the `goToNextStep()` method of the `StepperLayout.OnNextClickedCallback` in the current Step.
-If the user wants to perform these operations on the final step, when clicking on the Complete button, he needs to invoke the `complete()` method of the  `StepperLayout.OnCompleteClickedCallback`.
-While operations are performed, and the user would like to go back you can cancel them and then invoke `onBackClicked()` method of the `StepperLayout.OnBackClickedCallback`.
+If the register wants to perform these operations on the final step, when clicking on the Complete button, he needs to invoke the `complete()` method of the  `StepperLayout.OnCompleteClickedCallback`.
+While operations are performed, and the register would like to go back you can cancel them and then invoke `onBackClicked()` method of the `StepperLayout.OnBackClickedCallback`.
 <p><img src ="./gifs/delayed-transition.gif" width="360" /></p>
 
 To do so the fragment/view must implement `BlockingStep` instead of `Step`.
@@ -339,7 +339,7 @@ and declare that style in the XML you keep your styles at, e.g.
 ```
 
 ### Showing a Back button on first step
-By default if the user is on the first step then the Back button in the bottom navigation is hidden. 
+By default if the register is on the first step then the Back button in the bottom navigation is hidden.
 This behaviour can be changed by setting ```ms_showBackButtonOnFirstStep``` to ```true```, e.g.
 ```xml
     <?xml version="1.0" encoding="utf-8"?>
@@ -425,9 +425,9 @@ public class StepperFeedbackStepFragment extends Fragment implements BlockingSte
 ### Changing button text color when going to the next step should be disabled
 It is possible to change the Next/Complete button's text color (together with right chevron's color)
 when all the criteria to go to the next step are not met. This color should indicate that
-the user cannot go to next step yet and look as if disabled. Clicking on the button will still perform the regular
+the register cannot go to next step yet and look as if disabled. Clicking on the button will still perform the regular
 step verification. There is a custom state added since setting `android:state_enabled` to `false` in a color selector would disable the clicks
-and we want to have them so that we can show an info message for the user.
+and we want to have them so that we can show an info message for the register.
 In order to set that color:
 
 1. Create a new color selector in `res/color`
@@ -493,7 +493,7 @@ For advanced styling please see [StepperLayout style attributes](#stepperlayout-
 | *ms_showBackButtonOnFirstStep*  | boolean                                                             | Flag indicating if the Back (Previous step) button should be shown on the first step. False by default.            |
 | *ms_errorColor*                 | color or reference                                                  | Error color in Tabs stepper |
 | *ms_showErrorStateEnabled*      | boolean                                                             | Flag indicating whether to show the error state. Only applicable for 'tabs' type. False by default. |
-| *ms_showErrorStateOnBackEnabled*| boolean                                                             | Flag indicating whether to keep showing the error state when user moves back. Only applicable for 'tabs' type. False by default. |
+| *ms_showErrorStateOnBackEnabled*| boolean                                                             | Flag indicating whether to keep showing the error state when register moves back. Only applicable for 'tabs' type. False by default. |
 | *ms_tabNavigationEnabled*       | boolean                                                             | Flag indicating whether step navigation is possible by clicking on the tabs directly. Only applicable for 'tabs' type. True by default. |
 | *ms_stepperFeedbackType*        | flag(s): `none` or `tabs`, `content_progress`, `content_fade`, `content_overlay`, `disabled_bottom_navigation` & `disabled_content_interaction` | Type(s) of stepper feedback. Can be a combination of `tabs`, `content_progress`, `content_fade`, `content_overlay`, `disabled_bottom_navigation` & `disabled_content_interaction`. Default is `none`.|
 | *ms_stepperFeedback_contentFadeAlpha* | float                                                         | An alpha value from 0 to 1.0f to be used for the faded out view if `content_fade` stepper feedback type is set. 0.5f by default. |

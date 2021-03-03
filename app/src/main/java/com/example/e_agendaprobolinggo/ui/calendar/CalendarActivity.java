@@ -11,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.databinding.ActivityCalendarBinding;
-import com.example.e_agendaprobolinggo.model.response.AgendaCalendarResponse;
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class CalendarActivity extends AppCompatActivity implements CalendarContract.View {
 
@@ -56,11 +56,11 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
     }
 
     @Override
-    public void populateAgenda(AgendaCalendarResponse agendaCalendarResponse) {
+    public void populateAgenda(AgendaResponse agendaResponse) {
         new Handler().postDelayed(() -> {
             hideShimmer();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(MonthModeFragment.CALENDAR_DATA, agendaCalendarResponse);
+            bundle.putParcelable(MonthModeFragment.CALENDAR_DATA, agendaResponse);
             getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).add(R.id.container_calendar, MonthModeFragment.class, bundle).commit();
         }, 1000);
     }

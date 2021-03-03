@@ -23,8 +23,8 @@ import java.util.ArrayList;
 
 public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCategoryAdapter.ViewHolder> {
 
-    private ArrayList<DataAgenda> agendas;
-    private Context context;
+    private final ArrayList<DataAgenda> agendas;
+    private final Context context;
 
     public AgendaPerCategoryAdapter(ArrayList<DataAgenda> agendas, Context context){
         this.agendas = agendas;
@@ -37,7 +37,7 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View rootView = inflater.inflate(R.layout.item_home_agenda, parent, false);
 
-        AgendaPerCategoryAdapter.ViewHolder viewHolder = new AgendaPerCategoryAdapter.ViewHolder(rootView);
+        AgendaPerCategoryAdapter.ViewHolder viewHolder = new ViewHolder(rootView);
 
         rootView.setOnClickListener(v -> {
             Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
@@ -73,7 +73,7 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
         return agendas.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvPlace, tvClothes;
         public MaterialCardView cardLabeled;

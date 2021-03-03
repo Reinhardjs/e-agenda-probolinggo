@@ -16,8 +16,8 @@ import com.example.e_agendaprobolinggo.R
 import com.example.e_agendaprobolinggo.databinding.FragmentMonthModeBinding
 import com.example.e_agendaprobolinggo.databinding.MonthCalendarDayBinding
 import com.example.e_agendaprobolinggo.databinding.MonthCalendarHeaderBinding
-import com.example.e_agendaprobolinggo.model.response.AgendaCalendarResponse
-import com.example.e_agendaprobolinggo.model.response.DataItem
+import com.example.e_agendaprobolinggo.model.response.AgendaResponse
+import com.example.e_agendaprobolinggo.model.response.DataAgenda
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
@@ -45,7 +45,7 @@ class MonthModeFragment : Fragment() {
     private var selectedDate: LocalDate? = null
     private val monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
 
-    private lateinit var agendaLocalDate: Map<LocalDate?, List<DataItem>>
+    private lateinit var agendaLocalDate: Map<LocalDate?, List<DataAgenda>>
     private lateinit var agendaCalendarAdapter: AgendaCalendarAdapter
 
 
@@ -59,7 +59,7 @@ class MonthModeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val agendaResponse: AgendaCalendarResponse? = requireArguments().getParcelable(CALENDAR_DATA)
+        val agendaResponse: AgendaResponse? = requireArguments().getParcelable(CALENDAR_DATA)
 
         agendaCalendarAdapter = AgendaCalendarAdapter()
         binding.rvAgendaCalendar.apply {
@@ -70,9 +70,9 @@ class MonthModeFragment : Fragment() {
         agendaCalendarAdapter.notifyDataSetChanged()
 
         agendaResponse?.let { agenda ->
-            agendaLocalDate = agenda.data.groupBy { localDateFormat(it.rawData.tanggal, it.rawData.jam) }
-            var startMonth = yearMonthFormat(agenda.data.first().rawData.tanggal)
-            var endMonth = yearMonthFormat(agenda.data.last().rawData.tanggal)
+            agendaLocalDate = agenda.data.groupBy { localDateFormat(it.rawDataAgenda.tanggal, it.rawDataAgenda.jam) }
+            var startMonth = yearMonthFormat(agenda.data.first().rawDataAgenda.tanggal)
+            var endMonth = yearMonthFormat(agenda.data.last().rawDataAgenda.tanggal)
             val daysOfWeek = daysOfWeekFromLocale()
 
             if (startMonth.isAfter(endMonth)) {

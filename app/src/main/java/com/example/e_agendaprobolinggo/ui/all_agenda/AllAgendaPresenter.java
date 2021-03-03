@@ -1,7 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.all_agenda;
 
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
-import com.example.e_agendaprobolinggo.ui.home.HomeContract;
 
 public class AllAgendaPresenter implements AllAgendaContract.Presenter{
 
