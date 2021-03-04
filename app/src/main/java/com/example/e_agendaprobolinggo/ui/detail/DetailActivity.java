@@ -20,7 +20,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
@@ -28,7 +31,9 @@ import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataDetailAgenda;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.ListKomentarAgenda;
 import com.example.e_agendaprobolinggo.model.response.User;
+import com.example.e_agendaprobolinggo.ui.comment.CommentAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,26 +43,27 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
 
     public static final String KODE = "kode";
     private DetailContract.Presenter mPresenter;
-    private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda,
-            tvDate, tvPersonAgenda, tvNote, tvSubAgenda,
-            tvClothes, tvUndangan, tvPeran, tvRoundown,
-            tvTataRuang, tvPerlengkapan, tvPenyelenggara,
-            tvPetugasProtokol, tvDetailAgenda;
+    private TextView tvDetailAgenda, labelComment;
     private String urlLetter, urlSambutan;
     private String fileName;
     private Toolbar toolbarDetail;
     private Button btnLetter, btnSambutan;
+    private View lineComment;
+    private RecyclerView rvComment;
     private ProgressDialog mProgressDialog;
     private DownloadTask downloadTask;
-    private LinearLayout listContainer;
+    private ConstraintLayout listContainer;
     private DetailAgenda detailAgenda;
-
     private SwipeRefreshLayout swipeRefreshLayout;
+    private CommentAdapter commentAdapter;
+
+    private ArrayList<ListKomentarAgenda> comments = new ArrayList<>();
 
     public static String getFileNameFromURL(String url) {
         if (url == null) {
@@ -99,6 +105,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         initView();
+
+        commentAdapter = new CommentAdapter();
 
         User user = SharedPreferenceUtils.getUser(this);
         String kode = getIntent().getStringExtra(KODE);
@@ -161,23 +169,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         listContainer = findViewById(R.id.listContainer);
 
         tvDetailAgenda = findViewById(R.id.tv_detail_agenda);
-//        tvNameAgenda = findViewById(R.id.tv_name_agenda);
-//        tvCategoryAgenda = findViewById(R.id.tv_category_agenda);
-//        tvPlaceAgenda = findViewById(R.id.tv_place_agenda);
-//        tvPersonAgenda = findViewById(R.id.tv_person_agenda);
-//        tvNote = findViewById(R.id.tv_note_agenda);
-//        tvClothes = findViewById(R.id.tv_clothes_agenda);
-//        tvRoundown = findViewById(R.id.tv_roundown_agenda);
-//        tvSubAgenda = findViewById(R.id.tv_sub_agenda);
-//        tvUndangan = findViewById(R.id.tv_undangan_agenda);
-//        tvPeran = findViewById(R.id.tv_peran_agenda);
-//        tvTataRuang = findViewById(R.id.tv_tata_ruangan_agenda);
-//        tvPerlengkapan = findViewById(R.id.tv_perlengkapan_agenda);
-//        tvPenyelenggara = findViewById(R.id.tv_penyelenggara_agenda);
-//        tvPetugasProtokol = findViewById(R.id.tv_petugas_agenda);
-//        tvDate = findViewById(R.id.tv_date_agenda);
         btnLetter = findViewById(R.id.btn_download_letter);
         btnSambutan = findViewById(R.id.btn_download_sambutan);
+        lineComment = findViewById(R.id.line_comment);
+        labelComment = findViewById(R.id.label_comment);
+        rvComment = findViewById(R.id.rv_comment);
 
         mProgressDialog = new ProgressDialog(DetailActivity.this);
         mProgressDialog.setMessage("Downloading...");
@@ -204,37 +200,38 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         DataDetailAgenda dataDetailAgenda = detailAgendaResponse.getData().get(0);
         tvDetailAgenda.setText(Html.fromHtml(dataDetailAgenda.getDetail()));
-//        tvNameAgenda.setText(dataDetailAgenda.getNamaKegiatan());
-//        tvCategoryAgenda.setText(dataDetailAgenda.getKategori());
-//        tvPlaceAgenda.setText(dataDetailAgenda.getTempat());
-//        tvPersonAgenda.setText(dataDetailAgenda.getAgenda());
-//        tvDate.setText(dataDetailAgenda.getTanggal());
-//        tvClothes.setText(dataDetailAgenda.getPakaian());
-//        tvSubAgenda.setText(dataDetailAgenda.getSubAgenda());
-//        tvTataRuang.setText(dataDetailAgenda.getTataRuangan());
-//        tvPerlengkapan.setText(dataDetailAgenda.getPerlengkapan());
-//        tvPenyelenggara.setText(dataDetailAgenda.getPenyelenggara());
-//        tvPetugasProtokol.setText(dataDetailAgenda.getPetugasProtokol());
-
-//        tvRoundown.setText(noTrailingwhiteLines(Html.fromHtml(dataDetailAgenda.getUrutanAcara())));
-//        tvNote.setText(noTrailingwhiteLines(Html.fromHtml(dataDetailAgenda.getCatatan())));
-//        tvUndangan.setText(noTrailingwhiteLines(Html.fromHtml(dataDetailAgenda.getUndangan())));
-//        tvPeran.setText(noTrailingwhiteLines(Html.fromHtml(dataDetailAgenda.getPeranPimpinan())));
 
         urlLetter = dataDetailAgenda.getSurat();
         urlSambutan = dataDetailAgenda.getSambutan();
 
-        if ((urlLetter.charAt(urlLetter.length() - 1) == '-') || urlLetter == null || urlLetter.isEmpty()) {
-            btnLetter.setEnabled(false);
+        if (detailAgendaResponse.getData().get(0).getBtnDownloadSurat() == 1) {
+            btnLetter.setVisibility(View.VISIBLE);
+            btnLetter.setEnabled(urlLetter.charAt(urlLetter.length() - 1) != '-' && !urlLetter.isEmpty());
         } else {
-            btnLetter.setEnabled(true);
+            btnLetter.setVisibility(View.GONE);
         }
 
-        if ((urlSambutan.charAt(urlSambutan.length() - 1) == '-') || urlSambutan == null || urlSambutan.isEmpty()) {
-            btnSambutan.setEnabled(false);
+        if (detailAgendaResponse.getData().get(0).getBtnDownloadSambutan() == 1) {
+            btnSambutan.setVisibility(View.VISIBLE);
+            btnSambutan.setEnabled(urlSambutan.charAt(urlSambutan.length() - 1) != '-' && !urlSambutan.isEmpty());
         } else {
-            btnSambutan.setEnabled(true);
+            btnSambutan.setVisibility(View.GONE);
         }
+
+        if (detailAgendaResponse.getData().get(0).getTampilkanKomentar() == 1) {
+            lineComment.setVisibility(View.VISIBLE);
+            labelComment.setVisibility(View.VISIBLE);
+            rvComment.setVisibility(View.VISIBLE);
+        } else {
+            lineComment.setVisibility(View.GONE);
+            labelComment.setVisibility(View.GONE);
+            rvComment.setVisibility(View.GONE);
+        }
+
+        commentAdapter.setData(detailAgendaResponse.getData().get(0).getListKomentar());
+        rvComment.setLayoutManager(new LinearLayoutManager(this));
+        rvComment.setHasFixedSize(true);
+        rvComment.setAdapter(commentAdapter);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.View
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View rootView = inflater.inflate(R.layout.item_home_agenda, parent, false);
 
-        AllAgendaAdapter.ViewHolder viewHolder = new AllAgendaAdapter.ViewHolder(rootView);
+        AllAgendaAdapter.ViewHolder viewHolder = new ViewHolder(rootView);
 
         rootView.setOnClickListener(v -> {
             Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
@@ -73,7 +73,7 @@ public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.View
         return agendas.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvPlace, tvClothes;
         public MaterialCardView cardLabeled;

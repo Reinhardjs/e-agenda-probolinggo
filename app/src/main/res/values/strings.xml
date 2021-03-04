@@ -41,6 +41,9 @@
     <string name="position_text">Jabatan</string>
     <string name="opd_text">OPD</string>
     <string name="role_text">Tingkatan</string>
+    <string name="download_surat_text">Download Surat</string>
+    <string name="download_sambutan_text">Download Sambutan</string>
+    <string name="comment_text">Komentar</string>
     <string-array name="role_spinner">
         <item>Tingkatan</item>
     </string-array>
