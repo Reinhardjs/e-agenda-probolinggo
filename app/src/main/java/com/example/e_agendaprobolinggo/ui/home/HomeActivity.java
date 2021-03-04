@@ -31,6 +31,7 @@ import com.example.e_agendaprobolinggo.connection.ConnectionLiveData;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.ConnectionModel;
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
@@ -101,7 +102,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             materialSearchView.showSearch();
             return true;
         } else if (id == R.id.action_logout) {
-            new MaterialAlertDialogBuilder(this).setTitle(getResources().getString(R.string.logout_text)).setMessage(getResources().getString(R.string.logout_message))
+            new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme).setTitle(getResources().getString(R.string.logout_text)).setMessage(getResources().getString(R.string.logout_message))
                     .setNegativeButton(getResources().getString(R.string.no_text), (dialogInterface, i) -> {
                     })
                     .setPositiveButton(getResources().getString(R.string.yes_text), (dialogInterface, i) -> logout()).show();
@@ -354,7 +355,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 searchProgressBar.setVisibility(View.VISIBLE);
                 agendaSearches.clear();
                 agendaSearchAdapter.notifyDataSetChanged();
-                mPresenter.requestAgendaSearch(query);
+                Search search = new Search(query, "all", "all");
+                mPresenter.requestAgendaSearch(search);
                 return true;
             }
 

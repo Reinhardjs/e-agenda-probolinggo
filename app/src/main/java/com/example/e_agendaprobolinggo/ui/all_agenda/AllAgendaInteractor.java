@@ -69,9 +69,7 @@ public class AllAgendaInteractor implements AllAgendaContract.Interactor {
     }
 
     @Override
-    public void requestAgendaSearch(String keyword, AllAgendaContract.SearchRequestCallback searchRequestCallback) {
-//        searchRequestCallback.onSearchRequestCompleted(null);
-        Search search = new Search(keyword, "all", "all");
+    public void requestAgendaSearch(Search search, AllAgendaContract.SearchRequestCallback searchRequestCallback) {
         networkApi.getAgendaSearch(search).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override

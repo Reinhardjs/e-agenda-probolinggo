@@ -71,9 +71,7 @@ public class CategoryInteractor implements CategoryContract.Interactor {
     }
 
     @Override
-    public void requestAgendaPerCategorySearch(String keyword, String categoryId, String subCategoryId, CategoryContract.AgendaPerCategorySearchRequestCallBack agendaPerCategorySearchRequestCallBack) {
-        Search search = new Search(keyword, categoryId, subCategoryId);
-
+    public void requestAgendaPerCategorySearch(Search search, CategoryContract.AgendaPerCategorySearchRequestCallBack agendaPerCategorySearchRequestCallBack) {
         networkApi.getAgendaSearch(search).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override

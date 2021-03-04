@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 
@@ -48,8 +49,8 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void requestAgendaSearch(String keyword) {
-        mInteractor.requestAgendaSearch(keyword, new HomeContract.SearchRequestCallback() {
+    public void requestAgendaSearch(Search search) {
+        mInteractor.requestAgendaSearch(search, new HomeContract.SearchRequestCallback() {
             @Override
             public void onSearchRequestCompleted(AgendaResponse agendaResponse) {
                 mView.populateAgendaSearch(agendaResponse);

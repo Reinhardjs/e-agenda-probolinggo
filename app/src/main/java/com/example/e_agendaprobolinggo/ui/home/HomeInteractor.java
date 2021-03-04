@@ -119,9 +119,7 @@ public class HomeInteractor implements HomeContract.Interactor {
     }
 
     @Override
-    public void requestAgendaSearch(String keyword, HomeContract.SearchRequestCallback searchRequestCallback) {
-//        searchRequestCallback.onSearchRequestCompleted(null);
-        Search search = new Search(keyword, "all", "all");
+    public void requestAgendaSearch(Search search, HomeContract.SearchRequestCallback searchRequestCallback) {
         networkApi.getAgendaSearch(search).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override
@@ -136,7 +134,7 @@ public class HomeInteractor implements HomeContract.Interactor {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        if (e instanceof HttpException){
+                        if (e instanceof HttpException) {
                             ResponseBody errorResponse = ((HttpException) e).response().errorBody();
 
                             try {
@@ -152,11 +150,10 @@ public class HomeInteractor implements HomeContract.Interactor {
 
                     @Override
                     public void onComplete() {
-                        if (agendaSearchResponse != null){
-                            if (agendaSearchResponse.isStatus()){
+                        if (agendaSearchResponse != null) {
+                            if (agendaSearchResponse.isStatus()) {
                                 searchRequestCallback.onSearchRequestCompleted(agendaSearchResponse);
-                            }
-                            else {
+                            } else {
                                 searchRequestCallback.onSearchRequestFailure(agendaSearchResponse.getMessage());
                             }
                         }

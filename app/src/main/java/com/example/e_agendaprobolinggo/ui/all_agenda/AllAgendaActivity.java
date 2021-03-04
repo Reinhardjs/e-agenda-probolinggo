@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.User;
@@ -179,7 +180,8 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
                 searchProgressBar.setVisibility(View.VISIBLE);
                 agendaSearches.clear();
                 agendaSearchAdapter.notifyDataSetChanged();
-                mPresenter.requestAgendaSearch(query);
+                Search search = new Search(query, "all", "all");
+                mPresenter.requestAgendaSearch(search);
                 return true;
             }
 

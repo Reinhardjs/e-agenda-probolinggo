@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 
@@ -52,7 +53,7 @@ public interface HomeContract {
 
         void requestAgendaCategoryList(AgendaCategoryRequestCallback agendaCategoryRequestCallback);
 
-        void requestAgendaSearch(String keyword, SearchRequestCallback searchRequestCallback);
+        void requestAgendaSearch(Search search, SearchRequestCallback searchRequestCallback);
 
     }
 
@@ -62,7 +63,7 @@ public interface HomeContract {
 
         void requestAgendaCategoryList();
 
-        void requestAgendaSearch(String keyword);
+        void requestAgendaSearch(Search search);
 
     }
 

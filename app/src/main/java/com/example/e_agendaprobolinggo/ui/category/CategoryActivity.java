@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.User;
@@ -186,7 +187,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
                 searchProgressBar.setVisibility(View.VISIBLE);
                 agendaSearches.clear();
                 agendaSearchAdapter.notifyDataSetChanged();
-                mPresenter.getAgendaPerCategorySearch(query, categoryId, subCategoryId);
+                Search search = new Search(query, categoryId, subCategoryId);
+                mPresenter.getAgendaPerCategorySearch(search);
                 return true;
             }
 

@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.all_agenda;
 
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public interface AllAgendaContract {
@@ -37,7 +38,7 @@ public interface AllAgendaContract {
 
         void requestAllAgendaList(Agenda agenda, AllAgendaRequestCallback allAgendaRequestCallback);
 
-        void requestAgendaSearch(String keyword, SearchRequestCallback searchRequestCallback);
+        void requestAgendaSearch(Search search, SearchRequestCallback searchRequestCallback);
 
     }
 
@@ -45,7 +46,7 @@ public interface AllAgendaContract {
 
         void getAllAgendaList(Agenda agenda);
 
-        void requestAgendaSearch(String keyword);
+        void requestAgendaSearch(Search search);
 
     }
 }

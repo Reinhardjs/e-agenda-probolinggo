@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.all_agenda;
 
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class AllAgendaPresenter implements AllAgendaContract.Presenter {
@@ -29,8 +30,8 @@ public class AllAgendaPresenter implements AllAgendaContract.Presenter {
     }
 
     @Override
-    public void requestAgendaSearch(String keyword) {
-        mInteractor.requestAgendaSearch(keyword, new AllAgendaContract.SearchRequestCallback() {
+    public void requestAgendaSearch(Search search) {
+        mInteractor.requestAgendaSearch(search, new AllAgendaContract.SearchRequestCallback() {
             @Override
             public void onSearchRequestCompleted(AgendaResponse agendaResponse) {
                 mView.populateAgendaSearch(agendaResponse);

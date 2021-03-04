@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.category;
 
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class CategoryPresenter implements CategoryContract.Presenter {
@@ -8,7 +9,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
     private final CategoryContract.View mView;
     private final CategoryContract.Interactor mInteractor;
 
-    public CategoryPresenter(CategoryContract.View view){
+    public CategoryPresenter(CategoryContract.View view) {
         mView = view;
         mInteractor = new CategoryInteractor();
     }
@@ -30,8 +31,8 @@ public class CategoryPresenter implements CategoryContract.Presenter {
     }
 
     @Override
-    public void getAgendaPerCategorySearch(String keyword, String categoryId, String subCategoryId) {
-        mInteractor.requestAgendaPerCategorySearch(keyword, categoryId, subCategoryId, new CategoryContract.AgendaPerCategorySearchRequestCallBack() {
+    public void getAgendaPerCategorySearch(Search search) {
+        mInteractor.requestAgendaPerCategorySearch(search, new CategoryContract.AgendaPerCategorySearchRequestCallBack() {
             @Override
             public void onAgendaPerCategorySearchRequestCompleted(AgendaResponse agendaResponse) {
                 mView.populateAgendaPerCategorySearch(agendaResponse);
