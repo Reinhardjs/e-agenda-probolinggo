@@ -30,6 +30,7 @@ import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.connection.ConnectionLiveData;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.ConnectionModel;
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataKategori;
@@ -74,6 +75,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     private boolean isConnectedToInternet = true;
     private HomeContract.Presenter mPresenter;
+    private Agenda agenda;
 
     @Override
     public void onBackPressed() {
@@ -116,23 +118,26 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         // Ini untuk mengatasi masalah result anchorsheet yang ketutup toolbar pas keyboard muncul
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        User user = SharedPreferenceUtils.getUser(this);
 
-        initView();
+        initView(user);
         setupAllRecyclerViews();
         setupAnchorSheetBehavior();
         setupListenerOrCallback();
         setupInternetObserver();
 
+        String idUser = user.getId();
+        agenda = new Agenda("all", "5", idUser, "all");
         mPresenter = new HomePresenter(this);
         mPresenter.requestAgendaCategoryList();
-        mPresenter.requestAgendaList();
+        mPresenter.requestAgendaList(agenda);
 
         startRefresh();
         showShimmer();
         showShimmerCategory();
     }
 
-    private void initView() {
+    private void initView(User user) {
         toolbar = findViewById(R.id.toolbar);
         setupToolbar();
 
@@ -156,7 +161,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 .load(R.drawable.no_connection)
                 .into(ivNoConnection);
 
-        User user = SharedPreferenceUtils.getUser(this);
         tvWelcome.setText(Html.fromHtml("Selamat Datang <b>" + user.getNama() + "</b>"));
     }
 
@@ -309,16 +313,14 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
             // builderSingle.setNegativeButton("cancel", (dialog, which) -> dialog.dismiss());
             builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
-                String agendaId = agendaCategories.get(which).getIdRole2();
-                String subAgendaId = agendaCategories.get(which).getIdSubRole();
-                String subAgendaName = agendaCategories.get(which).getSubRole();
-                String subRole = agendaCategories.get(which).getSubRole();
+                String categoryId = agendaCategories.get(which).getIdRole2();
+                String subCategoryId = agendaCategories.get(which).getIdSubRole();
+                String subCategoryName = agendaCategories.get(which).getSubRole();
 
                 Intent intentPerCategory = new Intent(HomeActivity.this, CategoryActivity.class);
-                intentPerCategory.putExtra(CategoryActivity.AGENDA_ID, agendaId);
-                intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_ID, subAgendaId);
-                intentPerCategory.putExtra(CategoryActivity.SUB_AGENDA_NAME, subAgendaName);
-                intentPerCategory.putExtra(CategoryActivity.AGENDA, subRole);
+                intentPerCategory.putExtra(CategoryActivity.CATEGORY_ID, categoryId);
+                intentPerCategory.putExtra(CategoryActivity.SUB_CATEGORY_ID, subCategoryId);
+                intentPerCategory.putExtra(CategoryActivity.SUB_CATEGORY_NAME, subCategoryName);
 
                 startActivity(intentPerCategory);
             });
@@ -339,7 +341,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             agendaAdapter.notifyDataSetChanged();
             agendaCategoryAdapter.notifyDataSetChanged();
 
-            mPresenter.requestAgendaList();
+            mPresenter.requestAgendaList(agenda);
             mPresenter.requestAgendaCategoryList();
             showShimmer();
             showShimmerCategory();

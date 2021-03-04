@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.calendar;
 
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class CalendarPresenter implements CalendarContract.Presenter {
@@ -13,8 +14,8 @@ public class CalendarPresenter implements CalendarContract.Presenter {
     }
 
     @Override
-    public void getAgendaCalendarList(String agendaId, String limit, String subAgendaId) {
-        mInteractor.requestAgendaCalendarList(agendaId, limit, subAgendaId, new CalendarContract.AgendaCalendarRequestCallback() {
+    public void getAgendaCalendarList(Agenda agenda) {
+        mInteractor.requestAgendaCalendarList(agenda, new CalendarContract.AgendaCalendarRequestCallback() {
             @Override
             public void onAgendaCalendarRequestCompleted(AgendaResponse agendaResponse) {
                 mView.populateAgenda(agendaResponse);

@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.detail;
 
-import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
+import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
 
@@ -20,37 +21,37 @@ import retrofit2.HttpException;
 public class DetailInteractor implements DetailContract.Interactor {
 
     private final NetworkApi networkApi = UtilsApi.getApiService();
-    private AgendaResponse detailResponse = null;
+    private DetailAgendaResponse detailAgendaResponse = null;
 
     @Override
-    public void requestDetailAgenda(String key, DetailContract.DetailAgendaRequestCallback detailAgendaRequestCallback) {
+    public void requestDetailAgenda(DetailAgenda detailAgenda, DetailContract.DetailAgendaRequestCallback detailAgendaRequestCallback) {
 
-        networkApi.getDetailAgenda(key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AgendaResponse>() {
+        networkApi.getDetailAgenda(detailAgenda).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DetailAgendaResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull AgendaResponse agendaResponse) {
-                        detailResponse = agendaResponse;
+                    public void onNext(@NonNull DetailAgendaResponse response) {
+                        detailAgendaResponse = response;
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
 //                            if (((HttpException) e).code() == HttpURLConnection.HTTP_BAD_REQUEST) {
-                                ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
 
-                                try {
-                                    JSONObject jsonObject = new JSONObject(errorResponse.string());
-                                    detailAgendaRequestCallback.onDetailAgendaRequestFailure(jsonObject.getString("message"));
-                                } catch (JSONException ex) {
-                                    ex.printStackTrace();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
+                            try {
+                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                detailAgendaRequestCallback.onDetailAgendaRequestFailure(jsonObject.getString("message"));
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
 //                            }
                         }
 
@@ -58,11 +59,11 @@ public class DetailInteractor implements DetailContract.Interactor {
 
                     @Override
                     public void onComplete() {
-                        if (detailResponse != null) {
-                            if (detailResponse.isStatus()){
-                                detailAgendaRequestCallback.onDetailAgendaRequestCompleted(detailResponse);
+                        if (detailAgendaResponse != null) {
+                            if (detailAgendaResponse.isStatus()) {
+                                detailAgendaRequestCallback.onDetailAgendaRequestCompleted(detailAgendaResponse);
                             } else {
-                                detailAgendaRequestCallback.onDetailAgendaRequestFailure(detailResponse.getMessage());
+                                detailAgendaRequestCallback.onDetailAgendaRequestFailure(detailAgendaResponse.getMessage());
                             }
                         }
                     }

@@ -56,219 +56,224 @@
             <LinearLayout
                 android:id="@+id/listContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nama Kegiatan"
-                    android:textColor="@color/colorPrimary" />
+                    android:id="@+id/tv_detail_agenda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/tv_name_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="Menghadiri" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="Nama Kegiatan"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Kategori"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_name_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="Menghadiri" />-->
 
-                <TextView
-                    android:id="@+id/tv_category_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="Gladi" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Kategori"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Agenda"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_category_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="Gladi" />-->
 
-                <TextView
-                    android:id="@+id/tv_person_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="Bupati" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Agenda"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Sub Agenda"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_person_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="Bupati" />-->
 
-                <TextView
-                    android:id="@+id/tv_sub_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="Bapak Bupati" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Sub Agenda"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Waktu Kegiatan"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_sub_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="Bapak Bupati" />-->
 
-                <TextView
-                    android:id="@+id/tv_date_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="17-12-2020 - 18-12-2020" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Waktu Kegiatan"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Tempat"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_date_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="17-12-2020 - 18-12-2020" />-->
 
-                <TextView
-                    android:id="@+id/tv_place_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="Hotel aston" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Tempat"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Pakaian"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_place_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="Hotel aston" />-->
 
-                <TextView
-                    android:id="@+id/tv_clothes_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="Bebas rapi" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Pakaian"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Undangan"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_clothes_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="Bebas rapi" />-->
 
-                <TextView
-                    android:id="@+id/tv_undangan_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:includeFontPadding="false"
-                    tools:text="semua warga" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Undangan"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Peran Pimpinan"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_undangan_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    android:includeFontPadding="false"-->
+                <!--                    tools:text="semua warga" />-->
 
-                <TextView
-                    android:id="@+id/tv_peran_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="tess" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Peran Pimpinan"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Urutan Acara"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_peran_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="tess" />-->
 
-                <TextView
-                    android:id="@+id/tv_roundown_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="makan" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Urutan Acara"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Tata Ruangan"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_roundown_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="makan" />-->
 
-                <TextView
-                    android:id="@+id/tv_tata_ruangan_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="tes" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Tata Ruangan"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Perlengkapan"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_tata_ruangan_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="tes" />-->
 
-                <TextView
-                    android:id="@+id/tv_perlengkapan_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="tes" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Perlengkapan"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Penyelenggara"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_perlengkapan_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="tes" />-->
 
-                <TextView
-                    android:id="@+id/tv_penyelenggara_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="tes" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Penyelenggara"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Petugas Protokol"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_penyelenggara_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="tes" />-->
 
-                <TextView
-                    android:id="@+id/tv_petugas_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="Gladi" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Petugas Protokol"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Catatan"
-                    android:textColor="@color/colorPrimary" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_petugas_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="Gladi" />-->
 
-                <TextView
-                    android:id="@+id/tv_note_agenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="tes" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:text="Catatan"-->
+                <!--                    android:textColor="@color/colorPrimary" />-->
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_note_agenda"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    tools:text="tes" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

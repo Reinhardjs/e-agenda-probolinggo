@@ -11,12 +11,16 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.databinding.ActivityCalendarBinding;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.User;
 
 public class CalendarActivity extends AppCompatActivity implements CalendarContract.View {
 
     private ActivityCalendarBinding binding;
     private CalendarContract.Presenter mPresenter;
+    private Agenda agenda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +30,18 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
 
         setupToolbar();
 
+        User user = SharedPreferenceUtils.getUser(this);
+        String idUser = user.getId();
+
+        agenda = new Agenda("all", "", idUser, "all");
+
         mPresenter = new CalendarPresenter(this);
-        setupRequest();
+        setupRequest(agenda);
     }
 
-    private void setupRequest() {
+    private void setupRequest(Agenda agenda) {
         showShimmer();
-        mPresenter.getAgendaCalendarList("all", "", "all");
+        mPresenter.getAgendaCalendarList(agenda);
     }
 
     private void setupToolbar() {

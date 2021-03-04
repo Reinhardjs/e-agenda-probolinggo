@@ -26,8 +26,7 @@ public class AllAgendaInteractor implements AllAgendaContract.Interactor {
     private AgendaResponse agendaSearchResponse = null;
 
     @Override
-    public void requestAllAgendaList(String agendaId, String limit, String subAgendaId, AllAgendaContract.AllAgendaRequestCallback allAgendaRequestCallback) {
-        Agenda agenda = new Agenda(agendaId, limit, subAgendaId);
+    public void requestAllAgendaList(Agenda agenda, AllAgendaContract.AllAgendaRequestCallback allAgendaRequestCallback) {
         networkApi.getAgenda(agenda).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override
@@ -42,7 +41,7 @@ public class AllAgendaInteractor implements AllAgendaContract.Interactor {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        if (e instanceof HttpException){
+                        if (e instanceof HttpException) {
                             ResponseBody errorResponse = ((HttpException) e).response().errorBody();
 
                             try {
@@ -58,8 +57,8 @@ public class AllAgendaInteractor implements AllAgendaContract.Interactor {
 
                     @Override
                     public void onComplete() {
-                        if (allAgendaResponse != null){
-                            if (allAgendaResponse.isStatus()){
+                        if (allAgendaResponse != null) {
+                            if (allAgendaResponse.isStatus()) {
                                 allAgendaRequestCallback.onAllAgendaRequestCompleted(allAgendaResponse);
                             } else {
                                 allAgendaRequestCallback.onAllAgendaRequestFailure(allAgendaResponse.getMessage());
@@ -87,7 +86,7 @@ public class AllAgendaInteractor implements AllAgendaContract.Interactor {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        if (e instanceof HttpException){
+                        if (e instanceof HttpException) {
                             ResponseBody errorResponse = ((HttpException) e).response().errorBody();
 
                             try {
@@ -103,11 +102,10 @@ public class AllAgendaInteractor implements AllAgendaContract.Interactor {
 
                     @Override
                     public void onComplete() {
-                        if (agendaSearchResponse != null){
-                            if (agendaSearchResponse.isStatus()){
+                        if (agendaSearchResponse != null) {
+                            if (agendaSearchResponse.isStatus()) {
                                 searchRequestCallback.onSearchRequestCompleted(agendaSearchResponse);
-                            }
-                            else {
+                            } else {
                                 searchRequestCallback.onSearchRequestFailure(agendaSearchResponse.getMessage());
                             }
                         }

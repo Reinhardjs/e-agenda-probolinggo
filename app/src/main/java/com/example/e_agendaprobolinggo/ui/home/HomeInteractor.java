@@ -28,9 +28,8 @@ public class HomeInteractor implements HomeContract.Interactor {
     private KategoriResponse kategoriResponse = null;
 
     @Override
-    public void requestAgendaList(HomeContract.AgendaRequestCallback agendaRequestCallback) {
+    public void requestAgendaList(Agenda agenda, HomeContract.AgendaRequestCallback agendaRequestCallback) {
 
-        Agenda agenda = new Agenda("all", "5", "all");
         networkApi.getAgenda(agenda).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override

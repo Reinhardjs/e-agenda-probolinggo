@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.category;
 
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public interface CategoryContract {
@@ -29,16 +30,16 @@ public interface CategoryContract {
 
     interface Interactor {
 
-        void requestAgendaList(String agendaId, String subAgendaId, CategoryAgendaRequestCallback categoryAgendaRequestCallback);
+        void requestAgendaList(Agenda agenda, CategoryAgendaRequestCallback categoryAgendaRequestCallback);
 
-        void requestAgendaPerCategorySearch(String keyword, String agendaId, String subAgendaId, AgendaPerCategorySearchRequestCallBack agendaPerCategorySearchRequestCallBack);
+        void requestAgendaPerCategorySearch(String keyword, String categoryId, String subCategoryId, AgendaPerCategorySearchRequestCallBack agendaPerCategorySearchRequestCallBack);
     }
 
     interface Presenter {
 
-        void getCategoryAgendaList(String agendaId, String subAgendaId);
+        void getCategoryAgendaList(Agenda agenda);
 
-        void getAgendaPerCategorySearch(String keyword, String agendaId, String subAgendaId);
+        void getAgendaPerCategorySearch(String keyword, String categoryId, String subCategoryId);
 
     }
 }

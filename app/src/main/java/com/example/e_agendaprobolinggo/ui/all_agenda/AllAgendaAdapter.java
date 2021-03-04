@@ -23,10 +23,10 @@ import java.util.ArrayList;
 
 public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.ViewHolder> {
 
-    private ArrayList<DataAgenda> agendas;
-    private Context context;
+    private final ArrayList<DataAgenda> agendas;
+    private final Context context;
 
-    public AllAgendaAdapter(ArrayList<DataAgenda> agendas, Context context){
+    public AllAgendaAdapter(ArrayList<DataAgenda> agendas, Context context) {
         this.agendas = agendas;
         this.context = context;
     }
@@ -41,7 +41,7 @@ public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.View
 
         rootView.setOnClickListener(v -> {
             Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
-            detailIntent.putExtra(DetailActivity.KEY, agendas.get(viewHolder.getAdapterPosition()).getIdEncode());
+            detailIntent.putExtra(DetailActivity.KODE, agendas.get(viewHolder.getAdapterPosition()).getIdEncode());
             parent.getContext().startActivity(detailIntent);
         });
         return viewHolder;
@@ -62,7 +62,7 @@ public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.View
 
         // https://stackoverflow.com/questions/32163918/programmatically-change-color-of-shape-in-layer-list
         LayerDrawable ld = (LayerDrawable) context.getResources().getDrawable(R.drawable.item_left_border);
-        GradientDrawable leftBorder = (GradientDrawable)ld.findDrawableByLayerId(R.id.left_border);
+        GradientDrawable leftBorder = (GradientDrawable) ld.findDrawableByLayerId(R.id.left_border);
         leftBorder.setColor(Color.parseColor(agenda.getStatusBox()));
 
         holder.container.setBackground(ld);
@@ -73,7 +73,7 @@ public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.View
         return agendas.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvPlace, tvClothes;
         public MaterialCardView cardLabeled;

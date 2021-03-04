@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.calendar;
 
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public interface CalendarContract {
@@ -22,13 +23,13 @@ public interface CalendarContract {
 
     interface Interactor {
 
-        void requestAgendaCalendarList(String agendaId, String limit, String subAgendaId, AgendaCalendarRequestCallback agendaCalendarRequestCallback);
+        void requestAgendaCalendarList(Agenda agenda, AgendaCalendarRequestCallback agendaCalendarRequestCallback);
 
     }
 
     interface Presenter {
 
-        void getAgendaCalendarList(String agendaId, String limit, String subAgendaId);
+        void getAgendaCalendarList(Agenda agenda);
 
     }
 }

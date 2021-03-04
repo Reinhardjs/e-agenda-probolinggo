@@ -19,8 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
+import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.home.AgendaAdapter;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -31,10 +34,9 @@ import java.util.Objects;
 
 public class CategoryActivity extends AppCompatActivity implements CategoryContract.View {
 
-    public static final String AGENDA_ID = "agenda_id";
-    public static final String SUB_AGENDA_ID = "sub_agenda_id";
-    public static final String AGENDA = "agenda";
-    public static final String SUB_AGENDA_NAME = "sub_agenda_name";
+    public static final String CATEGORY_ID = "category_id";
+    public static final String SUB_CATEGORY_ID = "sub_category_id";
+    public static final String SUB_CATEGORY_NAME = "sub_category_name";
 
     ArrayList<DataAgenda> agendas = new ArrayList<>();
     ArrayList<DataAgenda> agendaSearches = new ArrayList<>();
@@ -48,13 +50,15 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
 
-    private String agendaId, subAgendaId, agenda, subAgendaName;
+    private String categoryId, subCategoryId, subCategoryName;
     private CategoryContract.Presenter mPresenter;
 
     private MaterialSearchView materialSearchView;
     private AnchorSheetBehavior<View> anchorBehavior;
 
     private ProgressBar searchProgressBar;
+
+    private Agenda agenda;
 
     @Override
     public void onBackPressed() {
@@ -96,17 +100,21 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         // Ini untuk mengatasi masalah result anchorsheet yang ketutup toolbar pas keyboard muncul
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-        agendaId = getIntent().getStringExtra(AGENDA_ID);
-        subAgendaId = getIntent().getStringExtra(SUB_AGENDA_ID);
-        agenda = getIntent().getStringExtra(AGENDA);
-        subAgendaName = getIntent().getStringExtra(SUB_AGENDA_NAME);
+        categoryId = getIntent().getStringExtra(CATEGORY_ID);
+        subCategoryId = getIntent().getStringExtra(SUB_CATEGORY_ID);
+        subCategoryName = getIntent().getStringExtra(SUB_CATEGORY_NAME);
 
         mPresenter = new CategoryPresenter(this);
 
         initView();
         addListener();
 
-        mPresenter.getCategoryAgendaList(agendaId, subAgendaId);
+        User user = SharedPreferenceUtils.getUser(this);
+        String idUser = user.getId();
+
+        agenda = new Agenda(categoryId, "", idUser, subCategoryId);
+
+        mPresenter.getCategoryAgendaList(agenda);
 
         swipeRefreshLayout.setRefreshing(true);
         showShimmer();
@@ -154,8 +162,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         TextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(subAgendaName);
-        if (getSupportActionBar() != null){
+        toolbarTitle.setText(subCategoryName);
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -165,7 +173,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     private void addListener() {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             agendas.clear();
-            mPresenter.getCategoryAgendaList(agendaId, subAgendaId);
+            mPresenter.getCategoryAgendaList(agenda);
             showShimmer();
 
             agendaPerCategoryAdapter.notifyDataSetChanged();
@@ -178,7 +186,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
                 searchProgressBar.setVisibility(View.VISIBLE);
                 agendaSearches.clear();
                 agendaSearchAdapter.notifyDataSetChanged();
-                mPresenter.getAgendaPerCategorySearch(query, agendaId, subAgendaId);
+                mPresenter.getAgendaPerCategorySearch(query, categoryId, subCategoryId);
                 return true;
             }
 

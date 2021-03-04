@@ -1,30 +1,31 @@
 package com.example.e_agendaprobolinggo.ui.detail;
 
-import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
+import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 
 public interface DetailContract {
 
-    interface DetailAgendaRequestCallback{
-        void onDetailAgendaRequestCompleted(AgendaResponse agendaResponse);
+    interface DetailAgendaRequestCallback {
+        void onDetailAgendaRequestCompleted(DetailAgendaResponse detailAgendaResponse);
 
         void onDetailAgendaRequestFailure(String message);
     }
 
     interface View {
-        void populateDetailAgenda(AgendaResponse agendaResponse);
+        void populateDetailAgenda(DetailAgendaResponse detailAgendaResponse);
 
         void showFailureDetailAgenda(String message);
     }
 
     interface Interactor {
 
-        void requestDetailAgenda(String key, DetailAgendaRequestCallback detailAgendaRequestCallback);
+        void requestDetailAgenda(DetailAgenda detailAgenda, DetailAgendaRequestCallback detailAgendaRequestCallback);
 
     }
 
     interface Presenter {
 
-        void getDetailAgenda(String key);
+        void getDetailAgenda(DetailAgenda detailAgenda);
 
     }
 

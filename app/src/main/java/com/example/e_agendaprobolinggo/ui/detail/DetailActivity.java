@@ -24,8 +24,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
-import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
-import com.example.e_agendaprobolinggo.model.response.DataAgenda;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
+import com.example.e_agendaprobolinggo.model.response.DataDetailAgenda;
+import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.User;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,14 +41,13 @@ import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
 
-    public static final String KEY = "key";
+    public static final String KODE = "kode";
     private DetailContract.Presenter mPresenter;
     private TextView tvNameAgenda, tvCategoryAgenda, tvPlaceAgenda,
             tvDate, tvPersonAgenda, tvNote, tvSubAgenda,
             tvClothes, tvUndangan, tvPeran, tvRoundown,
             tvTataRuang, tvPerlengkapan, tvPenyelenggara,
-            tvPetugasProtokol;
-    private String key;
+            tvPetugasProtokol, tvDetailAgenda;
     private String urlLetter, urlSambutan;
     private String fileName;
     private Toolbar toolbarDetail;
@@ -53,6 +55,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private ProgressDialog mProgressDialog;
     private DownloadTask downloadTask;
     private LinearLayout listContainer;
+    private DetailAgenda detailAgenda;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -97,10 +100,14 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         setContentView(R.layout.activity_detail);
         initView();
 
-        key = getIntent().getStringExtra(KEY);
+        User user = SharedPreferenceUtils.getUser(this);
+        String kode = getIntent().getStringExtra(KODE);
+        int idUser = Integer.parseInt(user.getId());
+
+        detailAgenda = new DetailAgenda(kode, idUser);
 
         mPresenter = new DetailPresenter(this);
-        mPresenter.getDetailAgenda(key);
+        mPresenter.getDetailAgenda(detailAgenda);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -140,7 +147,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.getDetailAgenda(key);
+            mPresenter.getDetailAgenda(detailAgenda);
             listContainer.setVisibility(View.GONE);
         });
 
@@ -153,21 +160,22 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         listContainer = findViewById(R.id.listContainer);
 
-        tvNameAgenda = findViewById(R.id.tv_name_agenda);
-        tvCategoryAgenda = findViewById(R.id.tv_category_agenda);
-        tvPlaceAgenda = findViewById(R.id.tv_place_agenda);
-        tvPersonAgenda = findViewById(R.id.tv_person_agenda);
-        tvNote = findViewById(R.id.tv_note_agenda);
-        tvClothes = findViewById(R.id.tv_clothes_agenda);
-        tvRoundown = findViewById(R.id.tv_roundown_agenda);
-        tvSubAgenda = findViewById(R.id.tv_sub_agenda);
-        tvUndangan = findViewById(R.id.tv_undangan_agenda);
-        tvPeran = findViewById(R.id.tv_peran_agenda);
-        tvTataRuang = findViewById(R.id.tv_tata_ruangan_agenda);
-        tvPerlengkapan = findViewById(R.id.tv_perlengkapan_agenda);
-        tvPenyelenggara = findViewById(R.id.tv_penyelenggara_agenda);
-        tvPetugasProtokol = findViewById(R.id.tv_petugas_agenda);
-        tvDate = findViewById(R.id.tv_date_agenda);
+        tvDetailAgenda = findViewById(R.id.tv_detail_agenda);
+//        tvNameAgenda = findViewById(R.id.tv_name_agenda);
+//        tvCategoryAgenda = findViewById(R.id.tv_category_agenda);
+//        tvPlaceAgenda = findViewById(R.id.tv_place_agenda);
+//        tvPersonAgenda = findViewById(R.id.tv_person_agenda);
+//        tvNote = findViewById(R.id.tv_note_agenda);
+//        tvClothes = findViewById(R.id.tv_clothes_agenda);
+//        tvRoundown = findViewById(R.id.tv_roundown_agenda);
+//        tvSubAgenda = findViewById(R.id.tv_sub_agenda);
+//        tvUndangan = findViewById(R.id.tv_undangan_agenda);
+//        tvPeran = findViewById(R.id.tv_peran_agenda);
+//        tvTataRuang = findViewById(R.id.tv_tata_ruangan_agenda);
+//        tvPerlengkapan = findViewById(R.id.tv_perlengkapan_agenda);
+//        tvPenyelenggara = findViewById(R.id.tv_penyelenggara_agenda);
+//        tvPetugasProtokol = findViewById(R.id.tv_petugas_agenda);
+//        tvDate = findViewById(R.id.tv_date_agenda);
         btnLetter = findViewById(R.id.btn_download_letter);
         btnSambutan = findViewById(R.id.btn_download_sambutan);
 
@@ -190,30 +198,31 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
-    public void populateDetailAgenda(AgendaResponse agendaResponse) {
+    public void populateDetailAgenda(DetailAgendaResponse detailAgendaResponse) {
         swipeRefreshLayout.setRefreshing(false);
         listContainer.setVisibility(View.VISIBLE);
 
-        DataAgenda dataAgenda = agendaResponse.getData().get(0);
-        tvNameAgenda.setText(dataAgenda.getNamaKegiatan());
-        tvCategoryAgenda.setText(dataAgenda.getKategori());
-        tvPlaceAgenda.setText(dataAgenda.getTempat());
-        tvPersonAgenda.setText(dataAgenda.getAgenda());
-        tvDate.setText(dataAgenda.getTanggal());
-        tvClothes.setText(dataAgenda.getPakaian());
-        tvSubAgenda.setText(dataAgenda.getSubAgenda());
-        tvTataRuang.setText(dataAgenda.getTataRuangan());
-        tvPerlengkapan.setText(dataAgenda.getPerlengkapan());
-        tvPenyelenggara.setText(dataAgenda.getPenyelenggara());
-        tvPetugasProtokol.setText(dataAgenda.getPetugasProtokol());
+        DataDetailAgenda dataDetailAgenda = detailAgendaResponse.getData().get(0);
+        tvDetailAgenda.setText(Html.fromHtml(dataDetailAgenda.getDetail()));
+//        tvNameAgenda.setText(dataDetailAgenda.getNamaKegiatan());
+//        tvCategoryAgenda.setText(dataDetailAgenda.getKategori());
+//        tvPlaceAgenda.setText(dataDetailAgenda.getTempat());
+//        tvPersonAgenda.setText(dataDetailAgenda.getAgenda());
+//        tvDate.setText(dataDetailAgenda.getTanggal());
+//        tvClothes.setText(dataDetailAgenda.getPakaian());
+//        tvSubAgenda.setText(dataDetailAgenda.getSubAgenda());
+//        tvTataRuang.setText(dataDetailAgenda.getTataRuangan());
+//        tvPerlengkapan.setText(dataDetailAgenda.getPerlengkapan());
+//        tvPenyelenggara.setText(dataDetailAgenda.getPenyelenggara());
+//        tvPetugasProtokol.setText(dataDetailAgenda.getPetugasProtokol());
 
-        tvRoundown.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUrutanAcara())));
-        tvNote.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getCatatan())));
-        tvUndangan.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getUndangan())));
-        tvPeran.setText(noTrailingwhiteLines(Html.fromHtml(dataAgenda.getPeranPimpinan())));
+//        tvRoundown.setText(noTrailingwhiteLines(Html.fromHtml(dataDetailAgenda.getUrutanAcara())));
+//        tvNote.setText(noTrailingwhiteLines(Html.fromHtml(dataDetailAgenda.getCatatan())));
+//        tvUndangan.setText(noTrailingwhiteLines(Html.fromHtml(dataDetailAgenda.getUndangan())));
+//        tvPeran.setText(noTrailingwhiteLines(Html.fromHtml(dataDetailAgenda.getPeranPimpinan())));
 
-        urlLetter = dataAgenda.getSurat();
-        urlSambutan = dataAgenda.getSambutan();
+        urlLetter = dataDetailAgenda.getSurat();
+        urlSambutan = dataDetailAgenda.getSambutan();
 
         if ((urlLetter.charAt(urlLetter.length() - 1) == '-') || urlLetter == null || urlLetter.isEmpty()) {
             btnLetter.setEnabled(false);

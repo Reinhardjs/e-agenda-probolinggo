@@ -41,7 +41,7 @@ public class AgendaPerCategoryAdapter extends RecyclerView.Adapter<AgendaPerCate
 
         rootView.setOnClickListener(v -> {
             Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
-            detailIntent.putExtra(DetailActivity.KEY, agendas.get(viewHolder.getAdapterPosition()).getIdEncode());
+            detailIntent.putExtra(DetailActivity.KODE, agendas.get(viewHolder.getAdapterPosition()).getIdEncode());
             parent.getContext().startActivity(detailIntent);
         });
         return viewHolder;

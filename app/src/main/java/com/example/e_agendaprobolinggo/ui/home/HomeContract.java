@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 
@@ -47,7 +48,7 @@ public interface HomeContract {
 
     interface Interactor {
 
-        void requestAgendaList(AgendaRequestCallback agendaRequestCallback);
+        void requestAgendaList(Agenda agenda, AgendaRequestCallback agendaRequestCallback);
 
         void requestAgendaCategoryList(AgendaCategoryRequestCallback agendaCategoryRequestCallback);
 
@@ -57,7 +58,7 @@ public interface HomeContract {
 
     interface Presenter {
 
-        void requestAgendaList();
+        void requestAgendaList(Agenda agenda);
 
         void requestAgendaCategoryList();
 

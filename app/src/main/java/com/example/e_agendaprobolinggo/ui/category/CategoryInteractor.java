@@ -21,13 +21,12 @@ import retrofit2.HttpException;
 
 public class CategoryInteractor implements CategoryContract.Interactor {
 
-    private NetworkApi networkApi = UtilsApi.getApiService();
+    private final NetworkApi networkApi = UtilsApi.getApiService();
     private AgendaResponse agendaResponsePerCategory;
     private AgendaResponse agendaResponseSearch;
 
     @Override
-    public void requestAgendaList(String agendaId, String subAgendaId, CategoryContract.CategoryAgendaRequestCallback categoryAgendaRequestCallback) {
-        Agenda agenda = new Agenda(agendaId, "", subAgendaId);
+    public void requestAgendaList(Agenda agenda, CategoryContract.CategoryAgendaRequestCallback categoryAgendaRequestCallback) {
         networkApi.getAgenda(agenda).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override
@@ -72,8 +71,8 @@ public class CategoryInteractor implements CategoryContract.Interactor {
     }
 
     @Override
-    public void requestAgendaPerCategorySearch(String keyword, String agendaId, String subAgendaId, CategoryContract.AgendaPerCategorySearchRequestCallBack agendaPerCategorySearchRequestCallBack) {
-        Search search = new Search(keyword, agendaId, subAgendaId);
+    public void requestAgendaPerCategorySearch(String keyword, String categoryId, String subCategoryId, CategoryContract.AgendaPerCategorySearchRequestCallBack agendaPerCategorySearchRequestCallBack) {
+        Search search = new Search(keyword, categoryId, subCategoryId);
 
         networkApi.getAgendaSearch(search).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {

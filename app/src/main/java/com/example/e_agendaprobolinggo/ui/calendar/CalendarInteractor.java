@@ -24,8 +24,7 @@ public class CalendarInteractor implements CalendarContract.Interactor {
     private AgendaResponse agendaResponse = null;
 
     @Override
-    public void requestAgendaCalendarList(String agendaId, String limit, String subAgendaId, CalendarContract.AgendaCalendarRequestCallback calendarAgendaRequestCallback) {
-        Agenda agenda = new Agenda(agendaId, limit, subAgendaId);
+    public void requestAgendaCalendarList(Agenda agenda, CalendarContract.AgendaCalendarRequestCallback calendarAgendaRequestCallback) {
         networkApi.getAgenda(agenda).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AgendaResponse>() {
                     @Override

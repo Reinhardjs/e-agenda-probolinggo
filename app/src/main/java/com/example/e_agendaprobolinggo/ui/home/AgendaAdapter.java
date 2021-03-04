@@ -24,14 +24,14 @@ import java.util.ArrayList;
 public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder> {
 
     private ArrayList<DataAgenda> agendas;
-    private Context context;
+    private final Context context;
 
-    public AgendaAdapter(ArrayList<DataAgenda> agendas, Context context){
+    public AgendaAdapter(ArrayList<DataAgenda> agendas, Context context) {
         this.agendas = agendas;
         this.context = context;
     }
 
-    public void replaceList(ArrayList<DataAgenda> list){
+    public void replaceList(ArrayList<DataAgenda> list) {
         agendas = list;
         this.notifyDataSetChanged();
     }
@@ -46,7 +46,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
 
         rootView.setOnClickListener(v -> {
             Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
-            detailIntent.putExtra(DetailActivity.KEY, agendas.get(viewHolder.getAdapterPosition()).getIdEncode());
+            detailIntent.putExtra(DetailActivity.KODE, agendas.get(viewHolder.getAbsoluteAdapterPosition()).getIdEncode());
             parent.getContext().startActivity(detailIntent);
         });
 
@@ -68,7 +68,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
 
         // https://stackoverflow.com/questions/32163918/programmatically-change-color-of-shape-in-layer-list
         LayerDrawable ld = (LayerDrawable) context.getResources().getDrawable(R.drawable.item_left_border);
-        GradientDrawable leftBorder = (GradientDrawable)ld.findDrawableByLayerId(R.id.left_border);
+        GradientDrawable leftBorder = (GradientDrawable) ld.findDrawableByLayerId(R.id.left_border);
         leftBorder.setColor(Color.parseColor(agenda.getStatusBox()));
 
         holder.container.setBackground(ld);

@@ -10,36 +10,16 @@ public class Agenda {
     @SerializedName("limit")
     private String limit;
 
+    @SerializedName("id_user")
+    private String idUser;
+
     @SerializedName("kode_sub")
-    private String kode_sub;
+    private String kodeSub;
 
-    public Agenda(String kode, String limit, String kode_sub) {
+    public Agenda(String kode, String limit, String idUser, String kodeSub) {
         this.kode = kode;
         this.limit = limit;
-        this.kode_sub = kode_sub;
-    }
-
-    public String getKode() {
-        return kode;
-    }
-
-    public void setKode(String kode) {
-        this.kode = kode;
-    }
-
-    public String getLimit() {
-        return limit;
-    }
-
-    public void setLimit(String limit) {
-        this.limit = limit;
-    }
-
-    public String getKode_sub() {
-        return kode_sub;
-    }
-
-    public void setKode_sub(String kode_sub) {
-        this.kode_sub = kode_sub;
+        this.idUser = idUser;
+        this.kodeSub = kodeSub;
     }
 }

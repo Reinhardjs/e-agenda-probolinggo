@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.detail;
 
-import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
+import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 
 public class DetailPresenter implements DetailContract.Presenter {
 
@@ -11,12 +12,13 @@ public class DetailPresenter implements DetailContract.Presenter {
         mView = view;
         mInteractor = new DetailInteractor();
     }
+
     @Override
-    public void getDetailAgenda(String key) {
-        mInteractor.requestDetailAgenda(key, new DetailContract.DetailAgendaRequestCallback() {
+    public void getDetailAgenda(DetailAgenda detailAgenda) {
+        mInteractor.requestDetailAgenda(detailAgenda, new DetailContract.DetailAgendaRequestCallback() {
             @Override
-            public void onDetailAgendaRequestCompleted(AgendaResponse agendaResponse) {
-                mView.populateDetailAgenda(agendaResponse);
+            public void onDetailAgendaRequestCompleted(DetailAgendaResponse detailAgendaResponse) {
+                mView.populateDetailAgenda(detailAgendaResponse);
             }
 
             @Override

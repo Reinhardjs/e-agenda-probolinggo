@@ -19,8 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.DataAgenda;
+import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.home.AgendaAdapter;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -49,6 +52,8 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
     private ProgressBar searchProgressBar;
 
     private AllAgendaContract.Presenter mPresenter;
+
+    private Agenda agenda;
 
     @Override
     public void onBackPressed() {
@@ -95,8 +100,13 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
         setupAnchorSheetBehavior();
         setupListenerOrCallback();
 
+        User user = SharedPreferenceUtils.getUser(this);
+        String idUser = user.getId();
+
+        agenda = new Agenda("all", "", idUser, "all");
+
         mPresenter = new AllAgendaPresenter(this);
-        mPresenter.getAllAgendaList("all", "", "all");
+        mPresenter.getAllAgendaList(agenda);
 
         swipeRefreshLayout.setRefreshing(true);
         showShimmer();
@@ -155,7 +165,7 @@ public class AllAgendaActivity extends AppCompatActivity implements AllAgendaCon
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             agendas.clear();
-            mPresenter.getAllAgendaList("all", "", "all");
+            mPresenter.getAllAgendaList(agenda);
             showShimmer();
 
             // AgendaAdapter agendaAdapter = (AgendaAdapter) Objects.requireNonNull(rvAgenda.getAdapter());

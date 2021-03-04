@@ -1,5 +1,6 @@
 package com.example.e_agendaprobolinggo.ui.home;
 
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 
@@ -14,8 +15,8 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void requestAgendaList() {
-        mInteractor.requestAgendaList(new HomeContract.AgendaRequestCallback() {
+    public void requestAgendaList(Agenda agenda) {
+        mInteractor.requestAgendaList(agenda, new HomeContract.AgendaRequestCallback() {
             @Override
             public void onAgendaRequestCompleted(AgendaResponse agendaResponse) {
                 mView.populateAgenda(agendaResponse);

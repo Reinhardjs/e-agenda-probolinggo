@@ -1,20 +1,21 @@
 package com.example.e_agendaprobolinggo.ui.all_agenda;
 
+import com.example.e_agendaprobolinggo.model.request.Agenda;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
-public class AllAgendaPresenter implements AllAgendaContract.Presenter{
+public class AllAgendaPresenter implements AllAgendaContract.Presenter {
 
-    private AllAgendaContract.View mView;
-    private AllAgendaContract.Interactor mInteractor;
+    private final AllAgendaContract.View mView;
+    private final AllAgendaContract.Interactor mInteractor;
 
-    public AllAgendaPresenter(AllAgendaContract.View view){
+    public AllAgendaPresenter(AllAgendaContract.View view) {
         mView = view;
         mInteractor = new AllAgendaInteractor();
     }
 
     @Override
-    public void getAllAgendaList(String agendaId, String limit, String subAgendaId) {
-        mInteractor.requestAllAgendaList(agendaId, limit, subAgendaId, new AllAgendaContract.AllAgendaRequestCallback() {
+    public void getAllAgendaList(Agenda agenda) {
+        mInteractor.requestAllAgendaList(agenda, new AllAgendaContract.AllAgendaRequestCallback() {
             @Override
             public void onAllAgendaRequestCompleted(AgendaResponse agendaResponse) {
                 mView.populateAllAgenda(agendaResponse);
