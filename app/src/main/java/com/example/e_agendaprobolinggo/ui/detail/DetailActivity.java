@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,7 +15,6 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +33,7 @@ import com.example.e_agendaprobolinggo.model.response.DataDetailAgenda;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.ListKomentarAgenda;
 import com.example.e_agendaprobolinggo.model.response.User;
+import com.example.e_agendaprobolinggo.ui.comment.CommentActivity;
 import com.example.e_agendaprobolinggo.ui.comment.CommentAdapter;
 
 import java.io.File;
@@ -43,27 +44,25 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
 
-    public static final String KODE = "kode";
+    public static final String CODE = "code";
     private DetailContract.Presenter mPresenter;
-    private TextView tvDetailAgenda, labelComment;
+    private TextView tvDetailAgenda, labelComment, tvShowAllComment, tvEmptyComment;
     private String urlLetter, urlSambutan;
     private String fileName;
-    private Toolbar toolbarDetail;
     private Button btnLetter, btnSambutan;
     private View lineComment;
     private RecyclerView rvComment;
     private ProgressDialog mProgressDialog;
     private DownloadTask downloadTask;
-    private ConstraintLayout listContainer;
+    private ConstraintLayout containerDetail;
     private DetailAgenda detailAgenda;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CommentAdapter commentAdapter;
-
-    private ArrayList<ListKomentarAgenda> comments = new ArrayList<>();
+    private String code;
 
     public static String getFileNameFromURL(String url) {
         if (url == null) {
@@ -104,15 +103,20 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        setupToolbar();
         initView();
+        setupListenerOrCallback();
+
+        swipeRefreshLayout.setRefreshing(true);
+        containerDetail.setVisibility(View.GONE);
 
         commentAdapter = new CommentAdapter();
 
+        code = getIntent().getStringExtra(CODE);
         User user = SharedPreferenceUtils.getUser(this);
-        String kode = getIntent().getStringExtra(KODE);
         int idUser = Integer.parseInt(user.getId());
 
-        detailAgenda = new DetailAgenda(kode, idUser);
+        detailAgenda = new DetailAgenda(code, idUser);
 
         mPresenter = new DetailPresenter(this);
         mPresenter.getDetailAgenda(detailAgenda);
@@ -126,6 +130,41 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
         }
 
+    }
+
+    private void initView() {
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        containerDetail = findViewById(R.id.container_detail);
+
+        tvDetailAgenda = findViewById(R.id.tv_detail_agenda);
+        btnLetter = findViewById(R.id.btn_download_letter);
+        btnSambutan = findViewById(R.id.btn_download_sambutan);
+        lineComment = findViewById(R.id.line_comment);
+        labelComment = findViewById(R.id.label_comment);
+        tvShowAllComment = findViewById(R.id.tv_show_all_comment);
+        tvEmptyComment = findViewById(R.id.tv_empty_comment);
+        rvComment = findViewById(R.id.rv_comment);
+
+        mProgressDialog = new ProgressDialog(DetailActivity.this);
+        mProgressDialog.setMessage("Downloading...");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setCancelable(true);
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbarDetail = findViewById(R.id.toolbar_detail);
+        setSupportActionBar(toolbarDetail);
+        TextView toolbarTitle = toolbarDetail.findViewById(R.id.toolbar_title_detail);
+        toolbarTitle.setText(R.string.detail_toolbar_title);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    private void setupListenerOrCallback() {
         btnLetter.setOnClickListener(v -> {
 
             // "https://dev.karyastudio.com/e-agenda/webfile/no_image.png"
@@ -150,53 +189,26 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         });
         btnSambutan.setEnabled(false);
 
+        tvShowAllComment.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CommentActivity.class);
+            intent.putExtra(CODE, code);
+            startActivity(intent);
+        });
+
         mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Batal", (dialog, which) -> {
             downloadTask.cancel(true);
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             mPresenter.getDetailAgenda(detailAgenda);
-            listContainer.setVisibility(View.GONE);
+            containerDetail.setVisibility(View.GONE);
         });
-
-    }
-
-    private void initView() {
-        toolbarDetail = findViewById(R.id.toolbar_detail);
-        setupToolbar();
-
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        listContainer = findViewById(R.id.listContainer);
-
-        tvDetailAgenda = findViewById(R.id.tv_detail_agenda);
-        btnLetter = findViewById(R.id.btn_download_letter);
-        btnSambutan = findViewById(R.id.btn_download_sambutan);
-        lineComment = findViewById(R.id.line_comment);
-        labelComment = findViewById(R.id.label_comment);
-        rvComment = findViewById(R.id.rv_comment);
-
-        mProgressDialog = new ProgressDialog(DetailActivity.this);
-        mProgressDialog.setMessage("Downloading...");
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(true);
-    }
-
-    private void setupToolbar() {
-        setSupportActionBar(toolbarDetail);
-        TextView toolbarTitle = toolbarDetail.findViewById(R.id.toolbar_title_detail);
-        toolbarTitle.setText(R.string.detail_toolbar_title);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
     }
 
     @Override
     public void populateDetailAgenda(DetailAgendaResponse detailAgendaResponse) {
         swipeRefreshLayout.setRefreshing(false);
-        listContainer.setVisibility(View.VISIBLE);
+        containerDetail.setVisibility(View.VISIBLE);
 
         DataDetailAgenda dataDetailAgenda = detailAgendaResponse.getData().get(0);
         tvDetailAgenda.setText(Html.fromHtml(dataDetailAgenda.getDetail()));
@@ -222,27 +234,39 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             lineComment.setVisibility(View.VISIBLE);
             labelComment.setVisibility(View.VISIBLE);
             rvComment.setVisibility(View.VISIBLE);
+
+            List<ListKomentarAgenda> listComment = detailAgendaResponse.getData().get(0).getListKomentar();
+            if (listComment.size() == 0) {
+                tvEmptyComment.setVisibility(View.VISIBLE);
+            } else {
+                tvEmptyComment.setVisibility(View.GONE);
+            }
+
+            if (listComment.size() > 3) {
+                tvShowAllComment.setText(getResources().getString(R.string.show_other_comment, listComment.size() - 3));
+                tvShowAllComment.setVisibility(View.VISIBLE);
+                commentAdapter.setData(listComment.subList(0, 3));
+            } else {
+                tvShowAllComment.setVisibility(View.GONE);
+                commentAdapter.setData(listComment);
+            }
+            rvComment.setLayoutManager(new LinearLayoutManager(this));
+            rvComment.setHasFixedSize(true);
+            rvComment.setAdapter(commentAdapter);
+
         } else {
             lineComment.setVisibility(View.GONE);
             labelComment.setVisibility(View.GONE);
             rvComment.setVisibility(View.GONE);
+            tvShowAllComment.setVisibility(View.GONE);
+            tvEmptyComment.setVisibility(View.GONE);
         }
-
-        commentAdapter.setData(detailAgendaResponse.getData().get(0).getListKomentar());
-        rvComment.setLayoutManager(new LinearLayoutManager(this));
-        rvComment.setHasFixedSize(true);
-        rvComment.setAdapter(commentAdapter);
     }
 
     @Override
     public void showFailureDetailAgenda(String message) {
-
+        swipeRefreshLayout.setRefreshing(false);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     @Override
@@ -251,7 +275,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         if (id == android.R.id.home) {
             onBackPressed();
-            return true;
         }
 
         return super.onOptionsItemSelected(menuItem);

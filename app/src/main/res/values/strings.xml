@@ -44,7 +44,6 @@
     <string name="download_surat_text">Download Surat</string>
     <string name="download_sambutan_text">Download Sambutan</string>
     <string name="comment_text">Komentar</string>
-    <string-array name="role_spinner">
-        <item>Tingkatan</item>
-    </string-array>
+    <string name="show_other_comment">Tampilkan %d komentar lainnya</string>
+    <string name="empty_comment_text">Tidak ada komentar</string>
 </resources>

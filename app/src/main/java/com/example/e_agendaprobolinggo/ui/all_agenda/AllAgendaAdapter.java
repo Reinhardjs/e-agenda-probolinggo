@@ -41,7 +41,7 @@ public class AllAgendaAdapter extends RecyclerView.Adapter<AllAgendaAdapter.View
 
         rootView.setOnClickListener(v -> {
             Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
-            detailIntent.putExtra(DetailActivity.KODE, agendas.get(viewHolder.getAdapterPosition()).getIdEncode());
+            detailIntent.putExtra(DetailActivity.CODE, agendas.get(viewHolder.getAbsoluteAdapterPosition()).getIdEncode());
             parent.getContext().startActivity(detailIntent);
         });
         return viewHolder;
