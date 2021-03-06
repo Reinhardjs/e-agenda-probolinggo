@@ -8,9 +8,9 @@ public class DetailAgenda {
     private String kode;
 
     @SerializedName("id_user")
-    private int idUser;
+    private String idUser;
 
-    public DetailAgenda(String kode, int idUser) {
+    public DetailAgenda(String kode, String idUser) {
         this.kode = kode;
         this.idUser = idUser;
     }

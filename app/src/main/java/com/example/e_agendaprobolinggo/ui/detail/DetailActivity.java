@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -49,8 +51,9 @@ import java.util.List;
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
 
     public static final String CODE = "code";
+
     private DetailContract.Presenter mPresenter;
-    private TextView tvDetailAgenda, labelComment, tvShowAllComment, tvEmptyComment;
+    private TextView tvDetailAgenda, labelComment, tvShowAllComment;
     private String urlLetter, urlSambutan;
     private String fileName;
     private Button btnLetter, btnSambutan;
@@ -63,6 +66,18 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private SwipeRefreshLayout swipeRefreshLayout;
     private CommentAdapter commentAdapter;
     private String code;
+
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == CommentActivity.RESULT_CODE) {
+            if (result.getData() != null) {
+                boolean isFetch = result.getData().getBooleanExtra(CommentActivity.IS_FETCH, false);
+
+                if (isFetch) {
+                    initRequest();
+                }
+            }
+        }
+    });
 
     public static String getFileNameFromURL(String url) {
         if (url == null) {
@@ -107,6 +122,13 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         initView();
         setupListenerOrCallback();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+
         swipeRefreshLayout.setRefreshing(true);
         containerDetail.setVisibility(View.GONE);
 
@@ -114,22 +136,16 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         code = getIntent().getStringExtra(CODE);
         User user = SharedPreferenceUtils.getUser(this);
-        int idUser = Integer.parseInt(user.getId());
 
-        detailAgenda = new DetailAgenda(code, idUser);
+        detailAgenda = new DetailAgenda(code, user.getId());
 
         mPresenter = new DetailPresenter(this);
+
+        initRequest();
+    }
+
+    private void initRequest() {
         mPresenter.getDetailAgenda(detailAgenda);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-            } else {
-
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        }
-
     }
 
     private void initView() {
@@ -142,7 +158,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         lineComment = findViewById(R.id.line_comment);
         labelComment = findViewById(R.id.label_comment);
         tvShowAllComment = findViewById(R.id.tv_show_all_comment);
-        tvEmptyComment = findViewById(R.id.tv_empty_comment);
         rvComment = findViewById(R.id.rv_comment);
 
         mProgressDialog = new ProgressDialog(DetailActivity.this);
@@ -192,7 +207,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         tvShowAllComment.setOnClickListener(v -> {
             Intent intent = new Intent(this, CommentActivity.class);
             intent.putExtra(CODE, code);
-            startActivity(intent);
+            activityResultLauncher.launch(intent);
         });
 
         mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Batal", (dialog, which) -> {
@@ -236,18 +251,12 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             rvComment.setVisibility(View.VISIBLE);
 
             List<ListKomentarAgenda> listComment = detailAgendaResponse.getData().get(0).getListKomentar();
-            if (listComment.size() == 0) {
-                tvEmptyComment.setVisibility(View.VISIBLE);
-            } else {
-                tvEmptyComment.setVisibility(View.GONE);
-            }
 
             if (listComment.size() > 3) {
                 tvShowAllComment.setText(getResources().getString(R.string.show_other_comment, listComment.size() - 3));
-                tvShowAllComment.setVisibility(View.VISIBLE);
                 commentAdapter.setData(listComment.subList(0, 3));
             } else {
-                tvShowAllComment.setVisibility(View.GONE);
+                tvShowAllComment.setText(getResources().getString(R.string.add_comment_text));
                 commentAdapter.setData(listComment);
             }
             rvComment.setLayoutManager(new LinearLayoutManager(this));
@@ -259,7 +268,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             labelComment.setVisibility(View.GONE);
             rvComment.setVisibility(View.GONE);
             tvShowAllComment.setVisibility(View.GONE);
-            tvEmptyComment.setVisibility(View.GONE);
         }
     }
 
@@ -418,4 +426,21 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
         }
     }
+//
+//    class ResultCallback extends ActivityResultContract<String, String> {
+//
+//        @NonNull
+//        @Override
+//        public Intent createIntent(@NonNull Context context, String input) {
+//            Intent intent = new Intent(context, CommentActivity.class);
+//            intent.putExtra(CODE, code);
+//
+//            retu
+//        }
+//
+//        @Override
+//        public String parseResult(int resultCode, @Nullable Intent intent) {
+//            return null;
+//        }
+//    }
 }

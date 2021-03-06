@@ -11,4 +11,5 @@
     <color name="secondary_card_orange">#FFEDD9</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#B9B9BA</color>
+    <color name="mid_gray">#EFEFF3</color>
 </resources>

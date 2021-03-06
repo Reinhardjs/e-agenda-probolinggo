@@ -45,5 +45,7 @@
     <string name="download_sambutan_text">Download Sambutan</string>
     <string name="comment_text">Komentar</string>
     <string name="show_other_comment">Tampilkan %d komentar lainnya</string>
+    <string name="add_comment_text">Tambah komentar</string>
     <string name="empty_comment_text">Tidak ada komentar</string>
+    <string name="write_comment_text">Tulis komentar</string>
 </resources>

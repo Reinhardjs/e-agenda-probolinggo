@@ -1,6 +1,9 @@
 package com.example.e_agendaprobolinggo.ui.comment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -9,25 +12,31 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.databinding.ActivityCommentBinding;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
+import com.example.e_agendaprobolinggo.model.request.NewComment;
+import com.example.e_agendaprobolinggo.model.response.AddCommentResponse;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.detail.DetailActivity;
-import com.example.e_agendaprobolinggo.ui.detail.DetailContract;
-import com.example.e_agendaprobolinggo.ui.detail.DetailPresenter;
 
-public class CommentActivity extends AppCompatActivity implements DetailContract.View {
+public class CommentActivity extends AppCompatActivity implements CommentContract.View {
+
+    public static final String IS_FETCH = "is_fetch";
+    public static final int RESULT_CODE = 110;
 
     private ActivityCommentBinding binding;
-    private DetailContract.Presenter mPresenter;
+    private CommentContract.Presenter mPresenter;
     private DetailAgenda detailAgenda;
     private CommentAdapter commentAdapter;
-    private SwipeRefreshLayout swipeRefreshLayoutComment;
+
+    private String code;
+    private String idUser;
+
+    private boolean isFetch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +47,15 @@ public class CommentActivity extends AppCompatActivity implements DetailContract
         setupToolbar();
         setupListenerOrCallback();
 
-        binding.swipeRefreshLayoutComment.setRefreshing(true);
+        binding.btnSendComment.setEnabled(false);
 
-        String code = getIntent().getStringExtra(DetailActivity.CODE);
+        code = getIntent().getStringExtra(DetailActivity.CODE);
         User user = SharedPreferenceUtils.getUser(this);
-        int idUser = Integer.parseInt(user.getId());
+        idUser = user.getId();
 
         detailAgenda = new DetailAgenda(code, idUser);
 
-        mPresenter = new DetailPresenter(this);
+        mPresenter = new CommentPresenter(this);
 
         commentAdapter = new CommentAdapter();
 
@@ -68,10 +77,39 @@ public class CommentActivity extends AppCompatActivity implements DetailContract
 
     private void setupListenerOrCallback() {
         binding.swipeRefreshLayoutComment.setOnRefreshListener(this::initRequest);
+
+        binding.etAddComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                binding.btnSendComment.setEnabled(charSequence.toString().trim().length() > 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        binding.btnSendComment.setOnClickListener(view -> sendComment());
     }
 
     private void initRequest() {
+        binding.swipeRefreshLayoutComment.setRefreshing(true);
         mPresenter.getDetailAgenda(detailAgenda);
+    }
+
+    private void sendComment() {
+        binding.swipeRefreshLayoutComment.setRefreshing(true);
+        String comment = binding.etAddComment.getText().toString();
+        NewComment newComment = new NewComment(code, idUser, comment);
+        binding.etAddComment.setText(null);
+
+        mPresenter.doAddComment(newComment);
     }
 
     @Override
@@ -90,6 +128,20 @@ public class CommentActivity extends AppCompatActivity implements DetailContract
     }
 
     @Override
+    public void notifyAddCommentSuccess(AddCommentResponse addCommentResponse) {
+        isFetch = true;
+        Toast.makeText(this, addCommentResponse.getMessage(), Toast.LENGTH_SHORT).show();
+        initRequest();
+        binding.btnSendComment.setEnabled(false);
+    }
+
+    @Override
+    public void notifyAddCommentFailure(String message) {
+        binding.swipeRefreshLayoutComment.setRefreshing(false);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
 
@@ -97,5 +149,13 @@ public class CommentActivity extends AppCompatActivity implements DetailContract
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent isFetchIntent = new Intent();
+        isFetchIntent.putExtra(IS_FETCH, isFetch);
+        setResult(RESULT_CODE, isFetchIntent);
+        finish();
     }
 }
