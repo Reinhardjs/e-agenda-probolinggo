@@ -8,7 +8,7 @@ public class ListKomentarAgenda {
     private int btnHapusKomentar;
 
     @SerializedName("updated_at")
-    private Object updatedAt;
+    private String updatedAt;
 
     @SerializedName("nama")
     private String nama;
@@ -32,7 +32,7 @@ public class ListKomentarAgenda {
     private String idUser;
 
     @SerializedName("created_by")
-    private Object createdBy;
+    private String createdBy;
 
     @SerializedName("status")
     private Object status;
@@ -41,7 +41,7 @@ public class ListKomentarAgenda {
         return btnHapusKomentar;
     }
 
-    public Object getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
@@ -73,7 +73,7 @@ public class ListKomentarAgenda {
         return idUser;
     }
 
-    public Object getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 

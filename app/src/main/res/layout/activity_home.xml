@@ -109,7 +109,8 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tvWelcomeContainer"
-                    app:layout_constraintTop_toBottomOf="@+id/tvWelcomeContainer" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvWelcomeContainer"
+                    android:layout_marginStart="16dp" />
 
                 <LinearLayout
                     android:id="@+id/listContainerCategory"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,12 +17,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.databinding.ActivityCommentBinding;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.request.DeleteComment;
 import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
 import com.example.e_agendaprobolinggo.model.request.NewComment;
 import com.example.e_agendaprobolinggo.model.response.AddCommentResponse;
+import com.example.e_agendaprobolinggo.model.response.DataDetailAgenda;
+import com.example.e_agendaprobolinggo.model.response.DeleteCommentResponse;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.ListKomentarAgenda;
 import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.detail.DetailActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class CommentActivity extends AppCompatActivity implements CommentContract.View {
 
@@ -45,7 +51,6 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
         setContentView(binding.getRoot());
 
         setupToolbar();
-        setupListenerOrCallback();
 
         binding.btnSendComment.setEnabled(false);
 
@@ -59,6 +64,7 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
 
         commentAdapter = new CommentAdapter();
 
+        setupListenerOrCallback();
         initRequest();
     }
 
@@ -96,6 +102,13 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
         });
 
         binding.btnSendComment.setOnClickListener(view -> sendComment());
+
+        commentAdapter.setOnItemClickCallback(comment -> new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+                .setTitle(getResources().getString(R.string.delete_comment_title))
+                .setMessage(getResources().getString(R.string.delete_comment_message))
+                .setNegativeButton(getResources().getString(R.string.no_text), (dialogInterface, i) -> {
+                })
+                .setPositiveButton(getResources().getString(R.string.yes_text), (dialogInterface, i) -> deleteComment(comment)).show());
     }
 
     private void initRequest() {
@@ -112,13 +125,36 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
         mPresenter.doAddComment(newComment);
     }
 
+    private void deleteComment(ListKomentarAgenda comment) {
+        binding.swipeRefreshLayoutComment.setRefreshing(true);
+        DeleteComment deleteComment = new DeleteComment(comment.getId(), idUser);
+
+        mPresenter.doDeleteComment(deleteComment);
+    }
+
     @Override
     public void populateDetailAgenda(DetailAgendaResponse detailAgendaResponse) {
         binding.swipeRefreshLayoutComment.setRefreshing(false);
-        commentAdapter.setData(detailAgendaResponse.getData().get(0).getListKomentar());
-        binding.rvComment.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvComment.setHasFixedSize(true);
-        binding.rvComment.setAdapter(commentAdapter);
+
+        DataDetailAgenda dataDetailAgenda = detailAgendaResponse.getData().get(0);
+
+        if (dataDetailAgenda.getTampilkanKomentar() == 1) {
+            binding.rvComment.setVisibility(View.VISIBLE);
+            commentAdapter.setData(dataDetailAgenda.getListKomentar());
+            binding.rvComment.setLayoutManager(new LinearLayoutManager(this));
+            binding.rvComment.setHasFixedSize(true);
+            binding.rvComment.setAdapter(commentAdapter);
+        } else {
+            binding.rvComment.setVisibility(View.VISIBLE);
+        }
+
+        if (detailAgendaResponse.getData().get(0).getBtnTambahKomentar() == 1) {
+            binding.etAddComment.setVisibility(View.VISIBLE);
+            binding.btnSendComment.setVisibility(View.VISIBLE);
+        } else {
+            binding.etAddComment.setVisibility(View.GONE);
+            binding.btnSendComment.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -137,6 +173,19 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
 
     @Override
     public void notifyAddCommentFailure(String message) {
+        binding.swipeRefreshLayoutComment.setRefreshing(false);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void notifyDeleteCommentSuccess(DeleteCommentResponse deleteCommentResponse) {
+        isFetch = true;
+        Toast.makeText(this, deleteCommentResponse.getMessage(), Toast.LENGTH_SHORT).show();
+        initRequest();
+    }
+
+    @Override
+    public void notifyDeleteCommentFailure(String message) {
         binding.swipeRefreshLayoutComment.setRefreshing(false);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

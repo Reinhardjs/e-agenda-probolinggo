@@ -30,13 +30,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.example.e_agendaprobolinggo.model.request.DeleteComment;
 import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
 import com.example.e_agendaprobolinggo.model.response.DataDetailAgenda;
+import com.example.e_agendaprobolinggo.model.response.DeleteCommentResponse;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.ListKomentarAgenda;
 import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.comment.CommentActivity;
 import com.example.e_agendaprobolinggo.ui.comment.CommentAdapter;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,8 +57,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     private DetailContract.Presenter mPresenter;
     private TextView tvDetailAgenda, labelComment, tvShowAllComment;
-    private String urlLetter, urlSambutan;
-    private String fileName;
+    private String urlLetter, urlSambutan, fileName, code, idUser;
     private Button btnLetter, btnSambutan;
     private View lineComment;
     private RecyclerView rvComment;
@@ -65,7 +67,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private DetailAgenda detailAgenda;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CommentAdapter commentAdapter;
-    private String code;
 
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == CommentActivity.RESULT_CODE) {
@@ -120,7 +121,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         setContentView(R.layout.activity_detail);
         setupToolbar();
         initView();
-        setupListenerOrCallback();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -129,23 +129,32 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
         }
 
-        swipeRefreshLayout.setRefreshing(true);
         containerDetail.setVisibility(View.GONE);
 
         commentAdapter = new CommentAdapter();
 
         code = getIntent().getStringExtra(CODE);
         User user = SharedPreferenceUtils.getUser(this);
+        idUser = user.getId();
 
-        detailAgenda = new DetailAgenda(code, user.getId());
+        detailAgenda = new DetailAgenda(code, idUser);
 
         mPresenter = new DetailPresenter(this);
 
+        setupListenerOrCallback();
         initRequest();
     }
 
-    private void initRequest() {
-        mPresenter.getDetailAgenda(detailAgenda);
+    private void setupToolbar() {
+        Toolbar toolbarDetail = findViewById(R.id.toolbar_detail);
+        setSupportActionBar(toolbarDetail);
+        TextView toolbarTitle = toolbarDetail.findViewById(R.id.toolbar_title_detail);
+        toolbarTitle.setText(R.string.detail_toolbar_title);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     private void initView() {
@@ -165,18 +174,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(true);
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbarDetail = findViewById(R.id.toolbar_detail);
-        setSupportActionBar(toolbarDetail);
-        TextView toolbarTitle = toolbarDetail.findViewById(R.id.toolbar_title_detail);
-        toolbarTitle.setText(R.string.detail_toolbar_title);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
     }
 
     private void setupListenerOrCallback() {
@@ -210,14 +207,30 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             activityResultLauncher.launch(intent);
         });
 
-        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Batal", (dialog, which) -> {
-            downloadTask.cancel(true);
-        });
+        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Batal", (dialog, which) -> downloadTask.cancel(true));
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             mPresenter.getDetailAgenda(detailAgenda);
             containerDetail.setVisibility(View.GONE);
         });
+
+        commentAdapter.setOnItemClickCallback(comment -> new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+                .setTitle(getResources().getString(R.string.delete_comment_title))
+                .setMessage(getResources().getString(R.string.delete_comment_message))
+                .setNegativeButton(getResources().getString(R.string.no_text), (dialogInterface, i) -> {
+                })
+                .setPositiveButton(getResources().getString(R.string.yes_text), (dialogInterface, i) -> deleteComment(comment)).show());
+    }
+
+    private void initRequest() {
+        swipeRefreshLayout.setRefreshing(true);
+        mPresenter.getDetailAgenda(detailAgenda);
+    }
+
+    private void deleteComment(ListKomentarAgenda comment) {
+        swipeRefreshLayout.setRefreshing(true);
+        DeleteComment deleteComment = new DeleteComment(comment.getId(), idUser);
+        mPresenter.doDeleteComment(deleteComment);
     }
 
     @Override
@@ -231,32 +244,38 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         urlLetter = dataDetailAgenda.getSurat();
         urlSambutan = dataDetailAgenda.getSambutan();
 
-        if (detailAgendaResponse.getData().get(0).getBtnDownloadSurat() == 1) {
+        if (dataDetailAgenda.getBtnDownloadSurat() == 1) {
             btnLetter.setVisibility(View.VISIBLE);
-            btnLetter.setEnabled(urlLetter.charAt(urlLetter.length() - 1) != '-' && !urlLetter.isEmpty());
+            btnLetter.setEnabled(!urlLetter.isEmpty() && urlLetter.charAt(urlLetter.length() - 1) != '-');
         } else {
             btnLetter.setVisibility(View.GONE);
         }
 
-        if (detailAgendaResponse.getData().get(0).getBtnDownloadSambutan() == 1) {
+        if (dataDetailAgenda.getBtnDownloadSambutan() == 1) {
             btnSambutan.setVisibility(View.VISIBLE);
-            btnSambutan.setEnabled(urlSambutan.charAt(urlSambutan.length() - 1) != '-' && !urlSambutan.isEmpty());
+            btnSambutan.setEnabled(!urlSambutan.isEmpty() && urlSambutan.charAt(urlSambutan.length() - 1) != '-');
         } else {
             btnSambutan.setVisibility(View.GONE);
         }
 
-        if (detailAgendaResponse.getData().get(0).getTampilkanKomentar() == 1) {
+        if (dataDetailAgenda.getTampilkanKomentar() == 1) {
             lineComment.setVisibility(View.VISIBLE);
             labelComment.setVisibility(View.VISIBLE);
             rvComment.setVisibility(View.VISIBLE);
 
-            List<ListKomentarAgenda> listComment = detailAgendaResponse.getData().get(0).getListKomentar();
+            List<ListKomentarAgenda> listComment = dataDetailAgenda.getListKomentar();
 
             if (listComment.size() > 3) {
+                tvShowAllComment.setVisibility(View.VISIBLE);
                 tvShowAllComment.setText(getResources().getString(R.string.show_other_comment, listComment.size() - 3));
                 commentAdapter.setData(listComment.subList(0, 3));
             } else {
-                tvShowAllComment.setText(getResources().getString(R.string.add_comment_text));
+                if (dataDetailAgenda.getBtnTambahKomentar() == 1) {
+                    tvShowAllComment.setVisibility(View.VISIBLE);
+                    tvShowAllComment.setText(getResources().getString(R.string.add_comment_text));
+                } else {
+                    tvShowAllComment.setVisibility(View.GONE);
+                }
                 commentAdapter.setData(listComment);
             }
             rvComment.setLayoutManager(new LinearLayoutManager(this));
@@ -264,15 +283,34 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             rvComment.setAdapter(commentAdapter);
 
         } else {
-            lineComment.setVisibility(View.GONE);
-            labelComment.setVisibility(View.GONE);
             rvComment.setVisibility(View.GONE);
-            tvShowAllComment.setVisibility(View.GONE);
+            if (dataDetailAgenda.getBtnTambahKomentar() == 1) {
+                lineComment.setVisibility(View.VISIBLE);
+                labelComment.setVisibility(View.VISIBLE);
+                tvShowAllComment.setVisibility(View.VISIBLE);
+                tvShowAllComment.setText(getResources().getString(R.string.add_comment_text));
+            } else {
+                lineComment.setVisibility(View.GONE);
+                labelComment.setVisibility(View.GONE);
+                tvShowAllComment.setVisibility(View.GONE);
+            }
         }
     }
 
     @Override
     public void showFailureDetailAgenda(String message) {
+        swipeRefreshLayout.setRefreshing(false);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void notifyDeleteCommentSuccess(DeleteCommentResponse deleteCommentResponse) {
+        Toast.makeText(this, deleteCommentResponse.getMessage(), Toast.LENGTH_SHORT).show();
+        initRequest();
+    }
+
+    @Override
+    public void notifyDeleteCommentFailure(String message) {
         swipeRefreshLayout.setRefreshing(false);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -426,21 +464,4 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
         }
     }
-//
-//    class ResultCallback extends ActivityResultContract<String, String> {
-//
-//        @NonNull
-//        @Override
-//        public Intent createIntent(@NonNull Context context, String input) {
-//            Intent intent = new Intent(context, CommentActivity.class);
-//            intent.putExtra(CODE, code);
-//
-//            retu
-//        }
-//
-//        @Override
-//        public String parseResult(int resultCode, @Nullable Intent intent) {
-//            return null;
-//        }
-//    }
 }

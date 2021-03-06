@@ -1,6 +1,8 @@
 package com.example.e_agendaprobolinggo.ui.detail;
 
+import com.example.e_agendaprobolinggo.model.request.DeleteComment;
 import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
+import com.example.e_agendaprobolinggo.model.response.DeleteCommentResponse;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 
 public class DetailPresenter implements DetailContract.Presenter {
@@ -24,6 +26,21 @@ public class DetailPresenter implements DetailContract.Presenter {
             @Override
             public void onDetailAgendaRequestFailure(String message) {
                 mView.showFailureDetailAgenda(message);
+            }
+        });
+    }
+
+    @Override
+    public void doDeleteComment(DeleteComment deleteComment) {
+        mInteractor.doDeleteComment(deleteComment, new DetailContract.DeleteCommentRequestCallback() {
+            @Override
+            public void onDeleteCommentRequestCompleted(DeleteCommentResponse deleteCommentResponse) {
+                mView.notifyDeleteCommentSuccess(deleteCommentResponse);
+            }
+
+            @Override
+            public void onDeleteCommentRequestFailure(String message) {
+                mView.notifyDeleteCommentFailure(message);
             }
         });
     }

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class AddCommentResponse {
 
     @SerializedName("data")
-    private Object data;
+    private String data;
 
     @SerializedName("message")
     private String message;
@@ -13,7 +13,7 @@ public class AddCommentResponse {
     @SerializedName("status")
     private boolean status;
 
-    public Object getData() {
+    public String getData() {
         return data;
     }
 

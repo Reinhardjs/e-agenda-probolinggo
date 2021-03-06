@@ -31,7 +31,7 @@ public class DataDetailAgenda {
     private String createdAt;
 
     @SerializedName("tanggalend")
-    private Object tanggalend;
+    private String tanggalend;
 
     @SerializedName("tampilkan_komentar")
     private int tampilkanKomentar;
@@ -82,7 +82,7 @@ public class DataDetailAgenda {
     private String agenda;
 
     @SerializedName("jamend")
-    private Object jamend;
+    private String jamend;
 
     @SerializedName("petugas_protokol")
     private String petugasProtokol;
@@ -158,7 +158,7 @@ public class DataDetailAgenda {
         return createdAt;
     }
 
-    public Object getTanggalend() {
+    public String getTanggalend() {
         return tanggalend;
     }
 
@@ -226,7 +226,7 @@ public class DataDetailAgenda {
         return agenda;
     }
 
-    public Object getJamend() {
+    public String getJamend() {
         return jamend;
     }
 

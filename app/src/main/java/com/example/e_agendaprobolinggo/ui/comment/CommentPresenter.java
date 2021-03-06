@@ -1,8 +1,10 @@
 package com.example.e_agendaprobolinggo.ui.comment;
 
+import com.example.e_agendaprobolinggo.model.request.DeleteComment;
 import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
 import com.example.e_agendaprobolinggo.model.request.NewComment;
 import com.example.e_agendaprobolinggo.model.response.AddCommentResponse;
+import com.example.e_agendaprobolinggo.model.response.DeleteCommentResponse;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 
 public class CommentPresenter implements CommentContract.Presenter {
@@ -41,6 +43,21 @@ public class CommentPresenter implements CommentContract.Presenter {
             @Override
             public void onAddCommentRequestFailure(String message) {
                 mView.notifyAddCommentFailure(message);
+            }
+        });
+    }
+
+    @Override
+    public void doDeleteComment(DeleteComment deleteComment) {
+        mInteractor.doDeleteComment(deleteComment, new CommentContract.DeleteCommentRequestCallback() {
+            @Override
+            public void onDeleteCommentRequestCompleted(DeleteCommentResponse deleteCommentResponse) {
+                mView.notifyDeleteCommentSuccess(deleteCommentResponse);
+            }
+
+            @Override
+            public void onDeleteCommentRequestFailure(String message) {
+                mView.notifyDeleteCommentFailure(message);
             }
         });
     }

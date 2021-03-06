@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class DetailAgenda {
 
     @SerializedName("kode")
-    private String kode;
+    private String code;
 
     @SerializedName("id_user")
     private String idUser;
 
-    public DetailAgenda(String kode, String idUser) {
-        this.kode = kode;
+    public DetailAgenda(String code, String idUser) {
+        this.code = code;
         this.idUser = idUser;
     }
 }

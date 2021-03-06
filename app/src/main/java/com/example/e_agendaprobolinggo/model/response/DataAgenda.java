@@ -4,248 +4,248 @@ import com.google.gson.annotations.SerializedName;
 
 public class DataAgenda {
 
-	@SerializedName("status_kehadiran")
-	private String statusKehadiran;
+    @SerializedName("status_kehadiran")
+    private String statusKehadiran;
 
-	@SerializedName("id_sub_agenda")
-	private String idSubAgenda;
+    @SerializedName("id_sub_agenda")
+    private String idSubAgenda;
 
-	@SerializedName("perlengkapan")
-	private String perlengkapan;
+    @SerializedName("perlengkapan")
+    private String perlengkapan;
 
-	@SerializedName("surat")
-	private String surat;
+    @SerializedName("surat")
+    private String surat;
 
-	@SerializedName("status_color")
-	private String statusColor;
+    @SerializedName("status_color")
+    private String statusColor;
 
-	@SerializedName("created_at")
-	private String createdAt;
+    @SerializedName("created_at")
+    private String createdAt;
 
-	@SerializedName("tanggalend")
-	private Object tanggalend;
+    @SerializedName("tanggalend")
+    private String tanggalend;
 
-	@SerializedName("sambutan")
-	private String sambutan;
+    @SerializedName("sambutan")
+    private String sambutan;
 
-	@SerializedName("updated_at")
-	private String updatedAt;
+    @SerializedName("updated_at")
+    private String updatedAt;
 
-	@SerializedName("jam")
-	private String jam;
+    @SerializedName("jam")
+    private String jam;
 
-	@SerializedName("id")
-	private String id;
+    @SerializedName("id")
+    private String id;
 
-	@SerializedName("tata_ruangan")
-	private String tataRuangan;
+    @SerializedName("tata_ruangan")
+    private String tataRuangan;
 
-	@SerializedName("raw_data")
-	private RawDataAgenda rawDataAgenda;
+    @SerializedName("raw_data")
+    private RawDataAgenda rawDataAgenda;
 
-	@SerializedName("sub_agenda")
-	private String subAgenda;
+    @SerializedName("sub_agenda")
+    private String subAgenda;
 
-	@SerializedName("id_kategori")
-	private String idKategori;
+    @SerializedName("id_kategori")
+    private String idKategori;
 
-	@SerializedName("urutan_acara")
-	private String urutanAcara;
+    @SerializedName("urutan_acara")
+    private String urutanAcara;
 
-	@SerializedName("id_agenda")
-	private String idAgenda;
+    @SerializedName("id_agenda")
+    private String idAgenda;
 
-	@SerializedName("penyelenggara")
-	private String penyelenggara;
+    @SerializedName("penyelenggara")
+    private String penyelenggara;
 
-	@SerializedName("catatan")
-	private String catatan;
+    @SerializedName("catatan")
+    private String catatan;
 
-	@SerializedName("kategori")
-	private String kategori;
+    @SerializedName("kategori")
+    private String kategori;
 
-	@SerializedName("created_by")
-	private String createdBy;
+    @SerializedName("created_by")
+    private String createdBy;
 
-	@SerializedName("agenda")
-	private String agenda;
+    @SerializedName("agenda")
+    private String agenda;
 
-	@SerializedName("jamend")
-	private Object jamend;
+    @SerializedName("jamend")
+    private String jamend;
 
-	@SerializedName("petugas_protokol")
-	private String petugasProtokol;
+    @SerializedName("petugas_protokol")
+    private String petugasProtokol;
 
-	@SerializedName("status_agenda")
-	private String statusAgenda;
+    @SerializedName("status_agenda")
+    private String statusAgenda;
 
-	@SerializedName("tempat")
-	private String tempat;
+    @SerializedName("tempat")
+    private String tempat;
 
-	@SerializedName("status_box")
-	private String statusBox;
+    @SerializedName("status_box")
+    private String statusBox;
 
-	@SerializedName("nama_kegiatan")
-	private String namaKegiatan;
+    @SerializedName("nama_kegiatan")
+    private String namaKegiatan;
 
-	@SerializedName("id_encode")
-	private String idEncode;
+    @SerializedName("id_encode")
+    private String idEncode;
 
-	@SerializedName("undangan")
-	private String undangan;
+    @SerializedName("undangan")
+    private String undangan;
 
-	@SerializedName("tanggal")
-	private String tanggal;
+    @SerializedName("tanggal")
+    private String tanggal;
 
-	@SerializedName("perwakilan")
-	private String perwakilan;
+    @SerializedName("perwakilan")
+    private String perwakilan;
 
-	@SerializedName("peran_pimpinan")
-	private String peranPimpinan;
+    @SerializedName("peran_pimpinan")
+    private String peranPimpinan;
 
-	@SerializedName("pakaian")
-	private String pakaian;
+    @SerializedName("pakaian")
+    private String pakaian;
 
-	@SerializedName("status")
-	private String status;
+    @SerializedName("status")
+    private String status;
 
-	public String getStatusKehadiran(){
-		return statusKehadiran;
-	}
+    public String getStatusKehadiran() {
+        return statusKehadiran;
+    }
 
-	public String getIdSubAgenda(){
-		return idSubAgenda;
-	}
+    public String getIdSubAgenda() {
+        return idSubAgenda;
+    }
 
-	public String getPerlengkapan(){
-		return perlengkapan;
-	}
+    public String getPerlengkapan() {
+        return perlengkapan;
+    }
 
-	public String getSurat(){
-		return surat;
-	}
+    public String getSurat() {
+        return surat;
+    }
 
-	public String getStatusColor(){
-		return statusColor;
-	}
+    public String getStatusColor() {
+        return statusColor;
+    }
 
-	public String getCreatedAt(){
-		return createdAt;
-	}
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-	public Object getTanggalend(){
-		return tanggalend;
-	}
+    public String getTanggalend() {
+        return tanggalend;
+    }
 
-	public String getSambutan(){
-		return sambutan;
-	}
+    public String getSambutan() {
+        return sambutan;
+    }
 
-	public String getUpdatedAt(){
-		return updatedAt;
-	}
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public String getJam(){
-		return jam;
-	}
+    public String getJam() {
+        return jam;
+    }
 
-	public String getId(){
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getTataRuangan(){
-		return tataRuangan;
-	}
+    public String getTataRuangan() {
+        return tataRuangan;
+    }
 
-	public RawDataAgenda getRawDataAgenda(){
-		return rawDataAgenda;
-	}
+    public RawDataAgenda getRawDataAgenda() {
+        return rawDataAgenda;
+    }
 
-	public String getSubAgenda(){
-		return subAgenda;
-	}
+    public String getSubAgenda() {
+        return subAgenda;
+    }
 
-	public String getIdKategori(){
-		return idKategori;
-	}
+    public String getIdKategori() {
+        return idKategori;
+    }
 
-	public String getUrutanAcara(){
-		return urutanAcara;
-	}
+    public String getUrutanAcara() {
+        return urutanAcara;
+    }
 
-	public String getIdAgenda(){
-		return idAgenda;
-	}
+    public String getIdAgenda() {
+        return idAgenda;
+    }
 
-	public String getPenyelenggara(){
-		return penyelenggara;
-	}
+    public String getPenyelenggara() {
+        return penyelenggara;
+    }
 
-	public String getCatatan(){
-		return catatan;
-	}
+    public String getCatatan() {
+        return catatan;
+    }
 
-	public String getKategori(){
-		return kategori;
-	}
+    public String getKategori() {
+        return kategori;
+    }
 
-	public String getCreatedBy(){
-		return createdBy;
-	}
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-	public String getAgenda(){
-		return agenda;
-	}
+    public String getAgenda() {
+        return agenda;
+    }
 
-	public Object getJamend(){
-		return jamend;
-	}
+    public String getJamend() {
+        return jamend;
+    }
 
-	public String getPetugasProtokol(){
-		return petugasProtokol;
-	}
+    public String getPetugasProtokol() {
+        return petugasProtokol;
+    }
 
-	public String getStatusAgenda(){
-		return statusAgenda;
-	}
+    public String getStatusAgenda() {
+        return statusAgenda;
+    }
 
-	public String getTempat(){
-		return tempat;
-	}
+    public String getTempat() {
+        return tempat;
+    }
 
-	public String getStatusBox(){
-		return statusBox;
-	}
+    public String getStatusBox() {
+        return statusBox;
+    }
 
-	public String getNamaKegiatan(){
-		return namaKegiatan;
-	}
+    public String getNamaKegiatan() {
+        return namaKegiatan;
+    }
 
-	public String getIdEncode(){
-		return idEncode;
-	}
+    public String getIdEncode() {
+        return idEncode;
+    }
 
-	public String getUndangan(){
-		return undangan;
-	}
+    public String getUndangan() {
+        return undangan;
+    }
 
-	public String getTanggal(){
-		return tanggal;
-	}
+    public String getTanggal() {
+        return tanggal;
+    }
 
-	public String getPerwakilan(){
-		return perwakilan;
-	}
+    public String getPerwakilan() {
+        return perwakilan;
+    }
 
-	public String getPeranPimpinan(){
-		return peranPimpinan;
-	}
+    public String getPeranPimpinan() {
+        return peranPimpinan;
+    }
 
-	public String getPakaian(){
-		return pakaian;
-	}
+    public String getPakaian() {
+        return pakaian;
+    }
 
-	public String getStatus(){
-		return status;
-	}
+    public String getStatus() {
+        return status;
+    }
 }

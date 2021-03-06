@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class Agenda {
 
     @SerializedName("kode")
-    private String kode;
+    private String code;
 
     @SerializedName("limit")
     private String limit;
@@ -14,12 +14,12 @@ public class Agenda {
     private String idUser;
 
     @SerializedName("kode_sub")
-    private String kodeSub;
+    private String codeSub;
 
-    public Agenda(String kode, String limit, String idUser, String kodeSub) {
-        this.kode = kode;
+    public Agenda(String code, String limit, String idUser, String codeSub) {
+        this.code = code;
         this.limit = limit;
         this.idUser = idUser;
-        this.kodeSub = kodeSub;
+        this.codeSub = codeSub;
     }
 }

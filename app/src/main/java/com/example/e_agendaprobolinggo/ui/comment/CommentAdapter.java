@@ -20,6 +20,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     private final ArrayList<ListKomentarAgenda> comments = new ArrayList<>();
 
+    private OnItemClickCallback onItemClickCallback;
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
+
     public void setData(List<ListKomentarAgenda> newListData) {
         if (newListData == null) return;
         comments.clear();
@@ -39,6 +45,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(comments.get(position));
+
+        holder.binding.tvDeleteComment.setOnClickListener(view -> onItemClickCallback.onItemClicked(comments.get(holder.getAbsoluteAdapterPosition())));
     }
 
     @Override
@@ -55,6 +63,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
 
         void bind(ListKomentarAgenda comment) {
+            if (comment.getBtnHapusKomentar() == 1) {
+                binding.tvDeleteComment.setVisibility(View.VISIBLE);
+            } else {
+                binding.tvDeleteComment.setVisibility(View.GONE);
+            }
+
             Glide.with(itemView.getContext()).load(comment.getFoto()).apply(
                     RequestOptions.placeholderOf(R.drawable.ic_profile)
                             .error(R.drawable.ic_profile)
@@ -63,5 +77,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             binding.tvNameComment.setText(comment.getNama());
             binding.tvDraftComment.setText(comment.getKomentar());
         }
+    }
+
+    public interface OnItemClickCallback {
+        void onItemClicked(ListKomentarAgenda comment);
     }
 }

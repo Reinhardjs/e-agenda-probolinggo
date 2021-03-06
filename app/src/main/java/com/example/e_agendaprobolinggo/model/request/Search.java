@@ -8,14 +8,14 @@ public class Search {
     private String keyword;
 
     @SerializedName("kode")
-    private String kode;
+    private String code;
 
     @SerializedName("kode_sub")
-    private String kodeSub;
+    private String codeSub;
 
-    public Search(String keyword, String kode, String kodeSub) {
+    public Search(String keyword, String code, String codeSub) {
         this.keyword = keyword;
-        this.kode = kode;
-        this.kodeSub = kodeSub;
+        this.code = code;
+        this.codeSub = codeSub;
     }
 }

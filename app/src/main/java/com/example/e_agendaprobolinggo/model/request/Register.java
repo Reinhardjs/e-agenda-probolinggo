@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Register implements Serializable {
 
     @SerializedName("nama")
-    private String nama;
+    private String name;
 
     @SerializedName("email")
     private String email;
@@ -16,7 +16,7 @@ public class Register implements Serializable {
     private String password;
 
     @SerializedName("jabatan")
-    private String jabatan;
+    private String position;
 
     @SerializedName("opd")
     private String opd;
@@ -25,28 +25,24 @@ public class Register implements Serializable {
     private int created_by;
 
     @SerializedName("tingkatan")
-    private int tingkatan;
+    private int role;
 
-    public Register() {
-
-    }
-
-    public Register(String nama, String email, String password, String jabatan, String opd, int created_by, int tingkatan) {
-        this.nama = nama;
+    public Register(String name, String email, String password, String position, String opd, int created_by, int role) {
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.jabatan = jabatan;
+        this.position = position;
         this.opd = opd;
         this.created_by = created_by;
-        this.tingkatan = tingkatan;
+        this.role = role;
     }
 
-    public String getNama() {
-        return nama;
+    public String getName() {
+        return name;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -65,12 +61,12 @@ public class Register implements Serializable {
         this.password = password;
     }
 
-    public String getJabatan() {
-        return jabatan;
+    public String getPosition() {
+        return position;
     }
 
-    public void setJabatan(String jabatan) {
-        this.jabatan = jabatan;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getOpd() {
@@ -89,11 +85,11 @@ public class Register implements Serializable {
         this.created_by = created_by;
     }
 
-    public int getTingkatan() {
-        return tingkatan;
+    public int getRole() {
+        return role;
     }
 
-    public void setTingkatan(int tingkatan) {
-        this.tingkatan = tingkatan;
+    public void setRole(int role) {
+        this.role = role;
     }
 }

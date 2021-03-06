@@ -28,7 +28,7 @@
     <string name="detail_toolbar_title">Detail Agenda</string>
     <string name="not_connected_text">Maaf, Anda tidak terhubung ke internet</string>
     <string name="agenda_not_found">Tidak ada agenda</string>
-    <string name="show_calendar_text">Lihat pada kalender</string>
+    <string name="show_calendar_text">Lihat kalender</string>
     <string name="calendar_title">Kalender Agenda</string>
     <string name="logout_text">Keluar</string>
     <string name="logout_message">Apakah anda yakin ingin keluar?</string>
@@ -48,4 +48,7 @@
     <string name="add_comment_text">Tambah komentar</string>
     <string name="empty_comment_text">Tidak ada komentar</string>
     <string name="write_comment_text">Tulis komentar</string>
+    <string name="delete_text">Hapus</string>
+    <string name="delete_comment_title">Hapus komentar</string>
+    <string name="delete_comment_message">Apakah anda yakin ingin menghapus komentar?</string>
 </resources>

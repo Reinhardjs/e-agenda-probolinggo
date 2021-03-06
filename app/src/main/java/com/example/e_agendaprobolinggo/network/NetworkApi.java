@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.network;
 
 import com.example.e_agendaprobolinggo.model.request.Agenda;
+import com.example.e_agendaprobolinggo.model.request.DeleteComment;
 import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
 import com.example.e_agendaprobolinggo.model.request.Login;
 import com.example.e_agendaprobolinggo.model.request.NewComment;
@@ -8,6 +9,7 @@ import com.example.e_agendaprobolinggo.model.request.Register;
 import com.example.e_agendaprobolinggo.model.request.Search;
 import com.example.e_agendaprobolinggo.model.response.AddCommentResponse;
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
+import com.example.e_agendaprobolinggo.model.response.DeleteCommentResponse;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.model.response.LoginResponse;
@@ -63,5 +65,11 @@ public interface NetworkApi {
     @POST("tambah_komentar")
     Observable<AddCommentResponse> addComment(
             @Body NewComment newComment
+    );
+
+    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
+    @POST("hapus_komentar")
+    Observable<DeleteCommentResponse> deleteComment(
+            @Body DeleteComment deleteComment
     );
 }

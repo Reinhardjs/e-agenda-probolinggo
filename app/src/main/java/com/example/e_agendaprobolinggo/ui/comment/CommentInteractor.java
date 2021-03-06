@@ -1,8 +1,10 @@
 package com.example.e_agendaprobolinggo.ui.comment;
 
+import com.example.e_agendaprobolinggo.model.request.DeleteComment;
 import com.example.e_agendaprobolinggo.model.request.DetailAgenda;
 import com.example.e_agendaprobolinggo.model.request.NewComment;
 import com.example.e_agendaprobolinggo.model.response.AddCommentResponse;
+import com.example.e_agendaprobolinggo.model.response.DeleteCommentResponse;
 import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 import com.example.e_agendaprobolinggo.network.NetworkApi;
 import com.example.e_agendaprobolinggo.network.UtilsApi;
@@ -25,6 +27,7 @@ public class CommentInteractor implements CommentContract.Interactor {
     private final NetworkApi networkApi = UtilsApi.getApiService();
     private DetailAgendaResponse detailAgendaResponse = null;
     private AddCommentResponse addCommentResponse = null;
+    private DeleteCommentResponse deleteCommentResponse = null;
 
     @Override
     public void requestDetailAgenda(DetailAgenda detailAgenda, CommentContract.DetailAgendaRequestCallback detailAgendaRequestCallback) {
@@ -107,6 +110,49 @@ public class CommentInteractor implements CommentContract.Interactor {
                                 addCommentRequestCallback.onAddCommentRequestCompleted(addCommentResponse);
                             } else {
                                 addCommentRequestCallback.onAddCommentRequestFailure(addCommentResponse.getMessage());
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void doDeleteComment(DeleteComment deleteComment, CommentContract.DeleteCommentRequestCallback deleteCommentRequestCallback) {
+        networkApi.deleteComment(deleteComment).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DeleteCommentResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull DeleteCommentResponse response) {
+                        deleteCommentResponse = response;
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        if (e instanceof HttpException) {
+                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                deleteCommentRequestCallback.onDeleteCommentRequestFailure(jsonObject.getString("message"));
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (deleteCommentResponse != null) {
+                            if (deleteCommentResponse.isStatus()) {
+                                deleteCommentRequestCallback.onDeleteCommentRequestCompleted(deleteCommentResponse);
+                            } else {
+                                deleteCommentRequestCallback.onDeleteCommentRequestFailure(deleteCommentResponse.getMessage());
                             }
                         }
                     }
