@@ -66,6 +66,13 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
 
         setupListenerOrCallback();
         initRequest();
+        iniRecyclerView();
+    }
+
+    private void iniRecyclerView() {
+        binding.rvComment.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvComment.setHasFixedSize(true);
+        binding.rvComment.setAdapter(commentAdapter);
     }
 
     private void setupToolbar() {
@@ -141,9 +148,9 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
         if (dataDetailAgenda.getTampilkanKomentar() == 1) {
             binding.rvComment.setVisibility(View.VISIBLE);
             commentAdapter.setData(dataDetailAgenda.getListKomentar());
-            binding.rvComment.setLayoutManager(new LinearLayoutManager(this));
-            binding.rvComment.setHasFixedSize(true);
-            binding.rvComment.setAdapter(commentAdapter);
+            binding.rvComment.scrollToPosition(dataDetailAgenda.getListKomentar().size() - 1);
+            binding.rvComment.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> binding.rvComment.scrollToPosition(dataDetailAgenda.getListKomentar().size() - 1));
+
         } else {
             binding.rvComment.setVisibility(View.VISIBLE);
         }

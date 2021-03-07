@@ -15,6 +15,8 @@ class AgendaCalendarAdapter : RecyclerView.Adapter<AgendaCalendarAdapter.ViewHol
 
     val agendas = mutableListOf<DataAgenda>()
 
+    var onItemClick: ((String) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemHomeAgendaBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -25,7 +27,7 @@ class AgendaCalendarAdapter : RecyclerView.Adapter<AgendaCalendarAdapter.ViewHol
 
     override fun getItemCount(): Int = agendas.size
 
-    inner class ViewHolder(val binding: ItemHomeAgendaBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemHomeAgendaBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(agenda: DataAgenda) {
             binding.tvTitle.text = agenda.namaKegiatan
             binding.tvSubtitle1.text = agenda.subAgenda
@@ -41,6 +43,12 @@ class AgendaCalendarAdapter : RecyclerView.Adapter<AgendaCalendarAdapter.ViewHol
             leftBorder.setColor(Color.parseColor(agenda.statusBox))
 
             binding.container.background = ld
+        }
+
+        init {
+            binding.root.setOnClickListener {
+                onItemClick?.invoke(agendas[absoluteAdapterPosition].idEncode)
+            }
         }
     }
 }

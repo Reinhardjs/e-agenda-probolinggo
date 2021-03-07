@@ -1,6 +1,7 @@
 package com.example.e_agendaprobolinggo.ui.calendar
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.example.e_agendaprobolinggo.databinding.MonthCalendarDayBinding
 import com.example.e_agendaprobolinggo.databinding.MonthCalendarHeaderBinding
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse
 import com.example.e_agendaprobolinggo.model.response.DataAgenda
+import com.example.e_agendaprobolinggo.ui.detail.DetailActivity
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
@@ -62,6 +64,12 @@ class MonthModeFragment : Fragment() {
         val agendaResponse: AgendaResponse? = requireArguments().getParcelable(CALENDAR_DATA)
 
         agendaCalendarAdapter = AgendaCalendarAdapter()
+        agendaCalendarAdapter.onItemClick = { code ->
+            Intent(activity, DetailActivity::class.java).apply {
+                putExtra(DetailActivity.CODE, code)
+                startActivity(this)
+            }
+        }
         binding.rvAgendaCalendar.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = agendaCalendarAdapter

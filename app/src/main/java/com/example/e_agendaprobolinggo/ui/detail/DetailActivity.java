@@ -129,11 +129,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
         }
 
-        containerDetail.setVisibility(View.GONE);
+        code = getIntent().getStringExtra(CODE);
 
+        containerDetail.setVisibility(View.GONE);
         commentAdapter = new CommentAdapter();
 
-        code = getIntent().getStringExtra(CODE);
         User user = SharedPreferenceUtils.getUser(this);
         idUser = user.getId();
 

@@ -20,7 +20,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
 
     private ActivityCalendarBinding binding;
     private CalendarContract.Presenter mPresenter;
-    private Agenda agenda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
         User user = SharedPreferenceUtils.getUser(this);
         String idUser = user.getId();
 
-        agenda = new Agenda("all", "", idUser, "all");
+        Agenda agenda = new Agenda("all", "", idUser, "all");
 
         mPresenter = new CalendarPresenter(this);
         setupRequest(agenda);
