@@ -19,7 +19,10 @@ import com.example.e_agendaprobolinggo.databinding.MonthCalendarDayBinding
 import com.example.e_agendaprobolinggo.databinding.MonthCalendarHeaderBinding
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse
 import com.example.e_agendaprobolinggo.model.response.DataAgenda
+import com.example.e_agendaprobolinggo.ui.calendar.CalendarActivity.CALENDAR_DATA
 import com.example.e_agendaprobolinggo.ui.detail.DetailActivity
+import com.example.e_agendaprobolinggo.utils.DateFormatter.localDateFormat
+import com.example.e_agendaprobolinggo.utils.DateFormatter.yearMonthFormat
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
@@ -36,10 +39,6 @@ import java.time.temporal.WeekFields
 import java.util.*
 
 class MonthModeFragment : Fragment() {
-
-    companion object {
-        const val CALENDAR_DATA = "calendar_data"
-    }
 
     private var _binding: FragmentMonthModeBinding? = null
     private val binding get() = _binding!!
@@ -70,26 +69,34 @@ class MonthModeFragment : Fragment() {
                 startActivity(this)
             }
         }
-        binding.rvAgendaCalendar.apply {
+        binding.rvAgendaCalendarMonth.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = agendaCalendarAdapter
-            addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         }
         agendaCalendarAdapter.notifyDataSetChanged()
+        val currentMonth = YearMonth.now()
+        val daysOfWeek = daysOfWeekFromLocale()
 
-        agendaResponse?.let { agenda ->
-            agendaLocalDate = agenda.data.groupBy { localDateFormat(it.rawDataAgenda.tanggal, it.rawDataAgenda.jam) }
-            var startMonth = yearMonthFormat(agenda.data.first().rawDataAgenda.tanggal)
-            var endMonth = yearMonthFormat(agenda.data.last().rawDataAgenda.tanggal)
-            val daysOfWeek = daysOfWeekFromLocale()
+        if (agendaResponse != null) {
+            val dataAgenda = agendaResponse.data
+            if (dataAgenda.size > 0) {
+                agendaLocalDate = dataAgenda.groupBy { localDateFormat(it.rawDataAgenda.tanggal, it.rawDataAgenda.jam) }
+                var startMonth = yearMonthFormat(dataAgenda.first().rawDataAgenda.tanggal)
+                var endMonth = yearMonthFormat(dataAgenda.last().rawDataAgenda.tanggal)
 
-            if (startMonth.isAfter(endMonth)) {
-                startMonth = endMonth.also { endMonth = startMonth }
+                if (startMonth.isAfter(endMonth)) {
+                    startMonth = endMonth.also { endMonth = startMonth }
+                }
+
+                binding.calendarViewMonth.setup(startMonth, endMonth, daysOfWeek.first())
+                binding.calendarViewMonth.scrollToMonth(currentMonth)
+            } else {
+                binding.calendarViewMonth.setup(currentMonth, currentMonth, daysOfWeek.first())
+                binding.calendarViewMonth.scrollToMonth(currentMonth)
             }
-
-            val currentMonth = YearMonth.now()
-            binding.calendarView.setup(startMonth, endMonth, daysOfWeek.first())
-            binding.calendarView.scrollToMonth(currentMonth)
+        } else {
+            binding.calendarViewMonth.setup(currentMonth, currentMonth, daysOfWeek.first())
+            binding.calendarViewMonth.scrollToMonth(currentMonth)
         }
 
         class DayViewContainer(view: View) : ViewContainer(view) {
@@ -103,15 +110,15 @@ class MonthModeFragment : Fragment() {
                             val oldDate = selectedDate
                             selectedDate = day.date
                             val binding = this@MonthModeFragment.binding
-                            binding.calendarView.notifyDateChanged(day.date)
-                            oldDate?.let { binding.calendarView.notifyDateChanged(it) }
+                            binding.calendarViewMonth.notifyDateChanged(day.date)
+                            oldDate?.let { binding.calendarViewMonth.notifyDateChanged(it) }
                             updateAdapterForDate(day.date)
                         }
                     }
                 }
             }
         }
-        binding.calendarView.dayBinder = object : DayBinder<DayViewContainer> {
+        binding.calendarViewMonth.dayBinder = object : DayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
             override fun bind(container: DayViewContainer, day: CalendarDay) {
                 container.day = day
@@ -148,7 +155,7 @@ class MonthModeFragment : Fragment() {
         class MonthViewContainer(view: View) : ViewContainer(view) {
             val calendarDayHeaderLayout = MonthCalendarHeaderBinding.bind(view).headerLayout.root
         }
-        binding.calendarView.monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
+        binding.calendarViewMonth.monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
             override fun create(view: View) = MonthViewContainer(view)
             override fun bind(container: MonthViewContainer, month: CalendarMonth) {
                 // Setup each header day text if we have not done that already.
@@ -159,26 +166,26 @@ class MonthModeFragment : Fragment() {
             }
         }
 
-        binding.calendarView.monthScrollListener = { month ->
+        binding.calendarViewMonth.monthScrollListener = { month ->
             val title = "${monthTitleFormatter.format(month.yearMonth)} ${month.yearMonth.year}"
             binding.tvMonthYear.text = title
 
             selectedDate?.let {
                 selectedDate = null
-                binding.calendarView.notifyDateChanged(it)
+                binding.calendarViewMonth.notifyDateChanged(it)
                 updateAdapterForDate(null)
             }
         }
 
         binding.imgNextMonth.setOnClickListener {
-            binding.calendarView.findFirstVisibleMonth()?.let {
-                binding.calendarView.smoothScrollToMonth(it.yearMonth.next)
+            binding.calendarViewMonth.findFirstVisibleMonth()?.let {
+                binding.calendarViewMonth.smoothScrollToMonth(it.yearMonth.next)
             }
         }
 
         binding.imgPreviousMonth.setOnClickListener {
-            binding.calendarView.findFirstVisibleMonth()?.let {
-                binding.calendarView.smoothScrollToMonth(it.yearMonth.previous)
+            binding.calendarViewMonth.findFirstVisibleMonth()?.let {
+                binding.calendarViewMonth.smoothScrollToMonth(it.yearMonth.previous)
             }
         }
     }
@@ -199,16 +206,6 @@ class MonthModeFragment : Fragment() {
 
         }
         return daysOfWeek
-    }
-
-    private fun localDateFormat(date: String, time: String): LocalDate {
-        val dateStr = "$date $time"
-
-        return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-    }
-
-    private fun yearMonthFormat(date: String): YearMonth {
-        return YearMonth.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     }
 
     override fun onDestroyView() {

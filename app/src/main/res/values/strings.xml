@@ -51,4 +51,10 @@
     <string name="delete_text">Hapus</string>
     <string name="delete_comment_title">Hapus komentar</string>
     <string name="delete_comment_message">Apakah anda yakin ingin menghapus komentar?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="month_text">Bulan</string>
+    <string name="date_text">Hari</string>
+    <string name="empty_agenda_data_text">Tidak ada agenda</string>
+    <string name="login_text">Masuk</string>
 </resources>

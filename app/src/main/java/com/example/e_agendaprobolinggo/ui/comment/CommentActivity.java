@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.e_agendaprobolinggo.R;
@@ -27,6 +26,7 @@ import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.ListKomentarAgenda;
 import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.detail.DetailActivity;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class CommentActivity extends AppCompatActivity implements CommentContract.View {
@@ -76,7 +76,7 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
     }
 
     private void setupToolbar() {
-        Toolbar commentToolbar = binding.toolbarComment;
+        MaterialToolbar commentToolbar = binding.toolbarComment;
         setSupportActionBar(commentToolbar);
         TextView toolbarTitle = commentToolbar.findViewById(R.id.toolbar_title_comment);
         toolbarTitle.setText(getResources().getString(R.string.comment_text));

@@ -21,7 +21,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +38,7 @@ import com.example.e_agendaprobolinggo.model.response.ListKomentarAgenda;
 import com.example.e_agendaprobolinggo.model.response.User;
 import com.example.e_agendaprobolinggo.ui.comment.CommentActivity;
 import com.example.e_agendaprobolinggo.ui.comment.CommentAdapter;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -146,7 +146,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     private void setupToolbar() {
-        Toolbar toolbarDetail = findViewById(R.id.toolbar_detail);
+        MaterialToolbar toolbarDetail = findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbarDetail);
         TextView toolbarTitle = toolbarDetail.findViewById(R.id.toolbar_title_detail);
         toolbarTitle.setText(R.string.detail_toolbar_title);

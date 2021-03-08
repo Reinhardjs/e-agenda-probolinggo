@@ -20,14 +20,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 
     <style name="DefaultButton" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">18sp</item>
-        <item name="android:padding">15dp</item>
+        <item name="android:padding">12dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal|center_vertical</item>
+    </style>
+
+    <style name="MaterialToolbarStyle" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorOnPrimary">@color/white</item>
     </style>
 
     <style name="AppTheme.TransparentBottomSheetStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
@@ -70,7 +75,7 @@
 
     <style name="TitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 

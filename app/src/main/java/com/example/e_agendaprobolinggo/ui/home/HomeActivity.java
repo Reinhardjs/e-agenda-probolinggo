@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +41,7 @@ import com.example.e_agendaprobolinggo.ui.calendar.CalendarActivity;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private AgendaAdapter agendaSearchAdapter;
     private AgendaCategoryAdapter agendaCategoryAdapter;
 
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private TextView tvSeeAll, tvWelcome, tvNotFound, tvCalendarMode;
 
     private ShimmerFrameLayout mShimmerViewContainer;

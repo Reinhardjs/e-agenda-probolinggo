@@ -17,13 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:titleTextColor="@android:color/white"
-                tools:targetApi="lollipop">
+                android:theme="@style/MaterialToolbarStyle"
+                app:titleTextColor="@android:color/white">
 
                 <TextView
                     android:id="@+id/toolbar_title"
@@ -31,17 +31,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
-            </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
+                style="@style/MaterialSearchViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/MaterialSearchViewThemeStyle"
-                style="@style/MaterialSearchViewStyle" />
+                android:theme="@style/MaterialSearchViewThemeStyle" />
 
         </FrameLayout>
 
@@ -112,9 +112,9 @@
             android:id="@+id/searchProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/search_progressbar_margintop"
-            android:visibility="gone"
-            android:layout_gravity="center_horizontal"/>
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAgendaSearch"

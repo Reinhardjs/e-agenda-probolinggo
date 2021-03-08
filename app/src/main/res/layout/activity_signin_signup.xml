@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,24 +29,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:gravity="center"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
             android:text="E-Agenda\nProbolinggo"
-            android:textAlignment="center"
             android:textColor="#1B2E41"
-            android:textSize="25sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:gravity="center"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
             android:text="Elektronik Agenda Pemerintah\nKabupaten Probolinggo"
-            android:textAlignment="center"
             android:textColor="#1B2E41"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="normal" />
 
         <Button
@@ -86,22 +85,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
-            android:padding="15dp"
-            android:text="Daftar"
+            android:text="@string/register_text"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
 
         <Button
-            android:background="@drawable/bordered_button"
             android:id="@+id/btnSignin"
             style="@style/DefaultButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bordered_button"
             android:backgroundTint="#F1F4F3"
-            android:padding="15dp"
-            android:text="Masuk"
+            android:text="@string/login_text"
             android:textAllCaps="false"
-            android:textColor="@color/primary_text"/>
+            android:textColor="@color/primary_text" />
 
     </LinearLayout>
 
