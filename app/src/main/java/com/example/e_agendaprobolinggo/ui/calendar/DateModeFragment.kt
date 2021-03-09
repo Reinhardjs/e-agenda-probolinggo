@@ -6,11 +6,9 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.e_agendaprobolinggo.R
 import com.example.e_agendaprobolinggo.databinding.DateCalendarDayBinding
 import com.example.e_agendaprobolinggo.databinding.FragmentDateModeBinding
 import com.example.e_agendaprobolinggo.model.response.AgendaResponse
@@ -41,7 +39,6 @@ class DateModeFragment : Fragment() {
 
     private lateinit var agendaCalendarAdapter: AgendaCalendarAdapter
     private lateinit var agendaLocalDate: Map<LocalDate?, List<DataAgenda>>
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -137,20 +134,11 @@ class DateModeFragment : Fragment() {
                 bind.tvDayText.text = dayFormatter.format(day.date)
                 bind.tvMonthText.text = monthFormatter.format(day.date)
 
-                agendaLocalDate.keys.forEach {
-                    if (it == day.date) {
-                        bind.tvDateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_text_orange))
-                        bind.tvDayText.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_text_orange))
-                        bind.tvMonthText.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_text_orange))
-                    }
-                }
-
                 bind.selectedView.visibility = if (day.date == selectedDate) View.VISIBLE else View.GONE
 
                 if (selectedDate == day.date) {
                     updateAdapterForDate(day.date)
                 }
-
             }
         }
 

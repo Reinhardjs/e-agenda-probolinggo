@@ -209,9 +209,9 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
 
     @Override
     public void onBackPressed() {
-        Intent isFetchIntent = new Intent();
-        isFetchIntent.putExtra(IS_FETCH, isFetch);
-        setResult(RESULT_CODE, isFetchIntent);
+        Intent fetchIntent = new Intent();
+        fetchIntent.putExtra(IS_FETCH, isFetch);
+        setResult(RESULT_CODE, fetchIntent);
         finish();
     }
 }

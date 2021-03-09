@@ -40,6 +40,7 @@ import com.example.e_agendaprobolinggo.ui.all_agenda.AllAgendaActivity;
 import com.example.e_agendaprobolinggo.ui.calendar.CalendarActivity;
 import com.example.e_agendaprobolinggo.ui.category.CategoryActivity;
 import com.example.e_agendaprobolinggo.ui.home.customsearchutils.AnchorSheetBehavior;
+import com.example.e_agendaprobolinggo.utils.Permission;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -62,7 +63,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private AgendaCategoryAdapter agendaCategoryAdapter;
 
     private MaterialToolbar toolbar;
-    private TextView tvSeeAll, tvWelcome, tvNotFound, tvCalendarMode;
+    private TextView tvSeeAll, tvNotFound, tvCalendarMode;
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private ShimmerFrameLayout mShimmerViewContainerCategory;
@@ -121,6 +122,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         User user = SharedPreferenceUtils.getUser(this);
 
+        initPermission();
         initView(user);
         setupAllRecyclerViews();
         setupAnchorSheetBehavior();
@@ -138,6 +140,13 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         showShimmerCategory();
     }
 
+    private void initPermission() {
+        Permission permission = new Permission();
+        if (!permission.checkStoragePermission(this)) {
+            permission.getStoragePermission(this);
+        }
+    }
+
     private void initView(User user) {
         toolbar = findViewById(R.id.toolbar);
         setupToolbar();
@@ -151,8 +160,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         rvAgendaSearch = findViewById(R.id.rvAgendaSearch);
         rvAgendaCategory = findViewById(R.id.rvAgendaType);
 
+        TextView tvWelcome = findViewById(R.id.tvWelcome);
         tvSeeAll = findViewById(R.id.tvSeeAll);
-        tvWelcome = findViewById(R.id.tvWelcome);
         tvNotFound = findViewById(R.id.tvNotFound);
         materialSearchView = findViewById(R.id.search_view);
         tvCalendarMode = findViewById(R.id.tv_calendar_mode);

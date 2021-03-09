@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_agendaprobolinggo.R
@@ -174,6 +173,7 @@ class MonthModeFragment : Fragment() {
                 selectedDate = null
                 binding.calendarViewMonth.notifyDateChanged(it)
                 updateAdapterForDate(null)
+                binding.tvEmptyData.visibility = View.GONE
             }
         }
 
@@ -192,7 +192,12 @@ class MonthModeFragment : Fragment() {
 
     private fun updateAdapterForDate(date: LocalDate?) {
         agendaCalendarAdapter.agendas.clear()
-        agendaCalendarAdapter.agendas.addAll(agendaLocalDate[date].orEmpty())
+        if (!agendaLocalDate[date].isNullOrEmpty()) {
+            binding.tvEmptyData.visibility = View.GONE
+            agendaCalendarAdapter.agendas.addAll(agendaLocalDate[date].orEmpty())
+        } else {
+            binding.tvEmptyData.visibility = View.VISIBLE
+        }
         agendaCalendarAdapter.notifyDataSetChanged()
     }
 
