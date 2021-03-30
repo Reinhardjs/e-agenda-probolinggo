@@ -15,8 +15,6 @@ import com.example.e_agendaprobolinggo.R;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
-import java.io.File;
-
 public class StepFragment extends Fragment implements Step {
 
     @Override

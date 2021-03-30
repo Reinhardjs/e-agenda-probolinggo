@@ -8,7 +8,7 @@ import android.util.TypedValue;
 
 public class AppDimenUtil {
 
-    public static int getStatusbarHeight(Context context){
+    public static int getStatusbarHeight(Context context) {
         // reference from here : https://gist.github.com/hamakn/8939eb68a920a6d7a498
         int statusBarHeight = 0;
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");

@@ -10,23 +10,21 @@ import com.example.e_agendaprobolinggo.App;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.response.User;
+import com.example.e_agendaprobolinggo.stepper.MyStepperAdapter;
 import com.example.e_agendaprobolinggo.ui.home.HomeActivity;
 import com.example.e_agendaprobolinggo.ui.signinsignup.SigninSignupActivity;
-import com.example.e_agendaprobolinggo.stepper.MyStepperAdapter;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
 public class MainActivity extends AppCompatActivity implements StepperLayout.StepperListener {
 
-    private StepperLayout mStepperLayout;
-
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
         User user = SharedPreferenceUtils.getUser(App.getAppContext());
         if (user != null) {
-        //if (true){
+            //if (true){
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             finish();
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements StepperLayout.Ste
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mStepperLayout = findViewById(R.id.stepperLayout);
+        StepperLayout mStepperLayout = findViewById(R.id.stepperLayout);
         mStepperLayout.setBackButtonColor(getResources().getColor(R.color.ms_black));
         mStepperLayout.setCompleteButtonColor(getResources().getColor(R.color.ms_white));
         mStepperLayout.setNextButtonColor(getResources().getColor(R.color.ms_white));

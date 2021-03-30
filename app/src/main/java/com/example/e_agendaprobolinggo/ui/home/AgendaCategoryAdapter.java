@@ -21,11 +21,11 @@ import java.util.List;
 
 public class AgendaCategoryAdapter extends RecyclerView.Adapter<AgendaCategoryAdapter.ViewHolder> {
 
-    private ArrayList<DataKategori> agendaTypes;
+    private final ArrayList<DataKategori> agendaTypes;
     private OnClickAgendaCategoryCallback onClickAgendaCategoryCallback;
-    private Context context;
+    private final Context context;
 
-    public AgendaCategoryAdapter(ArrayList<DataKategori> agendaTypes,  Context context) {
+    public AgendaCategoryAdapter(ArrayList<DataKategori> agendaTypes, Context context) {
         this.agendaTypes = agendaTypes;
         this.context = context;
     }
@@ -50,9 +50,7 @@ public class AgendaCategoryAdapter extends RecyclerView.Adapter<AgendaCategoryAd
         holder.tvCategory.setText(dataKategori.getRole());
         Glide.with(context).load(dataKategori.getRoleImg()).into(holder.imgCategory);
 
-        holder.container.setOnClickListener(view -> {
-            onClickAgendaCategoryCallback.onClickAgendaCategory(dataKategori.getMasterSubRole());
-        });
+        holder.container.setOnClickListener(view -> onClickAgendaCategoryCallback.onClickAgendaCategory(dataKategori.getMasterSubRole()));
     }
 
     @Override

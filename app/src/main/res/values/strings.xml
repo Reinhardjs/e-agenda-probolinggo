@@ -9,7 +9,7 @@
     <string name="detail_toolbar_title">Detail Agenda</string>
     <string name="not_connected_text">Maaf, Anda tidak terhubung ke internet</string>
     <string name="agenda_not_found">Tidak ada agenda</string>
-    <string name="show_calendar_text">Lihat kalender</string>
+    <string name="show_calendar_text">Lihat Kalender</string>
     <string name="calendar_title">Kalender Agenda</string>
     <string name="logout_text">Keluar</string>
     <string name="logout_message">Apakah anda yakin ingin keluar?</string>
@@ -21,19 +21,19 @@
     <string name="password_text">Password</string>
     <string name="position_text">Jabatan</string>
     <string name="opd_text">OPD</string>
-    <string name="role_text">Tingkatan</string>
     <string name="download_surat_text">Download Surat</string>
     <string name="download_sambutan_text">Download Sambutan</string>
-    <string name="comment_text">Komentar</string>
-    <string name="show_other_comment">Tampilkan %d komentar lainnya</string>
-    <string name="add_comment_text">Tambah komentar</string>
-    <string name="write_comment_text">Tulis komentar</string>
+    <string name="comment_text">Komentar Pimpinan</string>
+    <string name="show_other_comment">Tampilkan %d Komentar Lainnya</string>
+    <string name="add_comment_text">Tambah Komentar</string>
+    <string name="write_comment_text">Tulis Komentar</string>
     <string name="delete_text">Hapus</string>
-    <string name="delete_comment_title">Hapus komentar</string>
+    <string name="delete_comment_title">Hapus Komentar</string>
     <string name="delete_comment_message">Apakah anda yakin ingin menghapus komentar?</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="month_text">Bulan</string>
     <string name="date_text">Hari</string>
     <string name="empty_agenda_data_text">Tidak ada agenda</string>
     <string name="login_text">Masuk</string>
+    <string name="tag_line_text">Elektronik Agenda Pemerintah\nKabupaten Probolinggo</string>
+    <string name="app_name_text">E-Agenda\nProbolinggo</string>
 </resources>

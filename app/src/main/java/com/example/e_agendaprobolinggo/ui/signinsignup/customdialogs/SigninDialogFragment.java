@@ -8,7 +8,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -46,7 +45,7 @@ public class SigninDialogFragment extends BottomSheetDialogFragment {
         }
     };
 
-    public void dismiss(){
+    public void dismiss() {
         mDialog.cancel();
     }
 
@@ -80,7 +79,7 @@ public class SigninDialogFragment extends BottomSheetDialogFragment {
         initViewListener();
     }
 
-    private void initView(View parent){
+    private void initView(View parent) {
         btnSignin = parent.findViewById(R.id.btnSignin);
         etEmail = parent.findViewById(R.id.etEmail);
         etPassword = parent.findViewById(R.id.etPassword);

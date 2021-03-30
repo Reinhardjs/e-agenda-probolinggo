@@ -2,6 +2,7 @@ package com.example.e_agendaprobolinggo.network;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -9,12 +10,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkClient {
 
-    public static final String BASE_URL = "https://protokol.probolinggokab.go.id/e-agenda/api/agenda_v2/";
+    public static final String BASE_URL = "https://protokol.probolinggokab.go.id/e-agenda/api/";
     public static Retrofit retrofit = null;
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(chain -> {
+                        Request original = chain.request();
+
+                        Request request = original.newBuilder().header("x-sm-key", "35d3d08c3d7b7f445ceb8e726a87b26c").build();
+
+                        return chain.proceed(request);
+                    })
                     .addInterceptor(new BasicAuthInterceptor("sm4rts0ft", "?zwMAxBnS9jj"))
                     .build();
 

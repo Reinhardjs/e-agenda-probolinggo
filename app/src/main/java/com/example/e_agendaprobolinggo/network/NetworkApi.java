@@ -14,61 +14,52 @@ import com.example.e_agendaprobolinggo.model.response.DetailAgendaResponse;
 import com.example.e_agendaprobolinggo.model.response.KategoriResponse;
 import com.example.e_agendaprobolinggo.model.response.LoginResponse;
 import com.example.e_agendaprobolinggo.model.response.RegisterResponse;
-import com.example.e_agendaprobolinggo.model.response.RoleResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface NetworkApi {
 
-    @Headers("x-sm-key: 35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("tingkatan")
-    Observable<RoleResponse> getRoleUser();
-
-    @Headers("x-sm-key: 35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("daftar")
+    @POST("agenda_v2/daftar")
     Observable<RegisterResponse> registerUser(
             @Body Register register
     );
 
-    @Headers("x-sm-key: 35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("masuk")
+    @POST("agenda_v2/masuk")
     Observable<LoginResponse> loginUser(
             @Body Login login
     );
 
-    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("data")
+    @POST("agenda/data")
     Observable<AgendaResponse> getAgenda(
             @Body Agenda agenda
     );
 
-    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("detail")
+    @POST("agenda_v2/data")
+    Observable<AgendaResponse> getAgendaCalendar(
+            @Body Agenda agenda
+    );
+
+    @POST("agenda_v2/detail")
     Observable<DetailAgendaResponse> getDetailAgenda(
             @Body DetailAgenda detailAgenda
     );
 
-    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("pencarian")
+    @POST("agenda/pencarian")
     Observable<AgendaResponse> getAgendaSearch(
             @Body Search search
     );
 
-    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("kategori")
+    @POST("agenda_v2/kategori")
     Observable<KategoriResponse> getCategory();
 
-    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("tambah_komentar")
+    @POST("agenda_v2/tambah_komentar")
     Observable<AddCommentResponse> addComment(
             @Body NewComment newComment
     );
 
-    @Headers("x-sm-key:35d3d08c3d7b7f445ceb8e726a87b26c")
-    @POST("hapus_komentar")
+    @POST("agenda_v2/hapus_komentar")
     Observable<DeleteCommentResponse> deleteComment(
             @Body DeleteComment deleteComment
     );

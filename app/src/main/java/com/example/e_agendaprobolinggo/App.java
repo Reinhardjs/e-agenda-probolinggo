@@ -15,9 +15,7 @@ public class App extends Application {
         super.onCreate();
 
         context = getApplicationContext();
-        RxJavaPlugins.setErrorHandler(throwable -> {
-            Toast.makeText(getApplicationContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
-        });
+        RxJavaPlugins.setErrorHandler(throwable -> Toast.makeText(getApplicationContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     public static Context getAppContext(){

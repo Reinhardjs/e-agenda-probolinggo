@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -45,18 +46,16 @@ public class HomeInteractor implements HomeContract.Interactor {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
-//                            if (((HttpException) e).code() == HttpURLConnection.HTTP_BAD_REQUEST) {
-                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+                            ResponseBody errorResponse = Objects.requireNonNull(((HttpException) e).response()).errorBody();
 
                             try {
-                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(errorResponse).string());
                                 agendaRequestCallback.onAgendaRequestFailure(jsonObject.getString("message"));
                             } catch (JSONException ex) {
                                 ex.printStackTrace();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
-//
                         }
 
                     }
@@ -92,10 +91,10 @@ public class HomeInteractor implements HomeContract.Interactor {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
-                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+                            ResponseBody errorResponse = Objects.requireNonNull(((HttpException) e).response()).errorBody();
 
                             try {
-                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(errorResponse).string());
                                 agendaCategoryRequestCallback.onAgendaCategoryRequestFailure(jsonObject.getString("message"));
                             } catch (JSONException ex) {
                                 ex.printStackTrace();
@@ -135,10 +134,10 @@ public class HomeInteractor implements HomeContract.Interactor {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
-                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+                            ResponseBody errorResponse = Objects.requireNonNull(((HttpException) e).response()).errorBody();
 
                             try {
-                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(errorResponse).string());
                                 searchRequestCallback.onSearchRequestFailure(jsonObject.getString("message"));
                             } catch (JSONException ex) {
                                 ex.printStackTrace();

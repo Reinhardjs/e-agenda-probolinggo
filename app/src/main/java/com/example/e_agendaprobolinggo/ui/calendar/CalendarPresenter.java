@@ -5,8 +5,8 @@ import com.example.e_agendaprobolinggo.model.response.AgendaResponse;
 
 public class CalendarPresenter implements CalendarContract.Presenter {
 
-    private CalendarContract.View mView;
-    private CalendarContract.Interactor mInteractor;
+    private final CalendarContract.View mView;
+    private final CalendarContract.Interactor mInteractor;
 
     public CalendarPresenter(CalendarContract.View view) {
         mView = view;

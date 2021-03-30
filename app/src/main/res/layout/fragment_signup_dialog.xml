@@ -113,22 +113,6 @@
             app:layout_constraintStart_toStartOf="@+id/etJabatan"
             app:layout_constraintTop_toBottomOf="@+id/etJabatan" />
 
-        <AutoCompleteTextView
-            android:id="@+id/tv_role"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rounded_edit_text"
-            android:hint="@string/role_text"
-            android:inputType="none"
-            android:padding="10dp"
-            android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="@+id/etOpd"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/etOpd"
-            app:layout_constraintTop_toBottomOf="@+id/etOpd" />
-
         <Button
             android:id="@+id/btnSignup"
             style="@style/DefaultButton"
@@ -139,33 +123,8 @@
             android:text="@string/register_text"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            app:layout_constraintTop_toBottomOf="@+id/tv_role"
+            app:layout_constraintTop_toBottomOf="@+id/etOpd"
             tools:layout_editor_absoluteX="20dp" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Punya akun?"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/btnSignup"
-            app:layout_constraintStart_toStartOf="@+id/btnSignup"
-            app:layout_constraintTop_toBottomOf="@+id/btnSignup" />
-
-        <TextView
-            android:id="@+id/tvSignin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:layout_marginLeft="7dp"
-            android:text="Masuk"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/textView5"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/textView5"
-            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

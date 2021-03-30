@@ -42,7 +42,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     ArrayList<DataAgenda> agendas = new ArrayList<>();
     ArrayList<DataAgenda> agendaSearches = new ArrayList<>();
 
-    private RecyclerView rvAgendaPerCategory, rvAgendaSearch;
+    private RecyclerView rvAgendaPerCategory;
 
     private AgendaAdapter agendaSearchAdapter;
     private AgendaPerCategoryAdapter agendaPerCategoryAdapter;
@@ -128,7 +128,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         searchProgressBar = findViewById(R.id.searchProgressBar);
 
         rvAgendaPerCategory = findViewById(R.id.rvAgendaPerCategory);
-        rvAgendaSearch = findViewById(R.id.rvAgendaSearch);
+        RecyclerView rvAgendaSearch = findViewById(R.id.rvAgendaSearch);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutCategory);
         mShimmerViewContainer = findViewById(R.id.shimmer_view_category);

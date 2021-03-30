@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -27,18 +28,15 @@ import retrofit2.HttpException;
 
 public class SigninSignupInteractor implements SigninSignupContract.Interactor {
 
-    private NetworkApi networkApi = UtilsApi.getApiService();
+    private final NetworkApi networkApi = UtilsApi.getApiService();
     private LoginResponse loginRes = null;
     private RegisterResponse registerRes = null;
     private ResponseBody errorResponse = null;
 
     @Override
     public void doSignin(Login login, final SigninSignupContract.SigninCallback signinCallback) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                networkApi.loginUser(login).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<LoginResponse>() {
+        new Handler().postDelayed(() -> networkApi.loginUser(login).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<LoginResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
@@ -52,9 +50,9 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
-                            errorResponse = ((HttpException) e).response().errorBody();
+                            errorResponse = Objects.requireNonNull(((HttpException) e).response()).errorBody();
                             try {
-                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(errorResponse).string());
                                 signinCallback.onSigninFailure(jsonObject.getString("message"));
                             } catch (JSONException ex) {
                                 ex.printStackTrace();
@@ -68,7 +66,7 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
                     public void onComplete() {
                         if (loginRes != null) {
                             if (loginRes.isStatus()) {
-                                if (loginRes.getUser().getStatus().equalsIgnoreCase("ENABLE")){
+                                if (loginRes.getUser().getStatus().equalsIgnoreCase("ENABLE")) {
                                     User user = loginRes.getUser();
                                     SharedPreferenceUtils.saveUser(App.getAppContext(), user);
 
@@ -82,18 +80,13 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
                             }
                         }
                     }
-                });
-            }
-        }, 2000);
+                }), 2000);
     }
 
     @Override
     public void doSignup(Register register, final SigninSignupContract.SignupCallback signupCallback) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                networkApi.registerUser(register).subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.newThread()).subscribe(new Observer<RegisterResponse>() {
+        new Handler().postDelayed(() -> networkApi.registerUser(register).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread()).subscribe(new Observer<RegisterResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
@@ -107,17 +100,15 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
-//                            if (((HttpException) e).code() == HttpURLConnection.HTTP_BAD_REQUEST) {
-                                errorResponse = ((HttpException) e).response().errorBody();
-                                try {
-                                    JSONObject jsonObject = new JSONObject(errorResponse.string());
-                                    signupCallback.onSignupFailure(jsonObject.getString("message"));
-                                } catch (JSONException ex) {
-                                    ex.printStackTrace();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-//                            }
+                            errorResponse = Objects.requireNonNull(((HttpException) e).response()).errorBody();
+                            try {
+                                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(errorResponse).string());
+                                signupCallback.onSignupFailure(jsonObject.getString("message"));
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     }
 
@@ -131,9 +122,7 @@ public class SigninSignupInteractor implements SigninSignupContract.Interactor {
                             }
                         }
                     }
-                });
-            }
-        }, 2000);
+                }), 2000);
     }
 
 }

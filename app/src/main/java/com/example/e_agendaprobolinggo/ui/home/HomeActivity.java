@@ -266,34 +266,31 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private void setupInternetObserver() {
         /* Live data object and setting an oberser on it */
         ConnectionLiveData connectionLiveData = new ConnectionLiveData(getApplicationContext());
-        connectionLiveData.observe(this, new Observer<ConnectionModel>() {
-            @Override
-            public void onChanged(@Nullable ConnectionModel connection) {
-                /* every time connection state changes, we'll be notified and can perform action accordingly */
-                if (connection.getIsConnected()) {
-                    isConnectedToInternet = true;
-                    ivNoConnection.setVisibility(View.GONE);
-                    rvAgenda.setVisibility(View.VISIBLE);
-                    rvAgendaCategory.setVisibility(View.VISIBLE);
+        connectionLiveData.observe(this, connection -> {
+            /* every time connection state changes, we'll be notified and can perform action accordingly */
+            if (connection.getIsConnected()) {
+                isConnectedToInternet = true;
+                ivNoConnection.setVisibility(View.GONE);
+                rvAgenda.setVisibility(View.VISIBLE);
+                rvAgendaCategory.setVisibility(View.VISIBLE);
 
-                    switch (connection.getType()) {
-                        case WifiData:
+                switch (connection.getType()) {
+                    case WifiData:
 //                             Toast.makeText(HomeActivity.this, String.format("Wifi turned on"), Toast.LENGTH_SHORT).show();
-                            break;
-                        case MobileData:
+                        break;
+                    case MobileData:
 //                             Toast.makeText(HomeActivity.this, String.format("Mobile data turned on"), Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                } else {
-                    isConnectedToInternet = false;
-                    ivNoConnection.setVisibility(View.VISIBLE);
-                    rvAgenda.setVisibility(View.GONE);
-                    rvAgendaCategory.setVisibility(View.GONE);
-
-                    stopRefresh();
-                    hideShimmer();
-                    hideShimmerCategory();
+                        break;
                 }
+            } else {
+                isConnectedToInternet = false;
+                ivNoConnection.setVisibility(View.VISIBLE);
+                rvAgenda.setVisibility(View.GONE);
+                rvAgendaCategory.setVisibility(View.GONE);
+
+                stopRefresh();
+                hideShimmer();
+                hideShimmerCategory();
             }
         });
 
@@ -314,7 +311,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         agendaCategoryAdapter.setOnClickAgendaCategoryCallback(agendaCategories -> {
 
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(HomeActivity.this);
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HomeActivity.this, android.R.layout.select_dialog_item);
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.select_dialog_item);
 
             for (int i = 0; i < agendaCategories.size(); i++) {
                 String subAgendaName = agendaCategories.get(i).getSubRole();

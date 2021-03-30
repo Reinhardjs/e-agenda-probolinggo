@@ -86,9 +86,9 @@
                 android:paddingTop="3dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="3dp"
-                android:text="default"
                 android:textColor="@android:color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="default" />
 
         </com.google.android.material.card.MaterialCardView>
 

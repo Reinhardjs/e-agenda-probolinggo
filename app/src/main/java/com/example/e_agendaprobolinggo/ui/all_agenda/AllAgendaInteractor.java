@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -42,10 +43,10 @@ public class AllAgendaInteractor implements AllAgendaContract.Interactor {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         if (e instanceof HttpException) {
-                            ResponseBody errorResponse = ((HttpException) e).response().errorBody();
+                            ResponseBody errorResponse = Objects.requireNonNull(((HttpException) e).response()).errorBody();
 
                             try {
-                                JSONObject jsonObject = new JSONObject(errorResponse.string());
+                                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(errorResponse).string());
                                 allAgendaRequestCallback.onAllAgendaRequestFailure(jsonObject.getString("message"));
                             } catch (JSONException ex) {
                                 ex.printStackTrace();

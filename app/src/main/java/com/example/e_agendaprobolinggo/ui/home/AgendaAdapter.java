@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_agendaprobolinggo.R;
@@ -42,7 +43,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View rootView = inflater.inflate(R.layout.item_home_agenda, parent, false);
 
-        AgendaAdapter.ViewHolder viewHolder = new AgendaAdapter.ViewHolder(rootView);
+        AgendaAdapter.ViewHolder viewHolder = new ViewHolder(rootView);
 
         rootView.setOnClickListener(v -> {
             Intent detailIntent = new Intent(parent.getContext(), DetailActivity.class);
@@ -67,7 +68,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         holder.cardLabeled.setCardBackgroundColor(Color.parseColor(agenda.getStatusColor()));
 
         // https://stackoverflow.com/questions/32163918/programmatically-change-color-of-shape-in-layer-list
-        LayerDrawable ld = (LayerDrawable) context.getResources().getDrawable(R.drawable.item_left_border);
+        LayerDrawable ld = (LayerDrawable) ResourcesCompat.getDrawable(context.getResources(), R.drawable.item_left_border, null);
         GradientDrawable leftBorder = (GradientDrawable) ld.findDrawableByLayerId(R.id.left_border);
         leftBorder.setColor(Color.parseColor(agenda.getStatusBox()));
 
@@ -79,7 +80,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ViewHolder
         return agendas.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvTitle, tvSubtitle1, tvSubtitle2, tvDate, tvLabeled, tvPlace, tvClothes;
         public MaterialCardView cardLabeled;

@@ -32,7 +32,7 @@
             android:gravity="center"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="E-Agenda\nProbolinggo"
+            android:text="@string/app_name_text"
             android:textColor="#1B2E41"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -44,7 +44,7 @@
             android:gravity="center"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="Elektronik Agenda Pemerintah\nKabupaten Probolinggo"
+            android:text="@string/tag_line_text"
             android:textColor="#1B2E41"
             android:textSize="16sp"
             android:textStyle="normal" />
