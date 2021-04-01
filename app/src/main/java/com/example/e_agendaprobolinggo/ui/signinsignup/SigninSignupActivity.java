@@ -11,8 +11,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.e_agendaprobolinggo.R;
+import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.request.Login;
 import com.example.e_agendaprobolinggo.model.request.Register;
+import com.example.e_agendaprobolinggo.model.response.LoginResponse;
 import com.example.e_agendaprobolinggo.ui.home.HomeActivity;
 import com.example.e_agendaprobolinggo.ui.signinsignup.customdialogs.SigninDialogFragment;
 import com.example.e_agendaprobolinggo.ui.signinsignup.customdialogs.SignupDialogFragment;
@@ -73,10 +75,10 @@ public class SigninSignupActivity extends AppCompatActivity
     }
 
     @Override
-    public void notifySigninSuccess(String message) {
-
+    public void notifySigninSuccess(LoginResponse response) {
+        SharedPreferenceUtils.saveUser(getApplicationContext(), response.getUser());
         new Handler(getMainLooper()).postDelayed(() -> {
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
             progressbar.setVisibility(View.GONE);
         }, 100);
 

@@ -2,12 +2,13 @@ package com.example.e_agendaprobolinggo.ui.signinsignup;
 
 import com.example.e_agendaprobolinggo.model.request.Login;
 import com.example.e_agendaprobolinggo.model.request.Register;
+import com.example.e_agendaprobolinggo.model.response.LoginResponse;
 
 public interface SigninSignupContract {
 
     interface SigninCallback {
 
-        void onSigninSuccess(String message);
+        void onSigninSuccess(LoginResponse response);
 
         void onSigninFailure(String message);
 
@@ -23,7 +24,7 @@ public interface SigninSignupContract {
 
     interface View {
 
-        void notifySigninSuccess(String message);
+        void notifySigninSuccess(LoginResponse response);
 
         void notifySigninFailure(String message);
 

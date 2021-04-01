@@ -2,6 +2,7 @@ package com.example.e_agendaprobolinggo.ui.signinsignup;
 
 import com.example.e_agendaprobolinggo.model.request.Login;
 import com.example.e_agendaprobolinggo.model.request.Register;
+import com.example.e_agendaprobolinggo.model.response.LoginResponse;
 
 public class SigninSignupPresenter implements SigninSignupContract.Presenter {
 
@@ -17,8 +18,8 @@ public class SigninSignupPresenter implements SigninSignupContract.Presenter {
     public void doSignin(Login login) {
         mInteractor.doSignin(login, new SigninSignupContract.SigninCallback() {
             @Override
-            public void onSigninSuccess(String message) {
-                mView.notifySigninSuccess(message);
+            public void onSigninSuccess(LoginResponse response) {
+                mView.notifySigninSuccess(response);
             }
 
             @Override

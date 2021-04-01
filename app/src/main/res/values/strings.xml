@@ -36,4 +36,6 @@
     <string name="login_text">Masuk</string>
     <string name="tag_line_text">Elektronik Agenda Pemerintah\nKabupaten Probolinggo</string>
     <string name="app_name_text">E-Agenda\nProbolinggo</string>
+    <string name="protokol_text">Bagian Protokol dan Komunikasi Pimpinan</string>
+    <string name="version_app_text">Versi 2.0.1</string>
 </resources>

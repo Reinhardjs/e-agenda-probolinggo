@@ -6,7 +6,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.e_agendaprobolinggo.App;
 import com.example.e_agendaprobolinggo.R;
 import com.example.e_agendaprobolinggo.local.SharedPreferenceUtils;
 import com.example.e_agendaprobolinggo.model.response.User;
@@ -22,9 +21,8 @@ public class MainActivity extends AppCompatActivity implements StepperLayout.Ste
     protected void onStart() {
         super.onStart();
 
-        User user = SharedPreferenceUtils.getUser(App.getAppContext());
+        User user = SharedPreferenceUtils.getUser(getApplicationContext());
         if (user != null) {
-            //if (true){
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             finish();
@@ -49,17 +47,14 @@ public class MainActivity extends AppCompatActivity implements StepperLayout.Ste
         Intent intent = new Intent(MainActivity.this, SigninSignupActivity.class);
         startActivity(intent);
         finish();
-//        Toast.makeText(this, "onCompleted!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(VerificationError verificationError) {
-//        Toast.makeText(this, "onError! -> " + verificationError.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onStepSelected(int newStepPosition) {
-//        Toast.makeText(this, "onStepSelected! -> " + newStepPosition, Toast.LENGTH_SHORT).show();
     }
 
     @Override
