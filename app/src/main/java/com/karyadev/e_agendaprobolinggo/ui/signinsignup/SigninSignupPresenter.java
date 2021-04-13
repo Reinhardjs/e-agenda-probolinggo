@@ -1,0 +1,47 @@
+package com.karyadev.e_agendaprobolinggo.ui.signinsignup;
+
+import com.karyadev.e_agendaprobolinggo.model.request.Login;
+import com.karyadev.e_agendaprobolinggo.model.request.Register;
+import com.karyadev.e_agendaprobolinggo.model.response.LoginResponse;
+
+public class SigninSignupPresenter implements SigninSignupContract.Presenter {
+
+    private final SigninSignupContract.View mView;
+    private final SigninSignupContract.Interactor mInteractor;
+
+    public SigninSignupPresenter(SigninSignupContract.View view) {
+        mView = view;
+        mInteractor = new SigninSignupInteractor();
+    }
+
+    @Override
+    public void doSignin(Login login) {
+        mInteractor.doSignin(login, new SigninSignupContract.SigninCallback() {
+            @Override
+            public void onSigninSuccess(LoginResponse response) {
+                mView.notifySigninSuccess(response);
+            }
+
+            @Override
+            public void onSigninFailure(String message) {
+                mView.notifySigninFailure(message);
+            }
+        });
+    }
+
+    @Override
+    public void doSignup(Register register) {
+        mInteractor.doSignup(register, new SigninSignupContract.SignupCallback() {
+            @Override
+            public void onSignupSuccess(String message) {
+                mView.notifySignupSuccess(message);
+            }
+
+            @Override
+            public void onSignupFailure(String message) {
+                mView.notifySignupFailure(message);
+            }
+        });
+    }
+
+}

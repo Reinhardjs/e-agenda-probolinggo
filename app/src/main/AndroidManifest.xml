@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.e_agendaprobolinggo">
+    package="com.karyadev.e_agendaprobolinggo">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".App"
+        android:name="com.karyadev.e_agendaprobolinggo.App"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/logo"
@@ -21,23 +21,23 @@
         android:theme="@style/AppTheme"
         tools:targetApi="n">
         <activity
-            android:name=".ui.comment.CommentActivity"
+            android:name="com.karyadev.e_agendaprobolinggo.ui.comment.CommentActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.calendar.CalendarActivity" />
-        <activity android:name=".ui.category.CategoryActivity" />
-        <activity android:name=".ui.all_agenda.AllAgendaActivity" />
-        <activity android:name=".ui.detail.DetailActivity" />
-        <activity android:name=".ui.home.HomeActivity" />
-        <activity android:name=".ui.signinsignup.SigninSignupActivity" />
-        <activity android:name=".ui.starter.WelcomeActivity" />
-        <activity android:name=".ui.starter.SplashActivity">
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.calendar.CalendarActivity" />
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.category.CategoryActivity" />
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.all_agenda.AllAgendaActivity" />
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.detail.DetailActivity" />
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.home.HomeActivity" />
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.signinsignup.SigninSignupActivity" />
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.starter.WelcomeActivity" />
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.starter.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name="com.karyadev.e_agendaprobolinggo.ui.main.MainActivity" />
     </application>
 
 </manifest>

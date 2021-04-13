@@ -1,0 +1,118 @@
+package com.karyadev.e_agendaprobolinggo.ui.signinsignup;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.karyadev.e_agendaprobolinggo.R;
+import com.karyadev.e_agendaprobolinggo.local.SharedPreferenceUtils;
+import com.karyadev.e_agendaprobolinggo.model.request.Login;
+import com.karyadev.e_agendaprobolinggo.model.request.Register;
+import com.karyadev.e_agendaprobolinggo.model.response.LoginResponse;
+import com.karyadev.e_agendaprobolinggo.ui.home.HomeActivity;
+import com.karyadev.e_agendaprobolinggo.ui.signinsignup.customdialogs.SigninDialogFragment;
+import com.karyadev.e_agendaprobolinggo.ui.signinsignup.customdialogs.SignupDialogFragment;
+
+public class SigninSignupActivity extends AppCompatActivity
+        implements SigninSignupContract.View, SignupDialogFragment.SignupCallback, SigninDialogFragment.SigninCallback {
+
+    SigninDialogFragment signinDialogFragment;
+    SignupDialogFragment signupDialogFragment;
+
+    Button btnSignin, btnSignup;
+    ProgressBar progressbar;
+
+    SigninSignupContract.Presenter mPresenter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signin_signup);
+
+        mPresenter = new SigninSignupPresenter(this);
+
+        //Initializing a bottom sheet
+        signinDialogFragment = new SigninDialogFragment();
+        signupDialogFragment = new SignupDialogFragment();
+
+        signinDialogFragment.setSigninCallback(this);
+        signupDialogFragment.setSignupCallback(this);
+
+        btnSignin = findViewById(R.id.btnSignin);
+        btnSignup = findViewById(R.id.btnSignup);
+        progressbar = findViewById(R.id.progressBar);
+
+        btnSignin.setOnClickListener(v -> {
+            //show it
+            signinDialogFragment.show(getSupportFragmentManager(), signinDialogFragment.getTag());
+        });
+
+        btnSignup.setOnClickListener(v -> {
+            //show it
+            signupDialogFragment.show(getSupportFragmentManager(), signupDialogFragment.getTag());
+        });
+
+    }
+
+    @Override
+    public void onSigninSubmitted(String email, String password) {
+        mPresenter.doSignin(new Login(email, password));
+        signinDialogFragment.dismiss();
+        progressbar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onSignupSubmitted(Register register) {
+        mPresenter.doSignup(register);
+        signupDialogFragment.dismiss();
+        progressbar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void notifySigninSuccess(LoginResponse response) {
+        SharedPreferenceUtils.saveUser(getApplicationContext(), response.getUser());
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+            progressbar.setVisibility(View.GONE);
+        }, 100);
+
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Intent intent = new Intent(SigninSignupActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }, 1500);
+    }
+
+    @Override
+    public void notifySigninFailure(String message) {
+
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            progressbar.setVisibility(View.GONE);
+        }, 100);
+    }
+
+    @Override
+    public void notifySignupSuccess(String message) {
+
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            progressbar.setVisibility(View.GONE);
+        }, 100);
+    }
+
+    @Override
+    public void notifySignupFailure(String message) {
+
+        new Handler(getMainLooper()).postDelayed(() -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            progressbar.setVisibility(View.GONE);
+        }, 100);
+    }
+}
